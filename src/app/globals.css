@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"); */
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 7px; /* Vertical scrollbar width */
+  height: 7px; /* Horizontal scrollbar height */
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f4f6; /* gray-100 */
+  border-radius: 9999px; /* Fully rounded */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #eab030; /* Primary color for thumb */
+  border-radius: 9999px; /* Fully rounded */
+}
