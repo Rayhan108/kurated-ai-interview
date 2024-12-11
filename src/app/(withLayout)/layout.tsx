@@ -1,16 +1,13 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, ConfigProvider, Drawer, Layout, Menu, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
+import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import NextTopLoader from "nextjs-toploader";
 import { useEffect, useState } from "react";
-import { GoHomeFill } from "react-icons/go";
-import { MdOutlineFilterFrames } from "react-icons/md";
-import { PiNetworkFill } from "react-icons/pi";
 const { Header, Content } = Layout;
 
 const LayoutComponent = ({ children }) => {
@@ -56,9 +53,7 @@ const LayoutComponent = ({ children }) => {
   const items = [
     {
       key: "overview",
-      icon: (
-        <GoHomeFill className="text-yellow-400 text-2xl h-full text-center" />
-      ),
+      icon: <Image src={AllImages.homeIcon} alt="home" />,
       label: (
         <p className="text-base">
           <Link href={"/overview"}>Overview</Link>
@@ -66,24 +61,20 @@ const LayoutComponent = ({ children }) => {
       ),
     },
     {
-      key: "framing",
-      icon: (
-        <MdOutlineFilterFrames className="text-yellow-400 text-2xl items-center h-full text-center" />
-      ),
+      key: "lesson-vault",
+      icon: <Image src={AllImages.lessonIcon} alt="home" />,
       label: (
         <p className="text-base">
-          <Link href={"/framing"}>Framing</Link>
+          <Link href={"/lesson-vault"}>Lesson Vault</Link>
         </p>
       ),
     },
     {
-      key: "storylining",
-      icon: (
-        <PiNetworkFill className="text-yellow-400 text-2xl items-center h-full text-center" />
-      ),
+      key: "storybank",
+      icon: <Image src={AllImages.storyBankIcon} alt="storybank" />,
       label: (
         <p className="text-base">
-          <Link href={"/storylining"}>Storylining</Link>
+          <Link href={"/storybank"}>Storybank</Link>
         </p>
       ),
     },
@@ -110,13 +101,13 @@ const LayoutComponent = ({ children }) => {
             padding: 0,
             background: "#f5f6f8",
           }}
-          className=" w-full z-50 sticky top-0"
+          className="sticky w-full z-50 top-0 border-b"
         >
           {/* Custom Button for Desktop Trigger */}
           <div className=" flex items-center">
             <Button
               type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              icon={collapsed ? <MenuIcon /> : <MenuIcon />}
               onClick={() => {
                 if (isMobile) {
                   toggleDrawer(); // Toggle Drawer on mobile
@@ -126,15 +117,15 @@ const LayoutComponent = ({ children }) => {
               }}
               style={{
                 fontSize: "16px",
-                width: 64,
+                width: "80px",
                 height: 64,
               }}
             />
             <div className="flex w-full justify-between items-center px-4">
               <Image
-                src={AllImages.logoBlack}
+                src={AllImages.kuratedAiLogo}
                 alt="logo"
-                className="w-20 lg:w-fit h-fit"
+                className="lg:w-fit h-fit"
               />
               <div className="px-6">
                 <Image
@@ -149,25 +140,28 @@ const LayoutComponent = ({ children }) => {
 
         <Layout>
           {!isMobile ? (
-            <Sider
-              trigger={null}
-              collapsible
-              collapsed={collapsed}
-              style={{
-                minHeight: "100vh",
-                backgroundColor: "#f5f6f8",
-              }}
-              className="border-t border-r py-2 font-mulish h-screen"
-            >
-              <Menu
-                mode="inline"
-                className=" bg-[#f5f6f8] border-r-0 font-mulish"
-                defaultSelectedKeys={["1"]}
-                items={items}
-                selectedKeys={[current]}
-                onClick={handleClick}
-              />
-            </Sider>
+            <div className="fixed top-0 left-0 pt-16 bg-[#f5f6f8] ">
+              <Sider
+                width={250}
+                collapsedWidth={80}
+                trigger={null}
+                collapsible
+                collapsed={collapsed}
+                style={{
+                  backgroundColor: "#f5f6f8",
+                }}
+                className="h-screen overflow-y-auto  border-r py-2 font-mulish w-[300px]"
+              >
+                <Menu
+                  mode="inline"
+                  className="bg-[#f5f6f8] border-r-0 font-mulish"
+                  defaultSelectedKeys={["1"]}
+                  items={items}
+                  selectedKeys={[current]}
+                  onClick={handleClick}
+                />
+              </Sider>
+            </div>
           ) : (
             <Drawer
               placement="left"
@@ -187,19 +181,18 @@ const LayoutComponent = ({ children }) => {
               />
             </Drawer>
           )}
-
-          <Content
-            className="border-t p-5 md:p-7 lg:p-10 bg-[#fafafa] font-mulish"
-            style={{
-              // margin: "24px 16px",
-              // padding: 40,
-              minHeight: 280,
-              // background: colorBgContainer,
-              // borderRadius: borderRadiusLG,
-            }}
-          >
-            {children}
-          </Content>
+          <Layout>
+            <Content
+              className="p-5 md:p-7 lg:p-10 bg-[#fafafa] font-mulish min-h-[calc(100vh-64px)] overflow-y-auto"
+              style={{
+                minHeight: 280,
+                marginLeft: !isMobile ? (collapsed ? 80 : 250) : 0,
+                transition: "margin-left 0.2s ease",
+              }}
+            >
+              {children}
+            </Content>
+          </Layout>
         </Layout>
       </Layout>
     </ConfigProvider>
