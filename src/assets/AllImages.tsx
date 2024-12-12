@@ -10,6 +10,7 @@ import lightIcon from "./icons/light.png";
 import linkedinIcon from "./icons/linkedinIcon.png";
 import optionIcon from "./icons/option.png";
 import pathIcon from "./icons/path.png";
+import starIcon from "./icons/star.svg";
 import storyIcon from "./icons/story.png";
 import storyBankIcon from "./icons/storybank.png";
 import trophyIcon from "./icons/trophy.svg";
@@ -40,4 +41,5 @@ export const AllImages = {
   lessonIcon,
   storyBankIcon,
   trophyIcon,
+  starIcon,
 };
