@@ -71,7 +71,13 @@ const LayoutComponent = ({ children }) => {
     },
     {
       key: "storybank",
-      icon: <Image src={AllImages.storyBankIcon} alt="storybank" />,
+      icon: (
+        <Image
+          src={AllImages.storyBankIcon}
+          alt="storybank"
+          className={collapsed ? "h-10 w-10" : "h-8 w-8"}
+        />
+      ),
       label: (
         <p className="text-base">
           <Link href={"/storybank"}>Storybank</Link>

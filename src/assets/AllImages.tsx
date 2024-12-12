@@ -12,7 +12,7 @@ import optionIcon from "./icons/option.png";
 import pathIcon from "./icons/path.png";
 import starIcon from "./icons/star.svg";
 import storyIcon from "./icons/story.png";
-import storyBankIcon from "./icons/storybank.png";
+import storyBankIcon from "./icons/storybank.svg";
 import trophyIcon from "./icons/trophy.svg";
 import videoIcon from "./icons/video.png";
 import kuratedAiLogo from "./kurated-ai-logo.png";

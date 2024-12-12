@@ -1,10 +1,9 @@
 export const KeyConstant = {
   TAB: "tab",
+  query: "query",
   searchParamsKeys: {
     page: "page",
     size: "size",
   },
-  MODAL: "modal",
-  LESSON_ID: "lesson_id",
-  EXERCISE_ID: "exercise_id",
+  STORY_TYPE: "story_type",
 };
