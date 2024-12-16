@@ -6,4 +6,7 @@ export const KeyConstant = {
     size: "size",
   },
   STORY_TYPE: "story_type",
+  MODAL: "modal",
+  STEP: "step",
+  SUCCESS: "success",
 };
