@@ -25,7 +25,7 @@ export const ParsedResume = () => {
               questions for your target role it can best address.
             </p>
             <div className="space-y-4">
-              {[1, 2].map((item) => (
+              {[1, 2, 3].map((item) => (
                 <div>
                   <div
                     className={`border rounded-md p-4 hover:cursor-pointer hover:bg-primaryColor/10 ${

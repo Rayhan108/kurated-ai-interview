@@ -8,6 +8,9 @@ import Roles from "./steps/2-roles";
 import { UploadExperience } from "./steps/3-upload-experience";
 import { UploadResume } from "./steps/4-resume-upload";
 import { ParsedResume } from "./steps/5-parsed-resume";
+import { StoryRelevance } from "./steps/6-story-relevance";
+import { StoryCrafting } from "./steps/7-story-crafting";
+import { Finish } from "./steps/8-finish";
 
 export const CreateStroyModal = () => {
   const searchParams = useSearchParams();
@@ -36,6 +39,18 @@ export const CreateStroyModal = () => {
     {
       step: "5",
       content: <ParsedResume />,
+    },
+    {
+      step: "6",
+      content: <StoryRelevance />,
+    },
+    {
+      step: "7",
+      content: <StoryCrafting />,
+    },
+    {
+      step: "8",
+      content: <Finish />,
     },
   ];
   return (

@@ -3,6 +3,7 @@ import framing from "./framing.png";
 import aiIcon from "./icons/ai.png";
 import checkIcon from "./icons/check.png";
 import classIcon from "./icons/class.png";
+import CloudCheck from "./icons/cloud-check.svg";
 import editIcon from "./icons/edit.png";
 import frameIcon from "./icons/framing.png";
 import googleIcon from "./icons/googleIcon.png";
@@ -48,4 +49,5 @@ export const AllImages = {
   editIcon,
   note,
   checkIcon,
+  CloudCheck,
 };

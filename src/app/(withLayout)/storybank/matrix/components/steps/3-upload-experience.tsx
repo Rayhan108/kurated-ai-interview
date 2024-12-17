@@ -49,7 +49,16 @@ export const UploadExperience = () => {
                   </div>
                 </div>
 
-                <div className="border border-dashed border-gray-300 rounded-lg bg-gray-50 p-10 place-content-center w-80 h-64 hover:cursor-pointer hover:bg-gray-100">
+                <div
+                  className="border border-dashed border-gray-300 rounded-lg bg-gray-50 p-10 place-content-center w-80 h-64 hover:cursor-pointer hover:bg-gray-100"
+                  onClick={() => {
+                    const params = new URLSearchParams(searchParam.toString()); // Clone existing params
+                    // const step = params.get(KeyConstant.STEP);
+                    params.set(KeyConstant.STEP, `6`);
+
+                    router.push(`?${params.toString()}`);
+                  }}
+                >
                   <div>
                     <p className="mx-auto text-center">
                       <Image
