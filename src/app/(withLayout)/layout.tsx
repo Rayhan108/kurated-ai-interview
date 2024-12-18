@@ -134,11 +134,13 @@ const LayoutComponent = ({ children }) => {
                 className="lg:w-fit h-fit"
               />
               <div className="px-6">
-                <Image
-                  src={AllImages.defaultAvatar}
-                  alt="logo"
-                  className="w-10 h-10 object-cover rounded-full"
-                />
+                <Link href={"/profile"} className="hover:cursor-pointer">
+                  <Image
+                    src={AllImages.defaultAvatar}
+                    alt="logo"
+                    className="w-10 h-10 object-cover rounded-full"
+                  />
+                </Link>
               </div>
             </div>
           </div>
