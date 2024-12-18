@@ -10,6 +10,14 @@
   }
 }
 
+.ant-steps-item-icon {
+  background-color: red;
+  border-color: #1677ff;
+}
+
+.ant-steps-item-title::after {
+  background-color: #eab030 !important;
+}
 ::-webkit-scrollbar {
   width: 7px; /* Vertical scrollbar width */
   height: 7px; /* Horizontal scrollbar height */
