@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "antd";
 import Link from "next/link";
 export const Subscription = () => {

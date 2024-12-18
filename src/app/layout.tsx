@@ -1,5 +1,6 @@
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Mulish } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 
 export const metadata = {
@@ -20,7 +21,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${mulish.className} antialiased`}>
-        <AntdRegistry>{children}</AntdRegistry>
+        <AntdRegistry>
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        </AntdRegistry>
       </body>
     </html>
   );

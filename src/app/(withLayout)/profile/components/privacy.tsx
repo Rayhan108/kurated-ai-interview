@@ -1,3 +1,4 @@
+"use client";
 import { Button, Form, Input, Typography } from "antd";
 
 export const Privacy = () => {
