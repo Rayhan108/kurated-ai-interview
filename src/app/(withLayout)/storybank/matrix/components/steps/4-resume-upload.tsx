@@ -36,7 +36,7 @@ export const UploadResume = () => {
           <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
             <div className="flex-1 overflow-y-auto place-content-center py-10">
               <div className="md:w-3/4 mx-auto space-y-8">
-                <p className="font-semibold text-gray-600 py-3 text-2xl text-center">
+                <p className="font-semibold text-gray-600 py-3 text-xl md:text-2xl text-center">
                   Great! Your Resume is now saved in our Dashboard!
                 </p>
 
@@ -55,7 +55,7 @@ export const UploadResume = () => {
                     onClick={() => {
                       const params = new URLSearchParams(
                         searchParam.toString()
-                      ); // Clone existing params
+                      );
                       const step = params.get(KeyConstant.STEP);
                       //   params.set(KeyConstant.STEP, `${Number(step) - 1}`);
                       params.delete(KeyConstant.SUCCESS);
@@ -70,10 +70,9 @@ export const UploadResume = () => {
                     onClick={() => {
                       const params = new URLSearchParams(
                         searchParam.toString()
-                      ); // Clone existing params
+                      );
 
                       params.set(KeyConstant.STEP, "5");
-                      // params.set(KeyConstant.STEP, "5");
                       params.delete(KeyConstant.SUCCESS);
 
                       router.push(`?${params.toString()}`);

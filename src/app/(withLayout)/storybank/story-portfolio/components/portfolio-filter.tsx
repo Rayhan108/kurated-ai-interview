@@ -1,6 +1,7 @@
 "use client";
 
 import MyButton from "@/components/shared/common/my-button";
+import { MyLinkButton } from "@/components/shared/common/my-link-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import { KeyConstant } from "@/constants/key.constant";
 import { Input } from "antd";
@@ -66,22 +67,27 @@ function PortfolioFilter() {
             className="rounded-full bg-transparent py-2 px-3 w-full lg:w-60"
             onChange={(e) => setSearch(e.target.value)}
           />
-          <MyButton
-            startIcon={<Plus />}
-            onClick={() => {}}
-            className="bg-red-500 hover:bg-red-500/80 hidden lg:flex shadow-md"
+          <MyLinkButton
+            href="/storybank/matrix?modal=true&step=1"
+            className="bg-red-500 hover:bg-red-500/80 hidden lg:flex items-center gap-1 shadow-md"
           >
-            Create New Story
-          </MyButton>
+            <Plus size={18} /> Create New Story
+          </MyLinkButton>
         </div>
         <div className="bg-white lg:hidden shadow p-2 fixed bottom-0 left-0 w-full">
-          <MyButton
+          <MyLinkButton
+            href="/storybank/matrix?modal=true&step=1"
+            className="bg-red-500 hover:bg-red-500/80 flex items-center gap-1 shadow-md w-full justify-center"
+          >
+            <Plus size={18} /> Create New Story
+          </MyLinkButton>
+          {/* <MyButton
             startIcon={<Plus />}
             onClick={() => {}}
             className="bg-red-500  w-full text-center"
           >
             Create New Story
-          </MyButton>
+          </MyButton> */}
         </div>
       </div>
     </div>

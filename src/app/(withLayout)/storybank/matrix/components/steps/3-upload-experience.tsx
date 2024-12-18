@@ -21,7 +21,7 @@ export const UploadExperience = () => {
 
           <div className="md:w-3/4 mx-auto">
             <div>
-              <div className="flex grid-cols-2 justify-center items-center gap-4">
+              <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-16 md:mt-0">
                 <div
                   className="border border-dashed border-gray-300 rounded-lg bg-gray-50 p-10 place-content-center w-80 h-64 relative hover:cursor-pointer hover:bg-gray-100"
                   onClick={() => {
@@ -54,7 +54,7 @@ export const UploadExperience = () => {
                   onClick={() => {
                     const params = new URLSearchParams(searchParam.toString()); // Clone existing params
                     // const step = params.get(KeyConstant.STEP);
-                    params.set(KeyConstant.STEP, `6`);
+                    params.set(KeyConstant.STEP, `9`);
 
                     router.push(`?${params.toString()}`);
                   }}

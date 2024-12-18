@@ -11,6 +11,7 @@ import { ParsedResume } from "./steps/5-parsed-resume";
 import { StoryRelevance } from "./steps/6-story-relevance";
 import { StoryCrafting } from "./steps/7-story-crafting";
 import { Finish } from "./steps/8-finish";
+import { CraftingAdditionStory } from "./steps/9-craft-story-additional";
 
 export const CreateStroyModal = () => {
   const searchParams = useSearchParams();
@@ -51,6 +52,10 @@ export const CreateStroyModal = () => {
     {
       step: "8",
       content: <Finish />,
+    },
+    {
+      step: "9",
+      content: <CraftingAdditionStory />,
     },
   ];
   return (

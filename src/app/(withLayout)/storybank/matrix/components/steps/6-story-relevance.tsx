@@ -99,10 +99,10 @@ export const StoryRelevance = () => {
             <div className="flex-1 overflow-y-auto place-content-center py-10">
               <div className="md:w-3/4 mx-auto space-y-8">
                 <div>
-                  <p className="font-semibold text-gray-600 py-3 text-2xl text-center">
+                  <p className="font-semibold text-gray-600 py-3 text-xl md:text-2xl text-center">
                     Great! Now, its the final step!
                   </p>
-                  <p className="font-semibold text-sm text-center">
+                  <p className="font-semibold text-xs md:text-sm text-center">
                     Please review the stories created for each of the topics
                     that you have selected. You can edit, add more context and
                     regenerate the stories until you’re satisfied.
@@ -171,7 +171,7 @@ export const StoryRelevance = () => {
               <div className="space-y-4">
                 <div className="space-y-3">
                   {relevance.map((item) => (
-                    <div className="grid grid-cols-3 items-center">
+                    <div className="grid grid-cols-2 md:grid-cols-3 items-center">
                       <div className="col-span-1">
                         <Checkbox
                           name={item.id}
@@ -182,7 +182,7 @@ export const StoryRelevance = () => {
                           {item.title}
                         </Checkbox>
                       </div>
-                      <div className="col-span-2">
+                      <div className="colspan-1 md:col-span-2">
                         <Progress
                           percent={item.progress}
                           status="normal"

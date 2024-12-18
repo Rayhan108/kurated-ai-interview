@@ -10,4 +10,5 @@ export const KeyConstant = {
   STEP: "step",
   SUCCESS: "success",
   RELEVANCE_IDS: "relevance_ids",
+  EDIT: "edit",
 };
