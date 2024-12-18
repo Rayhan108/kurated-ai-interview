@@ -80,7 +80,7 @@ const LayoutComponent = ({ children }) => {
       ),
       label: (
         <p className="text-base">
-          <Link href={"/storybank"}>Storybank</Link>
+          <Link href={"/storybank/matrix"}>Storybank</Link>
         </p>
       ),
     },
