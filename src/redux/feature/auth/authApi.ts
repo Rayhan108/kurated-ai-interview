@@ -1,7 +1,5 @@
 import { baseApi } from "@/redux/api/baseApi";
 import { TAGS } from "@/redux/tag";
-import { IResponse } from "@/types/response-type";
-import { ILoggedInUser } from "./auth.dto";
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,10 +13,7 @@ const authApi = baseApi.injectEndpoints({
         },
       }),
     }),
-    logIn: builder.mutation<
-      IResponse<{ id: string }>,
-      { email: string; password: string }
-    >({
+    logIn: builder.mutation({
       query: (userInfo) => ({
         url: "/webapis/auth/loginViaEmailAndPassword",
         method: "POST",
@@ -28,7 +23,7 @@ const authApi = baseApi.injectEndpoints({
         },
       }),
     }),
-    loggedInUser: builder.query<IResponse<ILoggedInUser>, void>({
+    loggedInUser: builder.query({
       query: () => ({
         url: "/webapis/user/userProfile",
       }),
