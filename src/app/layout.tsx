@@ -1,6 +1,6 @@
+import ReduxProviders from "@/redux/ReduxProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Mulish } from "next/font/google";
-import { Suspense } from "react";
 import "./globals.css";
 
 export const metadata = {
@@ -22,7 +22,9 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${mulish.className} antialiased`}>
         <AntdRegistry>
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          {/* <Suspense fallback={<div>Loading...</div>}> */}
+          <ReduxProviders>{children}</ReduxProviders>
+          {/* </Suspense> */}
         </AntdRegistry>
       </body>
     </html>

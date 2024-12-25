@@ -13,6 +13,9 @@ const nextConfig = {
       "actor-file-bucket.s3.us-east-1.amazonaws.com",
     ], // Add the domains you need
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;

@@ -1,5 +1,6 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
+import { AuthGuard } from "@/Layout/auth-guard";
 import { Button, ConfigProvider, Drawer, Layout, Menu, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { MenuIcon } from "lucide-react";
@@ -90,120 +91,122 @@ const LayoutComponent = ({ children }) => {
   const toggleDrawer = () => setDrawerVisible(!drawerVisible);
 
   return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Menu: {
-            itemSelectedBg: "rgb(232, 233, 234)",
-            itemSelectedColor: "rgb(11,24,38)",
+    <AuthGuard>
+      <ConfigProvider
+        theme={{
+          components: {
+            Menu: {
+              itemSelectedBg: "rgb(232, 233, 234)",
+              itemSelectedColor: "rgb(11,24,38)",
+            },
           },
-        },
-      }}
-    >
-      <NextTopLoader height={3} />
-      <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: "#f5f6f8",
-          }}
-          className="sticky w-full z-50 top-0 border-b"
-        >
-          {/* Custom Button for Desktop Trigger */}
-          <div className=" flex items-center">
-            <Button
-              type="text"
-              icon={collapsed ? <MenuIcon /> : <MenuIcon />}
-              onClick={() => {
-                if (isMobile) {
-                  toggleDrawer(); // Toggle Drawer on mobile
-                } else {
-                  setCollapsed(!collapsed); // Toggle Sider on larger screens
-                }
-              }}
-              style={{
-                fontSize: "16px",
-                width: "80px",
-                height: 64,
-              }}
-            />
-            <div className="flex w-full justify-between items-center px-4">
-              <Image
-                src={AllImages.kuratedAiLogo}
-                alt="logo"
-                className="lg:w-fit h-fit"
+        }}
+      >
+        <NextTopLoader height={3} />
+        <Layout>
+          <Header
+            style={{
+              padding: 0,
+              background: "#f5f6f8",
+            }}
+            className="sticky w-full z-50 top-0 border-b"
+          >
+            {/* Custom Button for Desktop Trigger */}
+            <div className=" flex items-center">
+              <Button
+                type="text"
+                icon={collapsed ? <MenuIcon /> : <MenuIcon />}
+                onClick={() => {
+                  if (isMobile) {
+                    toggleDrawer(); // Toggle Drawer on mobile
+                  } else {
+                    setCollapsed(!collapsed); // Toggle Sider on larger screens
+                  }
+                }}
+                style={{
+                  fontSize: "16px",
+                  width: "80px",
+                  height: 64,
+                }}
               />
-              <div className="px-6">
-                <Link href={"/profile"} className="hover:cursor-pointer">
-                  <Image
-                    src={AllImages.defaultAvatar}
-                    alt="logo"
-                    className="w-10 h-10 object-cover rounded-full"
-                  />
-                </Link>
+              <div className="flex w-full justify-between items-center px-4">
+                <Image
+                  src={AllImages.kuratedAiLogo}
+                  alt="logo"
+                  className="lg:w-fit h-fit"
+                />
+                <div className="px-6">
+                  <Link href={"/profile"} className="hover:cursor-pointer">
+                    <Image
+                      src={AllImages.defaultAvatar}
+                      alt="logo"
+                      className="w-10 h-10 object-cover rounded-full"
+                    />
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        </Header>
+          </Header>
 
-        <Layout>
-          {!isMobile ? (
-            <div className="fixed top-0 left-0 pt-16 bg-[#f5f6f8] ">
-              <Sider
-                width={250}
-                collapsedWidth={80}
-                trigger={null}
-                collapsible
-                collapsed={collapsed}
+          <Layout>
+            {!isMobile ? (
+              <div className="fixed top-0 left-0 pt-16 bg-[#f5f6f8] ">
+                <Sider
+                  width={250}
+                  collapsedWidth={80}
+                  trigger={null}
+                  collapsible
+                  collapsed={collapsed}
+                  style={{
+                    backgroundColor: "#f5f6f8",
+                  }}
+                  className="h-screen overflow-y-auto  border-r py-2 font-mulish w-[300px]"
+                >
+                  <Menu
+                    mode="inline"
+                    className="bg-[#f5f6f8] border-r-0 font-mulish"
+                    defaultSelectedKeys={["1"]}
+                    items={items}
+                    selectedKeys={[current]}
+                    onClick={handleClick}
+                  />
+                </Sider>
+              </div>
+            ) : (
+              <Drawer
+                placement="left"
+                closable={false}
+                onClose={toggleDrawer}
+                visible={drawerVisible}
+                width={250} // Adjust width as needed
                 style={{
                   backgroundColor: "#f5f6f8",
                 }}
-                className="h-screen overflow-y-auto  border-r py-2 font-mulish w-[300px]"
               >
                 <Menu
                   mode="inline"
-                  className="bg-[#f5f6f8] border-r-0 font-mulish"
                   defaultSelectedKeys={["1"]}
                   items={items}
-                  selectedKeys={[current]}
-                  onClick={handleClick}
+                  className="font-mulish border-none bg-[#f5f6f8]"
                 />
-              </Sider>
-            </div>
-          ) : (
-            <Drawer
-              placement="left"
-              closable={false}
-              onClose={toggleDrawer}
-              visible={drawerVisible}
-              width={250} // Adjust width as needed
-              style={{
-                backgroundColor: "#f5f6f8",
-              }}
-            >
-              <Menu
-                mode="inline"
-                defaultSelectedKeys={["1"]}
-                items={items}
-                className="font-mulish border-none bg-[#f5f6f8]"
-              />
-            </Drawer>
-          )}
-          <Layout>
-            <Content
-              className="p-5 md:p-7 lg:p-10 bg-[#fafafa] font-mulish min-h-[calc(100vh-64px)] overflow-y-auto"
-              style={{
-                minHeight: 280,
-                marginLeft: !isMobile ? (collapsed ? 80 : 250) : 0,
-                transition: "margin-left 0.2s ease",
-              }}
-            >
-              {children}
-            </Content>
+              </Drawer>
+            )}
+            <Layout>
+              <Content
+                className="p-5 md:p-7 lg:p-10 bg-[#fafafa] font-mulish min-h-[calc(100vh-64px)] overflow-y-auto"
+                style={{
+                  minHeight: 280,
+                  marginLeft: !isMobile ? (collapsed ? 80 : 250) : 0,
+                  transition: "margin-left 0.2s ease",
+                }}
+              >
+                {children}
+              </Content>
+            </Layout>
           </Layout>
         </Layout>
-      </Layout>
-    </ConfigProvider>
+      </ConfigProvider>
+    </AuthGuard>
   );
 };
 

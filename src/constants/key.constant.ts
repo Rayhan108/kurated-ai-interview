@@ -5,6 +5,7 @@ export const KeyConstant = {
     page: "page",
     size: "size",
   },
+  LESSON_ID: "lessonId",
   STORY_TYPE: "story_type",
   MODAL: "modal",
   STEP: "step",
