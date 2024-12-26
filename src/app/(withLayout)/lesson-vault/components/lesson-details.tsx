@@ -11,6 +11,7 @@ import parse from "html-react-parser";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import TranscriptViewer from "./transcript";
 
 export default function LessonDetails() {
   const searchParams = useSearchParams();
@@ -45,32 +46,25 @@ export default function LessonDetails() {
       <div className="flex justify-between items-center font-bold gap-4 space-y-3">
         <h1 className="text-sm md:text-base">{lesson?.title}</h1>
 
-        <MyButton
-          endIcon={transcript ? <ChevronUp /> : <ChevronDown />}
-          variant="secondary"
-          onClick={() => {
-            setTranscript((prev) => !prev);
-          }}
-          className="border-0"
-        >
-          Transcript
-        </MyButton>
+        {lesson.type === "VIDEO" && (
+          <MyButton
+            endIcon={transcript ? <ChevronUp /> : <ChevronDown />}
+            variant="secondary"
+            onClick={() => {
+              setTranscript((prev) => !prev);
+            }}
+            className="border-0"
+          >
+            Transcript
+          </MyButton>
+        )}
       </div>
-      <div>{lesson?.description && <p>{parse(lesson?.description)}</p>}</div>
-      {transcript && (
+      {transcript && lesson?.video_subtitles && (
         <p>
-          Praesent nec metus nec elit tristique vestibulum. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac
-          turpis egestas. Sed vel elit nec lorem venenatis scelerisque. Nullam
-          lacinia, justo sit amet fermentum consequat, lorem arcu vehicula nisi,
-          sit amet tempor justo mauris eget ex. Duis vitae felis vel orci
-          volutpat maximus. Sed id interdum risus. Integer rutrum odio vel nulla
-          bibendum tempus. Integer ultricies semper eros, ac molestie ligula
-          fermentum vel. Vivamus eget tortor bibendum, pulvinar leo nec,
-          sollicitudin odio. Suspendisse potenti. Donec fermentum justo in
-          mollis bibendum.
+          <TranscriptViewer url={lesson?.video_subtitles} />
         </p>
       )}
+      <div>{lesson?.description && <p>{parse(lesson?.description)}</p>}</div>
 
       <MySpacer className="h-5" />
       <div className="flex gap-2 justify-between items-center">
