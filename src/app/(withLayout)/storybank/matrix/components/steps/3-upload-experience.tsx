@@ -2,10 +2,8 @@ import { AllImages } from "@/assets/AllImages";
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import { KeyConstant } from "@/constants/key.constant";
-import { Upload } from "antd";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-const { Dragger } = Upload;
 
 export const UploadExperience = () => {
   const searchParam = useSearchParams();

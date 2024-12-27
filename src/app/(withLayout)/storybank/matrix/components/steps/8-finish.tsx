@@ -43,6 +43,10 @@ export const Finish = () => {
                     //   params.set(KeyConstant.STEP, `${Number(step) - 1}`);
                     params.delete(KeyConstant.SUCCESS);
 
+                    localStorage.removeItem(KeyConstant.SELECTED_ROLE_TOPICS);
+                    localStorage.removeItem(KeyConstant.SELECTED_EXPERIENCE);
+                    localStorage.removeItem(KeyConstant.SELECTED_RELEVANCE);
+                    localStorage.removeItem(KeyConstant.PARSED_EXPERIENCE);
                     router.push(`/storybank/matrix`);
                   }}
                   variant="outline"
@@ -54,9 +58,9 @@ export const Finish = () => {
                 <MyButton
                   onClick={() => {
                     const params = new URLSearchParams(searchParam.toString()); // Clone existing params
+                    localStorage.removeItem(KeyConstant.SELECTED_RELEVANCE);
 
-                    params.set(KeyConstant.STEP, "3");
-                    // params.set(KeyConstant.STEP, "5");
+                    params.set(KeyConstant.STEP, "5");
                     params.delete(KeyConstant.SUCCESS);
 
                     router.push(`?${params.toString()}`);

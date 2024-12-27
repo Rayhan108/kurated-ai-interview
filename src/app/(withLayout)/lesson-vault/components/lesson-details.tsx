@@ -46,7 +46,7 @@ export default function LessonDetails() {
       <div className="flex justify-between items-center font-bold gap-4 space-y-3">
         <h1 className="text-sm md:text-base">{lesson?.title}</h1>
 
-        {lesson.type === "VIDEO" && (
+        {lesson?.type === "VIDEO" && (
           <MyButton
             endIcon={transcript ? <ChevronUp /> : <ChevronDown />}
             variant="secondary"

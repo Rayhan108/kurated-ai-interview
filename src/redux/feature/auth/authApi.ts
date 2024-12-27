@@ -4,18 +4,32 @@ import { TAGS } from "@/redux/tag";
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     signUp: builder.mutation({
-      query: (userInfo) => ({
-        url: "/users/create-actor",
-        method: "POST",
-        body: userInfo,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }),
+      query: (userInfo) => {
+        const dto = {
+          first_name: userInfo.firstName,
+          last_name: userInfo.lastName,
+          name: `${userInfo.firstName} ${userInfo.lastName}`,
+          role: "N/A",
+          age: 10,
+          company: "N/A",
+          location: "N/A",
+          otp: userInfo.otp,
+        };
+
+        return {
+          url: "/webapis/auth/interviewApp/signUpViaEmail",
+          method: "POST",
+          body: dto,
+          headers: {
+            email: userInfo.email,
+            password: userInfo.password,
+          },
+        };
+      },
     }),
     logIn: builder.mutation({
       query: (userInfo) => ({
-        url: "/webapis/auth/loginViaEmailAndPassword",
+        url: "/webapis/auth/interviewApp/loginViaEmailAndPassword",
         method: "POST",
         headers: {
           email: userInfo.email,
@@ -30,30 +44,50 @@ const authApi = baseApi.injectEndpoints({
       providesTags: [TAGS.loggedInUser],
     }),
 
-    changedPassword: builder.mutation({
-      query: (password) => ({
-        url: "/auth/change-password",
+    checkEmailExistence: builder.mutation({
+      query: (email) => ({
+        url: `/webapis/auth/checkForEmailExistence`,
         method: "POST",
-        body: password,
-      }),
-    }),
-    forgetPassword: builder.mutation({
-      query: (password) => ({
-        url: "/auth/forget-password",
-        method: "POST",
-        body: password,
-      }),
-    }),
-    resetPassword: builder.mutation({
-      query: ({ data, headers }) => ({
-        url: "/auth/reset-password",
-        method: "POST",
-        body: data,
         headers: {
-          ...headers,
+          email: email,
         },
       }),
     }),
+
+    sendOtp: builder.mutation({
+      query: (email) => ({
+        url: `/webapis/user/sendOTPOnEmail`,
+        method: "POST",
+        body: {
+          email: email,
+        },
+      }),
+    }),
+
+    // changedPassword: builder.mutation({
+    //   query: (password) => ({
+    //     url: "/auth/change-password",
+    //     method: "POST",
+    //     body: password,
+    //   }),
+    // }),
+    // forgetPassword: builder.mutation({
+    //   query: (password) => ({
+    //     url: "/auth/forget-password",
+    //     method: "POST",
+    //     body: password,
+    //   }),
+    // }),
+    // resetPassword: builder.mutation({
+    //   query: ({ data, headers }) => ({
+    //     url: "/auth/reset-password",
+    //     method: "POST",
+    //     body: data,
+    //     headers: {
+    //       ...headers,
+    //     },
+    //   }),
+    // }),
   }),
 });
 
@@ -61,7 +95,6 @@ export const {
   useSignUpMutation,
   useLogInMutation,
   useLoggedInUserQuery,
-  useChangedPasswordMutation,
-  useForgetPasswordMutation,
-  useResetPasswordMutation,
+  useCheckEmailExistenceMutation,
+  useSendOtpMutation,
 } = authApi;

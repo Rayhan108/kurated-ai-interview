@@ -80,7 +80,10 @@ export const Onboarding = () => {
             endIcon={<ArrowRight />}
             onClick={() => {
               const params = new URLSearchParams(searchParams.toString()); // Clone existing params
-
+              localStorage.removeItem(KeyConstant.SELECTED_ROLE_TOPICS);
+              localStorage.removeItem(KeyConstant.SELECTED_EXPERIENCE);
+              localStorage.removeItem(KeyConstant.SELECTED_RELEVANCE);
+              localStorage.removeItem(KeyConstant.PARSED_EXPERIENCE);
               params.set(KeyConstant.STEP, "2");
 
               router.push(`?${params.toString()}`);

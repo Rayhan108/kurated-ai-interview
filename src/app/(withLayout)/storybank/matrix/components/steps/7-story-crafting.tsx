@@ -1,16 +1,47 @@
 import MyButton from "@/components/shared/common/my-button";
 import { KeyConstant } from "@/constants/key.constant";
-import { Button, Form, Input, Steps } from "antd";
+import {
+  useGenerateStoryInHearsQuery,
+  useReGenerateStoryInHearsMutation,
+} from "@/redux/feature/storybank/storybank-api";
+import { Button, Form, Input, message, Steps } from "antd";
 import { ChevronLeft, ChevronRight, Save, SquarePen } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 export const StoryCrafting = () => {
   const searchParam = useSearchParams();
   const router = useRouter();
   const [current, setCurrent] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedAnswer, setEditedAnswer] = useState<{ answer: string }>();
+  const [answer, setAnswer] = useState("");
+  const [context, setContext] = useState("");
+  const [editedAnswer, setEditedAnswer] = useState("");
+  const [stories, setStories] = useState([]);
+
+  const [selectedRelevanceTopics] = useLocalStorage(
+    KeyConstant.SELECTED_RELEVANCE,
+    []
+  );
+  const [experienceLocal] = useLocalStorage(
+    KeyConstant.PARSED_EXPERIENCE,
+    null
+  );
+  const [selectedExperienceLocal] = useLocalStorage(
+    KeyConstant.SELECTED_EXPERIENCE,
+    null
+  );
+  const [selectedRoleTopics] = useLocalStorage(
+    KeyConstant.SELECTED_ROLE_TOPICS,
+    null
+  );
+  const currentExperience = experienceLocal?.find((item, index) => {
+    if (index.toString() === selectedExperienceLocal) {
+      return item;
+    }
+  });
+
   const next = () => {
     setCurrent(current + 1);
   };
@@ -18,22 +49,105 @@ export const StoryCrafting = () => {
     setCurrent(current - 1);
   };
 
-  const localRelevanceIds = localStorage.getItem(KeyConstant.RELEVANCE_IDS);
-  const relevanceIds = localRelevanceIds ? JSON.parse(localRelevanceIds) : [];
-
-  const steps = relevanceIds.map((item) => ({
-    id: item,
-    content: `content ${item}`,
+  const steps = selectedRelevanceTopics?.map((item, index) => ({
+    index: index,
+    content: `${item.roleTopic}`,
+    relevance: item.relevance,
+    _id: item._id,
   }));
 
   const items = steps.map((item) => ({
-    key: item.id,
+    key: item.index,
     title: null,
   }));
 
+  const { data, isFetching } = useGenerateStoryInHearsQuery({
+    role: selectedRoleTopics?.role,
+    roleTopic: steps[current]?.content,
+    experience: currentExperience.responsibilities,
+  });
+
+  const [reGenerateStoryInHears, { isLoading: regenLoading }] =
+    useReGenerateStoryInHearsMutation();
+
+  const reGenerateOnSubmit = () => {
+    reGenerateStoryInHears({
+      role: selectedRoleTopics?.role,
+      roleTopic: steps[current]?.content,
+      storyInHearsFormat: answer,
+      relevance: steps[current]?.relevance,
+      context: context,
+    })
+      .unwrap()
+      .then((res) => {
+        if (res.code === 200) {
+          setAnswer(res?.data?.result);
+          setContext("");
+          setStories((prev) => {
+            const topicId = steps[current]?._id;
+
+            // Check if the topicId exists in the state
+            const existingItem = prev.find((item) => item.topicId === topicId);
+
+            if (existingItem) {
+              // Overwrite the existing item
+              return prev.map((item) =>
+                item.topicId === topicId
+                  ? { ...item, storyText: data?.data?.result }
+                  : item
+              );
+            } else {
+              // Add a new item
+              return [
+                ...prev,
+                {
+                  storyText: data?.data?.result,
+                  topicId,
+                },
+              ];
+            }
+          });
+        }
+      })
+      .catch((err) => {
+        message.error(err?.data?.message);
+      });
+  };
+
+  useEffect(() => {
+    setAnswer(data?.data?.result);
+
+    setStories((prev) => {
+      const topicId = steps[current]?._id;
+
+      // Check if the topicId exists in the state
+      const existingItem = prev.find((item) => item.topicId === topicId);
+
+      if (existingItem) {
+        // Overwrite the existing item
+        return prev.map((item) =>
+          item.topicId === topicId
+            ? { ...item, storyText: data?.data?.result }
+            : item
+        );
+      } else {
+        // Add a new item
+        return [
+          ...prev,
+          {
+            storyText: data?.data?.result,
+            topicId,
+          },
+        ];
+      }
+    });
+  }, [data]);
+
+  console.log("stories", stories);
+
   const onFinish = (values) => {
     console.log("Success:", values);
-    setEditedAnswer({ answer: values.answer });
+    setEditedAnswer(values.answer);
     setIsEditing(false);
   };
   const onFinishFailed = (errorInfo) => {
@@ -69,22 +183,48 @@ export const StoryCrafting = () => {
                         className="px-1"
                         onClick={() => {
                           setIsEditing(true);
-                          setEditedAnswer({
-                            answer: "Product Manager",
-                          });
                         }}
                       >
                         <SquarePen size={18} className="text-gray-400" />
                       </Button>
                     </div>
                     <div
-                      className={`border rounded-md p-4 bg-gray-50 min-h-60 overflow-y-auto`}
+                      className={`border rounded-md p-4 bg-gray-50 min-h-60 overflow-y-auto ${
+                        isFetching ? "animate-pulse bg-gray-100" : ""
+                      }`}
                     >
-                      <p className="text-sm">
-                        {editedAnswer
-                          ? editedAnswer.answer
-                          : "This is your answer structured in the HEARS format"}
-                      </p>
+                      {isFetching ? (
+                        <p>Generating...</p>
+                      ) : (
+                        <div>
+                          <Input.TextArea
+                            readOnly
+                            rows={10}
+                            value={answer}
+                            // onChange={(e) => {
+                            //   setAnswer(e.target.value);
+                            //   setStories((prev) => {
+                            //     const topicId = steps[current]?._id;
+
+                            //     // Check if the topicId exists in the state
+                            //     const existingItem = prev.find(
+                            //       (item) => item.topicId === topicId
+                            //     );
+
+                            //     if (existingItem) {
+                            //       // Overwrite the existing item
+                            //       return prev.map((item) =>
+                            //         item.topicId === topicId
+                            //           ? { ...item, storyText: e.target.value }
+                            //           : item
+                            //       );
+                            //     }
+                            //   });
+                            // }}
+                            className="h-full bg-transparent border-none ring-0 "
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -93,10 +233,16 @@ export const StoryCrafting = () => {
 
                     <Input.TextArea
                       rows={5}
+                      value={context}
                       placeholder="If you need to add more context to the story above, feel free to do that here and regenerate your answer"
-                      onChange={() => {}}
+                      onChange={(e) => setContext(e.target.value)}
                     />
-                    <Button type="text" className="px-1 text-primaryColor my-1">
+                    <Button
+                      type="text"
+                      className="px-1 text-primaryColor my-1"
+                      onClick={() => reGenerateOnSubmit()}
+                      loading={regenLoading}
+                    >
                       Regenerate
                     </Button>
                   </div>
@@ -140,6 +286,7 @@ export const StoryCrafting = () => {
                   variant="outline"
                   endIcon={<ChevronRight />}
                   className="bg-red-400 text-white"
+                  disabled={isFetching}
                 >
                   {current < steps.length - 1 ? "View Next Story" : "Finish"}
                 </MyButton>
@@ -171,7 +318,9 @@ export const StoryCrafting = () => {
                 <Input.TextArea
                   rows={5}
                   placeholder="This  is your answer structured in the HEARS format"
-                  defaultValue={editedAnswer?.answer}
+                  defaultValue={answer}
+                  value={editedAnswer}
+                  onChange={(e) => setEditedAnswer(e.target.value)}
                 />
               </Form.Item>
             </div>
@@ -181,7 +330,7 @@ export const StoryCrafting = () => {
                 <MyButton
                   onClick={() => {
                     setIsEditing(false);
-                    setEditedAnswer(null);
+                    setEditedAnswer("");
                   }}
                   variant="ghost"
                   className="text-red-500 hover:text-red-500"
@@ -191,7 +340,26 @@ export const StoryCrafting = () => {
                 <Form.Item label={null} className="m-0">
                   <MyButton
                     onClick={() => {
-                      // setIsEditing(false);
+                      setStories((prev) => {
+                        const topicId = steps[current]?._id;
+
+                        // Check if the topicId exists in the state
+                        const existingItem = prev.find(
+                          (item) => item.topicId === topicId
+                        );
+
+                        if (existingItem) {
+                          // Overwrite the existing item
+                          return prev.map((item) =>
+                            item.topicId === topicId
+                              ? { ...item, storyText: editedAnswer }
+                              : item
+                          );
+                        }
+                      });
+                      setAnswer(editedAnswer);
+                      setIsEditing(false);
+                      setEditedAnswer("");
                     }}
                     variant="outline"
                     startIcon={<Save />}

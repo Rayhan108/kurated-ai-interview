@@ -10,6 +10,11 @@ export const KeyConstant = {
   MODAL: "modal",
   STEP: "step",
   SUCCESS: "success",
-  RELEVANCE_IDS: "relevance_ids",
   EDIT: "edit",
+
+  //local storage
+  SELECTED_RELEVANCE: "selectedRelevance",
+  SELECTED_ROLE_TOPICS: "selectedRoleTopics",
+  PARSED_EXPERIENCE: "parsedExperience",
+  SELECTED_EXPERIENCE: "selectedExperience",
 };

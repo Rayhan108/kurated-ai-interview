@@ -4,6 +4,7 @@ import { Button, Checkbox, Form, Input, Typography } from "antd";
 import { CornerUpRight, Save } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 interface IExperience {
   title: string;
@@ -15,10 +16,19 @@ interface IExperience {
 export const ParsedResume = () => {
   const searchParam = useSearchParams();
   const router = useRouter();
-  const [selectedExperience, setSelectedExperience] = useState("");
+  // const [selectedExperience, setSelectedExperience] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
+
+  const [experienceLocal] = useLocalStorage(
+    KeyConstant.PARSED_EXPERIENCE,
+    null
+  );
+  const [selectedExperienceLocal, setSelectedExperienceLocal] = useLocalStorage(
+    KeyConstant.SELECTED_EXPERIENCE,
+    null
+  );
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -42,51 +52,40 @@ export const ParsedResume = () => {
                 questions for your target role it can best address.
               </p>
               <div className="space-y-4">
-                {[1, 2, 3].map((item) => (
+                {experienceLocal?.map((item, index) => (
                   <div>
                     <div
-                      className={`border rounded-md p-4 hover:cursor-pointer hover:bg-primaryColor/10 ${
-                        selectedExperience === item.toString()
-                          ? "bg-green-50 border-green-200"
-                          : ""
+                      className={`border rounded-md p-4 hover:cursor-pointer  ${
+                        selectedExperienceLocal === index?.toString()
+                          ? "bg-green-50 border-green-200 hover:bg-green-50"
+                          : "hover:bg-primaryColor/10"
                       }`}
-                      onClick={() => setSelectedExperience(item.toString())}
+                      onClick={() =>
+                        setSelectedExperienceLocal(index.toString())
+                      }
                     >
                       <div className="space-y-2">
                         <p className="font-bold">
                           Your title{" "}
                           <span className="font-normal text-gray-500">
-                            Product Manager
+                            {item.job_title}
                           </span>
                         </p>
                         <p className="font-bold">
                           Company{" "}
                           <span className="font-normal text-gray-500">
-                            Kurated.ai
+                            {item.employer}
                           </span>
                         </p>
                         <p className="font-bold">
                           Dates of Employment{" "}
                           <span className="font-normal text-gray-500">
-                            May 2023 - June 2024
+                            {item.dates_of_employment}
                           </span>
                         </p>
                         <div className="md:flex gap-4">
                           <p className="font-bold">Description</p>
-                          <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen book. It has
-                            survived not only five centuries, but also the leap
-                            into electronic typesetting, remaining essentially
-                            unchanged. It was popularised in the 1960s with the
-                            release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing
-                            software like Aldus PageMaker including versions of
-                            Lorem Ipsum.
-                          </p>
+                          <p>{item.responsibilities}</p>
                         </div>
                       </div>
                     </div>
@@ -140,6 +139,7 @@ export const ParsedResume = () => {
                   }}
                   variant="outline"
                   endIcon={<CornerUpRight />}
+                  disabled={!selectedExperienceLocal}
                 >
                   Next
                 </MyButton>

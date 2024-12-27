@@ -73,6 +73,10 @@ export const CreateStroyModal = () => {
                     params.delete(KeyConstant.MODAL);
                     params.delete(KeyConstant.STEP);
 
+                    localStorage.removeItem(KeyConstant.SELECTED_ROLE_TOPICS);
+                    localStorage.removeItem(KeyConstant.SELECTED_EXPERIENCE);
+                    localStorage.removeItem(KeyConstant.SELECTED_RELEVANCE);
+                    localStorage.removeItem(KeyConstant.PARSED_EXPERIENCE);
                     router.push(`?${params.toString()}`);
                   }}
                   variant="ghost"
