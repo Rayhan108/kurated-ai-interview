@@ -1,6 +1,7 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
 import { AuthGuard } from "@/Layout/auth-guard";
+import { useLogoutMutation } from "@/redux/feature/auth/authApi";
 import {
   Button,
   ConfigProvider,
@@ -14,15 +15,18 @@ import Sider from "antd/es/layout/Sider";
 import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import NextTopLoader from "nextjs-toploader";
 import { useEffect, useState } from "react";
 const { Header, Content } = Layout;
 
 const LayoutComponent = ({ children }) => {
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false); // For Sider on larger screens
   const [isMobile, setIsMobile] = useState(false); // To track if the screen is mobile
   const [drawerVisible, setDrawerVisible] = useState(false); // For controlling Drawer visibility
+
+  const [logout, { isLoading }] = useLogoutMutation(undefined);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -58,7 +62,10 @@ const LayoutComponent = ({ children }) => {
   function handleClick(e) {
     setCurrent(e.key);
   }
-
+  const onLogOut = async () => {
+    await logout(undefined);
+    window.location.reload();
+  };
   const profileItems = [
     {
       key: "profile",
@@ -78,7 +85,11 @@ const LayoutComponent = ({ children }) => {
     },
     {
       key: "logout",
-      label: <p className="text-gray-500 hover:text-red-500">Logout</p>,
+      label: (
+        <p className="text-gray-500 hover:text-red-500" onClick={onLogOut}>
+          {isLoading ? "Loading..." : "Logout"}
+        </p>
+      ),
     },
   ];
 
