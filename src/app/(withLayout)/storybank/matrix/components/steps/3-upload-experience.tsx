@@ -4,10 +4,12 @@ import MySpacer from "@/components/shared/common/my-spacer";
 import { KeyConstant } from "@/constants/key.constant";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useLocalStorage } from "usehooks-ts";
 
 export const UploadExperience = () => {
   const searchParam = useSearchParams();
   const router = useRouter();
+  const [, setCraftingType] = useLocalStorage(KeyConstant.CRAFTING_TYPE, null);
 
   return (
     <div>
@@ -25,6 +27,7 @@ export const UploadExperience = () => {
                   onClick={() => {
                     const params = new URLSearchParams(searchParam.toString()); // Clone existing params
                     // const step = params.get(KeyConstant.STEP);
+                    setCraftingType("EXTRACTED");
                     params.set(KeyConstant.STEP, `4`);
 
                     router.push(`?${params.toString()}`);
@@ -51,6 +54,7 @@ export const UploadExperience = () => {
                   className="border border-dashed border-gray-300 rounded-lg bg-gray-50 p-10 place-content-center w-80 h-64 hover:cursor-pointer hover:bg-gray-100"
                   onClick={() => {
                     const params = new URLSearchParams(searchParam.toString()); // Clone existing params
+                    setCraftingType("PERSONAL");
                     // const step = params.get(KeyConstant.STEP);
                     params.set(KeyConstant.STEP, `9`);
 

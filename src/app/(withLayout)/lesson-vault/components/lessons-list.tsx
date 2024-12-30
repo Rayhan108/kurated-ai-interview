@@ -3,11 +3,13 @@
 import { AllImages } from "@/assets/AllImages";
 import MyButton from "@/components/shared/common/my-button";
 import { MyLoading } from "@/components/shared/common/my-loading";
+import { DataConstant } from "@/constants/data.constant";
 import { KeyConstant } from "@/constants/key.constant";
 import {
   useGetAllChaptersWithLessonsQuery,
   useGetSingleLessonQuery,
 } from "@/redux/feature/interview/lesson-api";
+import { useGetUserProgressQuery } from "@/redux/feature/tools/tools-api";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { Collapse, Drawer, Space } from "antd";
 import { ChevronDown, ListVideo } from "lucide-react";
@@ -25,6 +27,11 @@ export const LessonsList = () => {
   const { data: chapters, isLoading } =
     useGetAllChaptersWithLessonsQuery(undefined);
   const { data: lesson } = useGetSingleLessonQuery(lessonId);
+  const { data: userProgress } = useGetUserProgressQuery(undefined);
+
+  const l =
+    userProgress?.data?.progress?.tools[DataConstant.KURATED_INTERVIEW_TOOLS_ID]
+      .chapters;
 
   if (isLoading) {
     return <MyLoading />;
@@ -84,14 +91,14 @@ export const LessonsList = () => {
           {chaptersArray?.map((item) => (
             <Collapse
               expandIconPosition="right"
-              className="border-0 rounded-lg bg-primaryColor/40"
+              className="border-0 rounded-lg bg-primaryColor/40 font-mulish"
               //   defaultActiveKey={1}
               items={[
                 {
                   key: item.toString(),
                   label: (
                     <div>
-                      <div className="flex gap-2 items-center font-medium">
+                      <div className="flex gap-2 items-center font-bold">
                         <ListVideo size={18} /> {item.chapterTitle}
                       </div>
                       <span className="font-medium text-[10px] text-gray-700">
@@ -122,14 +129,19 @@ export const LessonsList = () => {
                               {lesson.type}
                             </span>
 
-                            <h1 className="text-sm font-semibold leading-tight">
+                            <h1 className="text-sm font-bold leading-tight">
                               {lesson.title}
                             </h1>
                             <div className="flex items-center justify-between">
                               <span className="font-medium text-[10px] text-gray-500">
                                 {lesson.time_required} mins
                               </span>
-                              <CheckCircleFilled className="text-green-500" />
+
+                              {userProgress?.data?.progress?.tools[
+                                DataConstant.KURATED_INTERVIEW_TOOLS_ID
+                              ].chapters[item._id]?.includes(lesson._id) && (
+                                <CheckCircleFilled className="text-green-500" />
+                              )}
                             </div>
                           </div>
                         ))}
@@ -146,14 +158,14 @@ export const LessonsList = () => {
         {chaptersArray?.map((item) => (
           <Collapse
             expandIconPosition="right"
-            className="border-0 rounded-lg bg-primaryColor/40"
+            className="border-0 rounded-lg bg-primaryColor/40 font-mulish"
             defaultActiveKey={firstLessonId}
             items={[
               {
                 key: item._id,
                 label: (
                   <div>
-                    <div className="flex gap-2 items-center font-medium">
+                    <div className="flex gap-2 items-center font-bold">
                       <ListVideo size={18} /> {item.chapterTitle}
                     </div>
                     <span className="font-medium text-[10px] text-gray-700">
@@ -183,14 +195,18 @@ export const LessonsList = () => {
                             {lesson.type}
                           </span>
 
-                          <h1 className="text-sm font-semibold leading-tight">
+                          <h1 className="text-sm font-bold leading-tight">
                             {lesson.title}
                           </h1>
                           <div className="flex items-center justify-between">
                             <span className="font-medium text-[10px] text-gray-500">
                               {lesson.time_required} mins
                             </span>
-                            <CheckCircleFilled className="text-green-500" />
+                            {userProgress?.data?.progress?.tools[
+                              DataConstant.KURATED_INTERVIEW_TOOLS_ID
+                            ].chapters[item._id]?.includes(lesson._id) && (
+                              <CheckCircleFilled className="text-green-500" />
+                            )}
                           </div>
                         </div>
                       ))}

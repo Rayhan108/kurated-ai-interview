@@ -75,6 +75,35 @@ const storyBankApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    saveStory: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/webapis/storybank/save-story`,
+          method: "POST",
+          body: [data],
+        };
+      },
+      invalidatesTags: [TAGS.interviewMatrix],
+    }),
+
+    getInterviewMatrix: builder.query({
+      query: () => {
+        return {
+          url: `/webapis/storybank/saved-stories/role`,
+        };
+      },
+      providesTags: [TAGS.interviewMatrix],
+    }),
+
+    getPortfolioExperience: builder.query({
+      query: () => {
+        return {
+          url: `/webapis/storybank/saved-experiences`,
+        };
+      },
+      providesTags: [TAGS.portfolioExperience],
+    }),
   }),
 });
 
@@ -85,4 +114,7 @@ export const {
   useGetTopicRelevancyQuery,
   useGenerateStoryInHearsQuery,
   useReGenerateStoryInHearsMutation,
+  useSaveStoryMutation,
+  useGetInterviewMatrixQuery,
+  useGetPortfolioExperienceQuery,
 } = storyBankApi;

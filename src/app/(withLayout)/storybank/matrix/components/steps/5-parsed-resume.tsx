@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 
 interface IExperience {
+  index: number;
   title: string;
   company: string;
   startDate: string;
@@ -29,9 +30,28 @@ export const ParsedResume = () => {
     KeyConstant.SELECTED_EXPERIENCE,
     null
   );
+  const [parsedExperience, setParsedExperience] = useLocalStorage(
+    KeyConstant.PARSED_EXPERIENCE,
+    null
+  );
 
   const onFinish = (values) => {
-    console.log("Success:", values);
+    setParsedExperience((prev) =>
+      prev.map((item, index) =>
+        index === editedExperience?.index
+          ? {
+              ...item,
+              dates_of_employment: `${values.startDate} ${
+                values.endDate ? `- ${values.endDate}` : ""
+              }`,
+              employer: values.company,
+              job_title: values.title,
+              responsibilities: values.description,
+            }
+          : item
+      )
+    );
+    setIsEditing(false);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -97,11 +117,12 @@ export const ParsedResume = () => {
                         onClick={() => {
                           setIsEditing(true);
                           setEditedExperience({
-                            title: "Product Manager",
-                            company: "Kurated.ai",
-                            startDate: "May 2023",
-                            endDate: "June 2024",
-                            description: "lorem ipsum",
+                            index: index,
+                            title: item.job_title,
+                            company: item.employer,
+                            startDate: item.dates_of_employment.split("-")[0],
+                            endDate: item.dates_of_employment.split("-")[1],
+                            description: item.responsibilities.toString(),
                           });
                         }}
                       >
@@ -155,6 +176,7 @@ export const ParsedResume = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
+          initialValues={editedExperience}
         >
           <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
             <div className="flex-1 overflow-y-auto py-10">
@@ -174,7 +196,7 @@ export const ParsedResume = () => {
                     ]}
                     className="m-0"
                   >
-                    <Input defaultValue={editedExperience.title} />
+                    <Input />
                   </Form.Item>
                 </div>
                 <div>

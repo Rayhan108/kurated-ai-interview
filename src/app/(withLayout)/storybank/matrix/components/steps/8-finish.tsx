@@ -16,10 +16,11 @@ export const Finish = () => {
             <div className="md:w-3/4 mx-auto space-y-12">
               <div>
                 <p className="font-semibold text-gray-600 py-3 text-xl md:text-2xl text-center">
-                  Your stories have been successfully saved!
+                  Your stories have been saved!
                 </p>
                 <p className="font-semibold text-sm text-center">
-                  View your stories in the Interview Matrix
+                  You can view your saved stories at any time in the Interview
+                  Matrix
                 </p>
               </div>
 
@@ -47,6 +48,7 @@ export const Finish = () => {
                     localStorage.removeItem(KeyConstant.SELECTED_EXPERIENCE);
                     localStorage.removeItem(KeyConstant.SELECTED_RELEVANCE);
                     localStorage.removeItem(KeyConstant.PARSED_EXPERIENCE);
+                    localStorage.removeItem(KeyConstant.CRAFTING_TYPE);
                     router.push(`/storybank/matrix`);
                   }}
                   variant="outline"

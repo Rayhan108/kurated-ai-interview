@@ -18,7 +18,7 @@ function PortfolioFilter() {
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
-    params.set(KeyConstant.STORY_TYPE, storyType || "resume");
+    params.set(KeyConstant.STORY_TYPE, storyType || "EXTRACTED");
     if (search) {
       params.set(KeyConstant.query, search);
     } else {
@@ -35,11 +35,11 @@ function PortfolioFilter() {
           <MyButton
             onClick={() => {
               const params = new URLSearchParams(searchParams);
-              params.set(KeyConstant.STORY_TYPE, "resume");
+              params.set(KeyConstant.STORY_TYPE, "EXTRACTED");
 
               router.push(`/storybank/story-portfolio?${params.toString()}`);
             }}
-            variant={storyType === "resume" ? "default" : "secondary"}
+            variant={storyType === "EXTRACTED" ? "default" : "secondary"}
             startIcon={<BookText />}
             className="font-semibold w-full md:w-fit"
           >
@@ -48,11 +48,11 @@ function PortfolioFilter() {
           <MyButton
             onClick={() => {
               const params = new URLSearchParams(searchParams);
-              params.set(KeyConstant.STORY_TYPE, "personal");
+              params.set(KeyConstant.STORY_TYPE, "PERSONAL");
 
               router.push(`/storybank/story-portfolio?${params.toString()}`);
             }}
-            variant={storyType === "personal" ? "default" : "secondary"}
+            variant={storyType === "PERSONAL" ? "default" : "secondary"}
             startIcon={<FilePenLine />}
             className="font-semibold w-full md:w-fit"
           >

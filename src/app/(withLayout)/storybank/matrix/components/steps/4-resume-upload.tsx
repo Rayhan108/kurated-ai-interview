@@ -46,7 +46,7 @@ export const UploadResume = () => {
             <div className="flex-1 overflow-y-auto place-content-center py-10">
               <div className="md:w-3/4 mx-auto space-y-8">
                 <p className="font-semibold text-gray-600 py-3 text-xl md:text-2xl text-center">
-                  Great! Your Resume is now saved in our Dashboard!
+                  Your resume has been saved!
                 </p>
 
                 <Image

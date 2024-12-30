@@ -7,7 +7,7 @@ const LessonPage = () => {
   return (
     <div>
       <div className="flex items-center gap-2">
-        <Image src={AllImages.starIcon} alt="starIcon" />{" "}
+        <Image src={AllImages.lessonIcon} alt="starIcon" width={32} />{" "}
         <p className="font-bold text-xl">Lesson Vault</p>
       </div>
       <MySpacer className="h-4" />

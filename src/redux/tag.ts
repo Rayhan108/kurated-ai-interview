@@ -3,4 +3,6 @@ export const TAGS = {
   loggedInUser: "qk-loggedInUser",
   userProgress: "qk-userProgress",
   storyBankRole: "qk-storyBankRole",
+  interviewMatrix: "qk-interviewMatrix",
+  portfolioExperience: "qk-portfolioExperience",
 } as const;

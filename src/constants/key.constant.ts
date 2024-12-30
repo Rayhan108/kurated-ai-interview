@@ -17,4 +17,5 @@ export const KeyConstant = {
   SELECTED_ROLE_TOPICS: "selectedRoleTopics",
   PARSED_EXPERIENCE: "parsedExperience",
   SELECTED_EXPERIENCE: "selectedExperience",
+  CRAFTING_TYPE: "craftingType",
 };

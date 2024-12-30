@@ -41,7 +41,7 @@ export const StoryRelevance = () => {
   const { data, isLoading } = useGetTopicRelevancyQuery({
     role: selectedRole?.role,
     roleTopics: selectedRole?.topics?.map((item) => item.topicName),
-    experience: experience.responsibilities,
+    experience: experience?.responsibilities,
   });
 
   const relevance = data?.data?.result?.relevance || {};
@@ -88,7 +88,7 @@ export const StoryRelevance = () => {
               <div className="md:w-3/4 mx-auto space-y-8">
                 <div>
                   <p className="font-semibold text-gray-600 py-3 text-xl md:text-2xl text-center">
-                    Great! Now, its the final step!
+                    Now it’s the final step!
                   </p>
                   <p className="font-semibold text-xs md:text-sm text-center">
                     Please review the stories created for each of the topics
@@ -174,7 +174,7 @@ export const StoryRelevance = () => {
                               name={key}
                               onChange={handleCheckboxChange}
                               checked={selectedRelevance.includes(key)}
-                              className="font-medium"
+                              className="font-medium checked:bg-red-100"
                             >
                               {key}
                             </Checkbox>

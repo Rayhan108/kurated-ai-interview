@@ -1,15 +1,19 @@
-function StoryPortfolioCard() {
+import { DateUtil } from "@/lib/date.util";
+
+function StoryPortfolioCard({ item }) {
   return (
     <div className="space-y-3 border rounded-lg p-4 border-gray-300 shadow-sm hover:bg-primaryColor/30 hover:cursor-pointer">
-      <h1 className="font-bold text-base">Experience Title</h1>
+      <h1 className="font-bold text-base">{item?.title}</h1>
 
       <p className="text-gray-700 text-xs md:text-sm line-clamp-3">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio a autem
-        asperiores repudiandae optio quod quaerat ipsa natus.
+        {item?.description}
       </p>
 
       <p className="text-sm font-semibold">
-        Last Updated: <span className="font-bold">July 24, 2024</span>
+        Last Updated:{" "}
+        <span className="font-bold">
+          {DateUtil.formatOnlyDate(item?.updatedAt)}
+        </span>
       </p>
     </div>
   );

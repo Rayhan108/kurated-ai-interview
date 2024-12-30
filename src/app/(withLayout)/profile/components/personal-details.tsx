@@ -60,7 +60,11 @@ export const PersonalDetails = () => {
           >
             <div className="grid md:grid-cols-2 gap-3">
               <div>
-                <Typography.Title level={5} style={{ color: "#1A1A1A" }}>
+                <Typography.Title
+                  level={5}
+                  style={{ color: "#1A1A1A" }}
+                  className="font-mulish"
+                >
                   First Name
                 </Typography.Title>
                 <Form.Item
@@ -82,7 +86,11 @@ export const PersonalDetails = () => {
                 </Form.Item>
               </div>
               <div>
-                <Typography.Title level={5} style={{ color: "#1A1A1A" }}>
+                <Typography.Title
+                  level={5}
+                  style={{ color: "#1A1A1A" }}
+                  className="font-mulish"
+                >
                   Last Name
                 </Typography.Title>
                 <Form.Item
@@ -104,7 +112,11 @@ export const PersonalDetails = () => {
                 </Form.Item>
               </div>
               <div>
-                <Typography.Title level={5} style={{ color: "#1A1A1A" }}>
+                <Typography.Title
+                  level={5}
+                  style={{ color: "#1A1A1A" }}
+                  className="font-mulish"
+                >
                   Email
                 </Typography.Title>
                 <Form.Item
@@ -126,7 +138,11 @@ export const PersonalDetails = () => {
                 </Form.Item>
               </div>
               <div>
-                <Typography.Title level={5} style={{ color: "#1A1A1A" }}>
+                <Typography.Title
+                  level={5}
+                  style={{ color: "#1A1A1A" }}
+                  className="font-mulish"
+                >
                   Age
                 </Typography.Title>
                 <Form.Item
@@ -148,7 +164,11 @@ export const PersonalDetails = () => {
                 </Form.Item>
               </div>
               <div>
-                <Typography.Title level={5} style={{ color: "#1A1A1A" }}>
+                <Typography.Title
+                  level={5}
+                  style={{ color: "#1A1A1A" }}
+                  className="font-mulish"
+                >
                   University / Company
                 </Typography.Title>
                 <Form.Item
@@ -169,7 +189,11 @@ export const PersonalDetails = () => {
                 </Form.Item>
               </div>
               <div>
-                <Typography.Title level={5} style={{ color: "#1A1A1A" }}>
+                <Typography.Title
+                  level={5}
+                  style={{ color: "#1A1A1A" }}
+                  className="font-mulish"
+                >
                   Intended Role
                 </Typography.Title>
                 <Form.Item
@@ -194,7 +218,7 @@ export const PersonalDetails = () => {
               <Form.Item label={null}>
                 <Button
                   type="text"
-                  className="bg-primaryColor font-semibold text-white hover:bg-primaryColor/80 px-8 py-3 uppercase w-1/2 mx-auto tracking-wider"
+                  className="bg-primaryColor font-semibold text-white hover:bg-primaryColor/80 px-8 py-3 uppercase w-1/2 mx-auto tracking-wider font-mulish"
                   htmlType="submit"
                 >
                   Save Settings

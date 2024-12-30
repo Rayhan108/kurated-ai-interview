@@ -1,8 +1,10 @@
 import MyButton from "@/components/shared/common/my-button";
+import { StatusCode } from "@/constants/code.constant";
 import { KeyConstant } from "@/constants/key.constant";
 import {
   useGenerateStoryInHearsQuery,
   useReGenerateStoryInHearsMutation,
+  useSaveStoryMutation,
 } from "@/redux/feature/storybank/storybank-api";
 import { Button, Form, Input, message, Steps } from "antd";
 import { ChevronLeft, ChevronRight, Save, SquarePen } from "lucide-react";
@@ -36,6 +38,8 @@ export const StoryCrafting = () => {
     KeyConstant.SELECTED_ROLE_TOPICS,
     null
   );
+  const [craftingType] = useLocalStorage(KeyConstant.CRAFTING_TYPE, null);
+
   const currentExperience = experienceLocal?.find((item, index) => {
     if (index.toString() === selectedExperienceLocal) {
       return item;
@@ -143,8 +147,26 @@ export const StoryCrafting = () => {
     });
   }, [data]);
 
-  console.log("stories", stories);
+  const [parsedExperience] = useLocalStorage(
+    KeyConstant.PARSED_EXPERIENCE,
+    null
+  );
+  const [selectedExperience] = useLocalStorage(
+    KeyConstant.SELECTED_EXPERIENCE,
+    null
+  );
+  const [selectedRelevance] = useLocalStorage(
+    KeyConstant.SELECTED_RELEVANCE,
+    []
+  );
 
+  const experience = parsedExperience?.find((item, index) => {
+    if (index.toString() === selectedExperience) {
+      return item;
+    }
+  });
+
+  const [saveStoryOnsubmit, { isLoading }] = useSaveStoryMutation();
   const onFinish = (values) => {
     console.log("Success:", values);
     setEditedAnswer(values.answer);
@@ -160,9 +182,14 @@ export const StoryCrafting = () => {
         <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
           <div className="flex-1 overflow-y-auto place-content-center py-10">
             <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg z-20">
-              Your Kurated Story in HEARS format!
+              Refining your story in HEARS format
             </p>
 
+            <p className="px-5 font-semibold">
+              Edit your draft answer directly or add more context and press
+              regenerate to see a new version of your story. Press Finish below
+              when you're ready to save this interview story.
+            </p>
             {/* <StoryCraftingForm data={steps[current]?.content} /> */}
             <div>
               <div className="px-5">
@@ -201,26 +228,6 @@ export const StoryCrafting = () => {
                             readOnly
                             rows={10}
                             value={answer}
-                            // onChange={(e) => {
-                            //   setAnswer(e.target.value);
-                            //   setStories((prev) => {
-                            //     const topicId = steps[current]?._id;
-
-                            //     // Check if the topicId exists in the state
-                            //     const existingItem = prev.find(
-                            //       (item) => item.topicId === topicId
-                            //     );
-
-                            //     if (existingItem) {
-                            //       // Overwrite the existing item
-                            //       return prev.map((item) =>
-                            //         item.topicId === topicId
-                            //           ? { ...item, storyText: e.target.value }
-                            //           : item
-                            //       );
-                            //     }
-                            //   });
-                            // }}
                             className="h-full bg-transparent border-none ring-0 "
                           />
                         </div>
@@ -250,14 +257,16 @@ export const StoryCrafting = () => {
               </div>
             </div>
             <div>
-              <Steps
-                direction="horizontal"
-                responsive={false}
-                current={current}
-                items={items}
-                size="small"
-                className="md:w-1/2 mx-auto px-10"
-              />
+              {items.length > 1 && (
+                <Steps
+                  direction="horizontal"
+                  responsive={false}
+                  current={current}
+                  items={items}
+                  size="small"
+                  className="md:w-1/2 mx-auto px-10"
+                />
+              )}
             </div>
           </div>
 
@@ -279,14 +288,58 @@ export const StoryCrafting = () => {
 
                     params.set(KeyConstant.STEP, "8");
 
-                    current < steps.length - 1
-                      ? next()
-                      : router.push(`?${params.toString()}`);
+                    if (current < steps.length - 1) {
+                      next();
+                    } else {
+                      const dto = {
+                        experience: {
+                          title: experience?.job_title,
+                          date_start:
+                            experience?.dates_of_employment.split("-")[0],
+                          date_end:
+                            experience?.dates_of_employment.split("-")[1] ||
+                            "present",
+                          description: Array.isArray(
+                            experience?.responsibilities
+                          )
+                            ? experience?.responsibilities.join(" ")
+                            : experience?.responsibilities,
+                          company: experience?.employer,
+                          type: craftingType, // Allowed Ones are EXTRACTED,PERSONAL
+                        },
+                        stories: [
+                          {
+                            current: stories?.map((item) => ({
+                              storyText: item.storyText,
+                              topic_id: item.topicId,
+                            })),
+                            removed: [],
+                          },
+                        ],
+                        topic_relevancies: selectedRelevance?.map((item) => ({
+                          topic_id: item._id,
+                          relevancy: item.relevance,
+                        })),
+                      };
+
+                      saveStoryOnsubmit(dto)
+                        .unwrap()
+                        .then((res) => {
+                          if (res.code === StatusCode.OK) {
+                            message.success(res.message);
+                            router.push(`?${params.toString()}`);
+                          }
+                        })
+                        .catch((err) => {
+                          message.error(err.data.message);
+                        });
+                    }
                   }}
                   variant="outline"
                   endIcon={<ChevronRight />}
                   className="bg-red-400 text-white"
                   disabled={isFetching}
+                  loading={isLoading}
                 >
                   {current < steps.length - 1 ? "View Next Story" : "Finish"}
                 </MyButton>

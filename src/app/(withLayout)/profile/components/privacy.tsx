@@ -15,12 +15,16 @@ export const Privacy = () => {
           initialValues={{}} // Leave this empty to avoid stale initial values
           onFinish={onFinish}
           layout="vertical"
-          className="w-full"
+          className="w-full font-mulish"
         >
           <div className="grid gap-3 w-full md:w-1/2 mx-auto">
             <h3 className="font-bold text-xl mb-6">Change your Password</h3>
             <div>
-              <Typography.Title level={5} style={{ color: "#1A1A1A" }}>
+              <Typography.Title
+                level={5}
+                style={{ color: "#1A1A1A" }}
+                className="font-mulish"
+              >
                 Old Password
               </Typography.Title>
               <Form.Item
@@ -40,7 +44,11 @@ export const Privacy = () => {
               </Form.Item>
             </div>
             <div>
-              <Typography.Title level={5} style={{ color: "#1A1A1A" }}>
+              <Typography.Title
+                level={5}
+                style={{ color: "#1A1A1A" }}
+                className="font-mulish"
+              >
                 New Password
               </Typography.Title>
               <Form.Item
@@ -60,7 +68,11 @@ export const Privacy = () => {
               </Form.Item>
             </div>
             <div>
-              <Typography.Title level={5} style={{ color: "#1A1A1A" }}>
+              <Typography.Title
+                level={5}
+                style={{ color: "#1A1A1A" }}
+                className="font-mulish"
+              >
                 Confirm Password
               </Typography.Title>
               <Form.Item

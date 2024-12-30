@@ -27,7 +27,7 @@ function StroyBankLayout({ children }) {
               : "text-gray-600 font-semibold"
           }`}
         >
-          Your Stroy Portfolio
+          Your Story Portfolio
         </Link>
       </div>
       {children}

@@ -1,7 +1,15 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
 import { AuthGuard } from "@/Layout/auth-guard";
-import { Button, ConfigProvider, Drawer, Layout, Menu, theme } from "antd";
+import {
+  Button,
+  ConfigProvider,
+  Drawer,
+  Dropdown,
+  Layout,
+  Menu,
+  theme,
+} from "antd";
 import Sider from "antd/es/layout/Sider";
 import { MenuIcon } from "lucide-react";
 import Image from "next/image";
@@ -51,6 +59,29 @@ const LayoutComponent = ({ children }) => {
     setCurrent(e.key);
   }
 
+  const profileItems = [
+    {
+      key: "profile",
+      label: (
+        <Link href={"/profile"} className="text-gray-500">
+          My Profile
+        </Link>
+      ),
+    },
+    {
+      key: "support",
+      label: (
+        <Link href={"/support"} className="text-gray-500">
+          Help and Support
+        </Link>
+      ),
+    },
+    {
+      key: "logout",
+      label: <p className="text-gray-500 hover:text-red-500">Logout</p>,
+    },
+  ];
+
   const items = [
     {
       key: "overview",
@@ -81,7 +112,9 @@ const LayoutComponent = ({ children }) => {
       ),
       label: (
         <p className="text-base">
-          <Link href={"/storybank/matrix"}>Storybank</Link>
+          <Link href={"/storybank/story-portfolio?story_type=EXTRACTED"}>
+            Storybank
+          </Link>
         </p>
       ),
     },
@@ -112,7 +145,7 @@ const LayoutComponent = ({ children }) => {
             className="sticky w-full z-50 top-0 border-b"
           >
             {/* Custom Button for Desktop Trigger */}
-            <div className=" flex items-center">
+            <div className=" flex items-center h-full">
               <Button
                 type="text"
                 icon={collapsed ? <MenuIcon /> : <MenuIcon />}
@@ -125,8 +158,9 @@ const LayoutComponent = ({ children }) => {
                 }}
                 style={{
                   fontSize: "16px",
-                  width: "80px",
-                  height: 64,
+                  padding: "30px",
+                  // width: "40px",
+                  // height: 64,
                 }}
               />
               <div className="flex w-full justify-between items-center px-4">
@@ -135,15 +169,15 @@ const LayoutComponent = ({ children }) => {
                   alt="logo"
                   className="lg:w-fit h-fit"
                 />
-                <div className="px-6">
-                  <Link href={"/profile"} className="hover:cursor-pointer">
+                <Dropdown menu={{ items: profileItems }}>
+                  <div className="p-2">
                     <Image
                       src={AllImages.defaultAvatar}
                       alt="logo"
-                      className="w-10 h-10 object-cover rounded-full"
+                      className="w-10 h-10 object-cover rounded-full hover:cursor-pointer"
                     />
-                  </Link>
-                </div>
+                  </div>
+                </Dropdown>
               </div>
             </div>
           </Header>

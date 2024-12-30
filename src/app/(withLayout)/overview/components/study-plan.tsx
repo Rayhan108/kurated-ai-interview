@@ -5,7 +5,7 @@ import MySpacer from "@/components/shared/common/my-spacer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { KeyConstant } from "@/constants/key.constant";
 import { useLoggedInUserQuery } from "@/redux/feature/auth/authApi";
-import { ArrowUpRightIcon } from "lucide-react";
+import { SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -70,7 +70,7 @@ const StudyPlan = () => {
           </div>
           <MyLinkButton
             href={`/lesson-vault`}
-            className="bg-red-400 hidden md:block w-[140px]"
+            className="bg-red-400 hidden md:block w-fit"
           >
             Start Learning
           </MyLinkButton>
@@ -93,7 +93,7 @@ const StudyPlan = () => {
       <div>
         <div className="space-y-4">
           <Tabs defaultValue={tab || "curriculum"} className="">
-            <TabsList className="inline-grid md:inline-flex h-fit w-full md:w-fit p-0">
+            <TabsList className="inline-grid md:inline-flex h-fit w-full md:w-fit">
               {tabList.map((item) => (
                 <TabsTrigger
                   value={item.value}
@@ -104,7 +104,7 @@ const StudyPlan = () => {
                     // Update the URL without reloading the page
                     router.push(`${pathname}?${currentParams.toString()}`);
                   }}
-                  className="data-[state=active]:bg-primaryColor data-[state=active]:text-white text-[#373B3F] font-semibold  md:w-fit"
+                  // className="data-[state=active]:bg-primaryColor data-[state=active]:text-white text-[#373B3F] font-semibold  md:w-fit"
                 >
                   {item.title}
                 </TabsTrigger>
@@ -122,9 +122,9 @@ const StudyPlan = () => {
         <div>
           <Link
             href="/overview/curriculum"
-            className="text-red-400 underline flex w-fit items-center font-bold py-3"
+            className="text-red-400 underline flex w-fit gap-1 items-center font-bold py-3"
           >
-            View Curriculum <ArrowUpRightIcon size={16} />
+            View Curriculum <SquareArrowOutUpRight size={14} />
           </Link>
 
           <div>

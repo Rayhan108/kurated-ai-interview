@@ -1,17 +1,36 @@
 import MyButton from "@/components/shared/common/my-button";
 import { KeyConstant } from "@/constants/key.constant";
-import { Button, Form, Input, Typography } from "antd";
+import { Checkbox, Form, Input, Typography } from "antd";
 import { Save } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 export const CraftingAdditionStory = () => {
   const searchParam = useSearchParams();
   const router = useRouter();
+  const [currentEmployee, setCurrentEmployee] = useState(false);
+
+  const [, setParsedExperience] = useLocalStorage(
+    KeyConstant.PARSED_EXPERIENCE,
+    null
+  );
 
   const onFinish = (values) => {
-    console.log("Success:", values);
+    setParsedExperience([
+      {
+        dates_of_employment: `${values.startDate} ${
+          values.endDate ? `- ${values.endDate}` : ""
+        }`,
+        employer: values.company,
+        job_title: values.title,
+        location: "",
+        responsibilities: values.description,
+      },
+    ]);
+
     const params = new URLSearchParams(searchParam.toString());
-    params.set(KeyConstant.STEP, "6");
+    params.set(KeyConstant.STEP, "5");
 
     router.push(`?${params.toString()}`);
   };
@@ -21,6 +40,149 @@ export const CraftingAdditionStory = () => {
   return (
     <div>
       <Form
+        name="basic"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
+          <div className="flex-1 overflow-y-auto py-10">
+            <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg z-20">
+              Personal story crafting
+            </p>
+            <div className="space-y-2 px-2">
+              <div>
+                <Typography.Title level={5}>Your title</Typography.Title>
+                <Form.Item
+                  name="title"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your title",
+                    },
+                  ]}
+                  className="m-0"
+                >
+                  <Input />
+                </Form.Item>
+              </div>
+              <div>
+                <Typography.Title level={5}>Company</Typography.Title>
+                <Form.Item
+                  name="company"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your title",
+                    },
+                  ]}
+                  className="m-0"
+                >
+                  <Input />
+                </Form.Item>
+              </div>
+              <div>
+                <p className="text-sm font-semibold pt-3 pb-1">
+                  Dates of Employment
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Typography.Title level={5}>Start Date</Typography.Title>
+                    <Form.Item
+                      name="startDate"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input a date",
+                        },
+                      ]}
+                      className="m-0"
+                    >
+                      <Input type="date" />
+                    </Form.Item>
+                  </div>
+                  <div>
+                    <div className="flex justify-between items-center">
+                      {currentEmployee ? (
+                        <div></div>
+                      ) : (
+                        <Typography.Title level={5}>End Date</Typography.Title>
+                      )}
+
+                      <Checkbox
+                        value={currentEmployee}
+                        onChange={(e) => setCurrentEmployee(e.target.checked)}
+                      >
+                        Current Employee
+                      </Checkbox>
+                    </div>
+                    {!currentEmployee && (
+                      <Form.Item
+                        name="endDate"
+                        rules={[
+                          {
+                            required: currentEmployee ? false : true,
+                            message: "Please input a date",
+                          },
+                        ]}
+                        className="m-0"
+                      >
+                        <Input type="date" />
+                      </Form.Item>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <Typography.Title level={5}>Description</Typography.Title>
+                <Form.Item
+                  name="description"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your description",
+                    },
+                  ]}
+                  className="m-0"
+                >
+                  <Input.TextArea rows={6} />
+                </Form.Item>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t py-3 w-full bg-white">
+            <div className="flex justify-between gap-1">
+              <MyButton
+                onClick={() => {
+                  const params = new URLSearchParams(searchParam.toString()); // Clone existing params
+
+                  params.set(KeyConstant.STEP, "3");
+
+                  router.push(`?${params.toString()}`);
+                }}
+                variant="ghost"
+                className="text-red-500 hover:text-red-500"
+              >
+                Discard
+              </MyButton>
+              <Form.Item label={null} className="m-0">
+                <MyButton
+                  onClick={() => {
+                    // setIsEditing(false);
+                  }}
+                  variant="outline"
+                  startIcon={<Save />}
+                  className="border-black"
+                >
+                  Save
+                </MyButton>
+              </Form.Item>
+            </div>
+          </div>
+        </div>
+      </Form>
+      {/* <Form
         name="basic"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -164,7 +326,7 @@ export const CraftingAdditionStory = () => {
             </div>
           </div>
         </div>
-      </Form>
+      </Form> */}
     </div>
   );
 };
