@@ -111,7 +111,7 @@ export const UploadResume = () => {
                 name="resume"
                 multiple={false}
                 onChange={onChange}
-                className="w-80 z-10"
+                className="w-80 z-10 font-mulish"
               >
                 <div className="text-gray-500 font-semibold space-y-3 p-10">
                   <IoArrowDownCircleOutline

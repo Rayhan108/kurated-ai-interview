@@ -25,9 +25,9 @@ const LogInPage = () => {
     logIn(finalData)
       .unwrap()
       .then((res) => {
-        if (res.code === StatusCode.OK) {
-          router.push("/overview");
-        }
+        // if (res.code === StatusCode.OK) {
+        router.push("/overview");
+        // }
       })
       .catch((error) => {
         message.error(error?.data?.message || "Login failed");
@@ -41,15 +41,15 @@ const LogInPage = () => {
     router.push("/overview");
   }
   return (
-    <div className="bg-gray-100 p-10">
+    <div className="bg-gray-100 py-10 md:px-10">
       <Image
         src={AllImages.kuratedAiLogo}
         alt="logo"
-        className=" lg:h-full h-7"
+        className=" lg:h-full mx-auto md:mx-0"
       />
-      <div className="  h-screen flex flex-col justify-center -mt-14">
+      <div className=" h-screen flex flex-col justify-center ">
         <div className="flex md:flex-row flex-col ">
-          <div className=" flex flex-col justify-center max-w-xl px-6 py-8 bg-white shadow-xl rounded-lg  mx-auto md:w-[50%]">
+          <div className=" flex flex-col justify-center px-6 py-8 bg-white shadow-xl rounded-lg  mx-auto md:w-[50%]">
             <GoogleLinkedInLogin />
 
             <Form name="login" onFinish={onFinish} layout="vertical">

@@ -22,6 +22,11 @@
   background-color: #eab030 !important;
   border-color: #eab030 !important;
 }
+
+.ant-select-selector {
+  background: #f3f4f6 !important;
+  border: none !important;
+}
 ::-webkit-scrollbar {
   width: 7px; /* Vertical scrollbar width */
   height: 7px; /* Horizontal scrollbar height */

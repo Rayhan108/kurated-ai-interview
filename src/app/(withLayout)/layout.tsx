@@ -102,6 +102,10 @@ const LayoutComponent = ({ children }) => {
           <Link href={"/overview"}>Overview</Link>
         </p>
       ),
+      style: {
+        display: "flex",
+        gap: "10px",
+      },
     },
     {
       key: "lesson-vault",
@@ -111,6 +115,10 @@ const LayoutComponent = ({ children }) => {
           <Link href={"/lesson-vault"}>Lesson Vault</Link>
         </p>
       ),
+      style: {
+        display: "flex",
+        gap: "10px",
+      },
     },
     {
       key: "storybank",
@@ -118,7 +126,7 @@ const LayoutComponent = ({ children }) => {
         <Image
           src={AllImages.storyBankIcon}
           alt="storybank"
-          className={collapsed ? "h-10 w-10" : "h-8 w-8"}
+          className={collapsed ? "h-10 w-10" : "h-8 w-5"}
         />
       ),
       label: (
@@ -128,6 +136,10 @@ const LayoutComponent = ({ children }) => {
           </Link>
         </p>
       ),
+      style: {
+        display: "flex",
+        gap: "10px",
+      },
     },
   ];
 
@@ -178,7 +190,7 @@ const LayoutComponent = ({ children }) => {
                 <Image
                   src={AllImages.kuratedAiLogo}
                   alt="logo"
-                  className="lg:w-fit h-fit"
+                  className=" h-fit"
                 />
                 <Dropdown menu={{ items: profileItems }}>
                   <div className="p-2">

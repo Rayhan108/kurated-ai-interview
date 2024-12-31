@@ -101,9 +101,9 @@ export const LessonsList = () => {
                       <div className="flex gap-2 items-center font-bold">
                         <ListVideo size={18} /> {item.chapterTitle}
                       </div>
-                      <span className="font-medium text-[10px] text-gray-700">
+                      {/* <span className="font-medium text-[10px] text-gray-700">
                         4:32
-                      </span>
+                      </span> */}
                     </div>
                   ),
                   children: (
@@ -168,9 +168,9 @@ export const LessonsList = () => {
                     <div className="flex gap-2 items-center font-bold">
                       <ListVideo size={18} /> {item.chapterTitle}
                     </div>
-                    <span className="font-medium text-[10px] text-gray-700">
+                    {/* <span className="font-medium text-[10px] text-gray-700">
                       4:32
-                    </span>
+                    </span> */}
                   </div>
                 ),
                 children: (

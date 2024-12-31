@@ -72,7 +72,11 @@ export default function Roles() {
                 className="grid grid-cols-2"
               >
                 {rolesList?.map((item) => (
-                  <Radio key={item.value} value={item.value}>
+                  <Radio
+                    key={item.value}
+                    value={item.value}
+                    className="font-mulish"
+                  >
                     {item.label}
                   </Radio>
                 ))}

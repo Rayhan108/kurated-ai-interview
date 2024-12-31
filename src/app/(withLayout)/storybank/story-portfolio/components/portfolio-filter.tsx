@@ -4,7 +4,7 @@ import MyButton from "@/components/shared/common/my-button";
 import { MyLinkButton } from "@/components/shared/common/my-link-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import { KeyConstant } from "@/constants/key.constant";
-import { Input } from "antd";
+import { Input, Select } from "antd";
 import { BookText, FilePenLine, Plus, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -27,6 +27,10 @@ function PortfolioFilter() {
 
     router.push(`/storybank/story-portfolio?${params.toString()}`);
   }, [search]);
+
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
 
   return (
     <div className="pt-4 pb-6">
@@ -60,12 +64,22 @@ function PortfolioFilter() {
           </MyButton>
         </div>
         <MySpacer className="h-2" />
-        <div className="lg:flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <Input
             placeholder="Search Story..."
             prefix={<Search size={16} className="text-gray-400" />}
             className="rounded-full bg-transparent py-2 px-3 w-full lg:w-60"
             onChange={(e) => setSearch(e.target.value)}
+          />
+          <Select
+            style={{ width: 130 }}
+            onChange={handleChange}
+            placeholder="Your Resume"
+            options={[
+              { value: "view", label: "View" },
+              { value: "new-upload", label: "New Upload" },
+              { value: "delete", label: "Delete" },
+            ]}
           />
           <MyLinkButton
             href="/storybank/matrix?modal=true&step=1"

@@ -44,6 +44,7 @@ export const CraftingAdditionStory = () => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
+        className="font-mulish"
       >
         <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
           <div className="flex-1 overflow-y-auto py-10">
@@ -52,7 +53,9 @@ export const CraftingAdditionStory = () => {
             </p>
             <div className="space-y-2 px-2">
               <div>
-                <Typography.Title level={5}>Your title</Typography.Title>
+                <Typography.Title level={5} className="font-mulish">
+                  Your title
+                </Typography.Title>
                 <Form.Item
                   name="title"
                   rules={[
@@ -67,7 +70,9 @@ export const CraftingAdditionStory = () => {
                 </Form.Item>
               </div>
               <div>
-                <Typography.Title level={5}>Company</Typography.Title>
+                <Typography.Title level={5} className="font-mulish">
+                  Company
+                </Typography.Title>
                 <Form.Item
                   name="company"
                   rules={[
@@ -87,7 +92,9 @@ export const CraftingAdditionStory = () => {
                 </p>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Typography.Title level={5}>Start Date</Typography.Title>
+                    <Typography.Title level={5} className="font-mulish">
+                      Start Date
+                    </Typography.Title>
                     <Form.Item
                       name="startDate"
                       rules={[
@@ -106,12 +113,15 @@ export const CraftingAdditionStory = () => {
                       {currentEmployee ? (
                         <div></div>
                       ) : (
-                        <Typography.Title level={5}>End Date</Typography.Title>
+                        <Typography.Title level={5} className="font-mulish">
+                          End Date
+                        </Typography.Title>
                       )}
 
                       <Checkbox
                         value={currentEmployee}
                         onChange={(e) => setCurrentEmployee(e.target.checked)}
+                        className="font-mulish"
                       >
                         Current Employee
                       </Checkbox>
@@ -134,7 +144,9 @@ export const CraftingAdditionStory = () => {
                 </div>
               </div>
               <div>
-                <Typography.Title level={5}>Description</Typography.Title>
+                <Typography.Title level={5} className="font-mulish">
+                  Description
+                </Typography.Title>
                 <Form.Item
                   name="description"
                   rules={[

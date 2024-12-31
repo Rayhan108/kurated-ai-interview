@@ -75,7 +75,7 @@ function InterviewMatrix() {
 
   const { data: interviewMatrix, isLoading } =
     useGetInterviewMatrixQuery(undefined);
-  console.log(interviewMatrix);
+  console.log(interviewMatrix?.data?.response);
 
   const matrix = interviewMatrix?.data?.response?.reduce((acc, item) => {
     const exists = acc.some((entry) => entry.topicId === item.topic_id);
@@ -95,8 +95,39 @@ function InterviewMatrix() {
     matrix?.length < 1 && router.push("/storybank/matrix?modal=true&step=1");
   }, []);
 
+  const renderedTopics = new Set();
   return (
     <div>
+      {/* <table style={{ borderCollapse: "collapse", width: "100%" }}>
+        <thead>
+          <tr>
+            <th style={{ border: "1px solid #ccc", padding: "10px" }}>Topic</th>
+            <th style={{ border: "1px solid #ccc", padding: "10px" }}>
+              Titles
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {interviewMatrix?.data?.response.map((item, index) => {
+            const topicName = item.role_info.topic_name;
+            const title = item.experience_info.title;
+
+            const shouldRenderTopic = !renderedTopics.has(topicName);
+            renderedTopics.add(topicName);
+
+            return (
+              <tr key={index}>
+                <td style={{ border: "1px solid #ccc", padding: "10px" }}>
+                  {shouldRenderTopic ? topicName : ""}
+                </td>
+                <td style={{ border: "1px solid #ccc", padding: "10px" }}>
+                  {title}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table> */}
       <div className="flex items-start gap-2 mt-4">
         <div>
           <div className="w-40 md:w-52 space-y-2 pt-1">

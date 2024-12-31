@@ -174,7 +174,7 @@ export const StoryRelevance = () => {
                               name={key}
                               onChange={handleCheckboxChange}
                               checked={selectedRelevance.includes(key)}
-                              className="font-medium checked:bg-red-100"
+                              className="font-bold font-mulish checked:bg-red-100"
                             >
                               {key}
                             </Checkbox>
