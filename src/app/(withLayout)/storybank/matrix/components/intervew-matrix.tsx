@@ -1,8 +1,12 @@
 "use client";
 
 import { AllImages } from "@/assets/AllImages";
+import { MyLoading } from "@/components/shared/common/my-loading";
 import { cn } from "@/lib/utils";
-import { useGetInterviewMatrixQuery } from "@/redux/feature/storybank/storybank-api";
+import {
+  useGetPortfolioExperienceQuery,
+  useGetSavedStoryQuery,
+} from "@/redux/feature/storybank/storybank-api";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -73,11 +77,12 @@ function InterviewMatrix() {
     return `rgba(${r}, ${g}, ${b}, ${opacity || 1})`;
   };
 
-  const { data: interviewMatrix, isLoading } =
-    useGetInterviewMatrixQuery(undefined);
-  console.log(interviewMatrix?.data?.response);
+  const { data: savedStory, isLoading } = useGetSavedStoryQuery(undefined);
+  const { data: savedExperience } = useGetPortfolioExperienceQuery(undefined);
+  console.log(savedStory?.data?.response);
+  console.log(savedExperience?.data?.response);
 
-  const matrix = interviewMatrix?.data?.response?.reduce((acc, item) => {
+  const topics = savedStory?.data?.response?.reduce((acc, item) => {
     const exists = acc.some((entry) => entry.topicId === item.topic_id);
     if (!exists) {
       acc.push({
@@ -89,13 +94,16 @@ function InterviewMatrix() {
     return acc;
   }, []);
 
-  console.log(matrix);
+  console.log(topics);
 
   useEffect(() => {
-    matrix?.length < 1 && router.push("/storybank/matrix?modal=true&step=1");
+    topics?.length < 1 && router.push("/storybank/matrix?modal=true&step=1");
   }, []);
 
-  const renderedTopics = new Set();
+  if (isLoading) {
+    return <MyLoading />;
+  }
+
   return (
     <div>
       {/* <table style={{ borderCollapse: "collapse", width: "100%" }}>
@@ -139,7 +147,7 @@ function InterviewMatrix() {
                 width={100}
               />
             </div>
-            {matrix?.map((item) => (
+            {topics?.map((item) => (
               <div className="bg-primaryColor/70 rounded-md w-full text-center p-3 font-bold h-16 flex items-center justify-center">
                 <p className="leading-tight line-clamp-2 text-xs">
                   {item.topicName}
@@ -153,7 +161,27 @@ function InterviewMatrix() {
             <div className="min-w-full inline-block align-middle">
               <div className="overflow-hidden">
                 <table className="min-w-full table-auto border-collapse">
-                  <tbody>
+                  <tbody className="flex">
+                    {savedExperience?.data?.response?.map((item, index) => {
+                      return (
+                        <tr key={index} className="">
+                          <td className="p-1">
+                            <div
+                              className={cn(
+                                ` rounded-md w-40 md:w-52 text-center p-3 font-bold h-16 flex items-center justify-center space-x-2 border-gray-100 border bg-primaryColor/70
+                                `
+                              )}
+                            >
+                              <p className="text-gray-800 line-clamp-2 text-xs ">
+                                {item.title || ""}
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                  {/* <tbody>
                     {Object.entries(transformedData).map(
                       ([header, values], index) => {
                         const valuee = values as [];
@@ -184,7 +212,7 @@ function InterviewMatrix() {
                         );
                       }
                     )}
-                  </tbody>
+                  </tbody> */}
                 </table>
               </div>
             </div>

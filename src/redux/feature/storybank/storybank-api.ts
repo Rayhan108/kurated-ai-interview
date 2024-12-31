@@ -87,7 +87,7 @@ const storyBankApi = baseApi.injectEndpoints({
       invalidatesTags: [TAGS.interviewMatrix],
     }),
 
-    getInterviewMatrix: builder.query({
+    getSavedStory: builder.query({
       query: () => {
         return {
           url: `/webapis/storybank/saved-stories/role`,
@@ -115,6 +115,6 @@ export const {
   useGenerateStoryInHearsQuery,
   useReGenerateStoryInHearsMutation,
   useSaveStoryMutation,
-  useGetInterviewMatrixQuery,
+  useGetSavedStoryQuery,
   useGetPortfolioExperienceQuery,
 } = storyBankApi;
