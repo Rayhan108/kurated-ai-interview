@@ -2,74 +2,18 @@
 
 import { AllImages } from "@/assets/AllImages";
 import { MyLoading } from "@/components/shared/common/my-loading";
-import { cn } from "@/lib/utils";
 import {
   useGetPortfolioExperienceQuery,
   useGetSavedStoryQuery,
 } from "@/redux/feature/storybank/storybank-api";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
-const data = [
-  {
-    Title: "Resume Experience 1",
-    Name: "John Doe",
-    Email: "john.doe@example.com",
-    Address: "123 Main St, Springfield",
-    Date: "2022-01-01",
-  },
-  {
-    Title: "Resume Experience 2",
-    Name: "Jane Smith",
-    Email: "jane.smith@example.com",
-    Address: "",
-    Date: "",
-  },
-  {
-    Title: "Resume Experience 3",
-    Name: "Alice Johnson",
-    Email: "",
-    Address: "789 Pine Rd, Gotham",
-    Date: "2021-02-02",
-  },
-  {
-    Title: "Resume Experience 4",
-    Name: "Alice Johnson",
-    Email: "alice.johnson@example.com",
-    Address: "789 Pine Rd, Gotham",
-    Date: "2020-03-03",
-  },
-  {
-    Title: "Resume Experience 5",
-    Name: "Alice Johnson",
-    Email: "alice.johnson@example.com",
-    Address: "789 Pine Rd, Gotham",
-    Date: "2019-04-04",
-  },
-  {
-    Title: "Resume Experience 6",
-    Name: "Alice Johnson",
-    Email: "alice.johnson@example.com",
-    Address: "789 Pine Rd, Gotham",
-    Date: "2018-05-05",
-  },
-  {
-    Title: "Resume Experience 6",
-    Name: "Alice Johnson",
-    Email: "alice.johnson@example.com",
-    Address: "789 Pine Rd, Gotham",
-    Date: "2017-06-06",
-  },
-];
-const transformedData = Object.keys(data[0]).reduce((acc, key) => {
-  acc[key] = data.map((item) => item[key] || ""); // Handle missing fields with empty strings
-  return acc;
-}, {});
-console.log("transformedData", transformedData);
+import { useEffect, useState } from "react";
 
 function InterviewMatrix() {
   const router = useRouter();
+  const [clickedCell, setClickedCell] = useState(null);
+
   const generateRandomColor = (opacity?: number) => {
     const r = Math.floor(Math.random() * 256);
     const g = Math.floor(Math.random() * 256);
@@ -79,8 +23,6 @@ function InterviewMatrix() {
 
   const { data: savedStory, isLoading } = useGetSavedStoryQuery(undefined);
   const { data: savedExperience } = useGetPortfolioExperienceQuery(undefined);
-  console.log(savedStory?.data?.response);
-  console.log(savedExperience?.data?.response);
 
   const topics = savedStory?.data?.response?.reduce((acc, item) => {
     const exists = acc.some((entry) => entry.topicId === item.topic_id);
@@ -94,8 +36,6 @@ function InterviewMatrix() {
     return acc;
   }, []);
 
-  console.log(topics);
-
   useEffect(() => {
     topics?.length < 1 && router.push("/storybank/matrix?modal=true&step=1");
   }, []);
@@ -104,120 +44,117 @@ function InterviewMatrix() {
     return <MyLoading />;
   }
 
+  const yAxis = savedStory?.data?.response?.reduce((acc, item) => {
+    const exists = acc.some((entry) => entry.value === item.topic_id);
+    if (!exists) {
+      acc.push({
+        value: item.topic_id,
+        label: item.role_info.topic_name,
+      });
+    }
+    return acc;
+  }, []);
+
+  const xAxis = savedExperience?.data?.response?.map((item, index) => {
+    return {
+      value: item._id,
+      label: item.title,
+    };
+  });
+
+  const data = savedStory?.data?.response?.map((item) => {
+    return {
+      storyId: item._id,
+      x: item.experience_id,
+      y: item.topic_id,
+      value: item.story_text.slice(0, 20).concat("..."),
+    };
+  });
+  const getCellValue = (xValue, yValue) => {
+    const cell = data.find((item) => item.x === xValue && item.y === yValue);
+    return cell ? cell : ""; // Return value if found, else empty
+  };
+  console.log(clickedCell);
   return (
     <div>
-      {/* <table style={{ borderCollapse: "collapse", width: "100%" }}>
-        <thead>
-          <tr>
-            <th style={{ border: "1px solid #ccc", padding: "10px" }}>Topic</th>
-            <th style={{ border: "1px solid #ccc", padding: "10px" }}>
-              Titles
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {interviewMatrix?.data?.response.map((item, index) => {
-            const topicName = item.role_info.topic_name;
-            const title = item.experience_info.title;
-
-            const shouldRenderTopic = !renderedTopics.has(topicName);
-            renderedTopics.add(topicName);
-
-            return (
-              <tr key={index}>
-                <td style={{ border: "1px solid #ccc", padding: "10px" }}>
-                  {shouldRenderTopic ? topicName : ""}
-                </td>
-                <td style={{ border: "1px solid #ccc", padding: "10px" }}>
-                  {title}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table> */}
-      <div className="flex items-start gap-2 mt-4">
-        <div>
-          <div className="w-40 md:w-52 space-y-2 pt-1">
-            <div className="mx-auto h-16 flex items-center justify-center">
-              <Image
-                src={AllImages.storyBankIcon}
-                alt="storyBankIcon"
-                className="h-16 w-16  md:w-20 mx-auto"
-                width={100}
-              />
-            </div>
-            {topics?.map((item) => (
-              <div className="bg-primaryColor/70 rounded-md w-full text-center p-3 font-bold h-16 flex items-center justify-center">
-                <p className="leading-tight line-clamp-2 text-xs">
-                  {item.topicName}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="overflow-x-auto">
-          <div>
-            <div className="min-w-full inline-block align-middle">
-              <div className="overflow-hidden">
-                <table className="min-w-full table-auto border-collapse">
-                  <tbody className="flex">
-                    {savedExperience?.data?.response?.map((item, index) => {
-                      return (
-                        <tr key={index} className="">
-                          <td className="p-1">
-                            <div
-                              className={cn(
-                                ` rounded-md w-40 md:w-52 text-center p-3 font-bold h-16 flex items-center justify-center space-x-2 border-gray-100 border bg-primaryColor/70
-                                `
-                              )}
-                            >
-                              <p className="text-gray-800 line-clamp-2 text-xs ">
-                                {item.title || ""}
-                              </p>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                  {/* <tbody>
-                    {Object.entries(transformedData).map(
-                      ([header, values], index) => {
-                        const valuee = values as [];
-                        return (
-                          <tr key={index} className="">
-                            {valuee.map((value, idx) => (
-                              <td key={idx} className="p-1">
-                                <div
-                                  className={cn(
-                                    ` rounded-md w-40 md:w-52 text-center p-3 font-bold h-16 flex items-center justify-center space-x-2 border-gray-100 border ${
-                                      index === 0 ? "bg-primaryColor/70" : ""
-                                    }`
-                                  )}
-                                  style={{
-                                    backgroundColor:
-                                      value && index > 0
-                                        ? generateRandomColor(0.05)
-                                        : "transparent",
-                                  }}
-                                >
-                                  <p className="text-gray-800 line-clamp-2 text-xs ">
-                                    {value || ""}
-                                  </p>
-                                </div>
-                              </td>
-                            ))}
-                          </tr>
-                        );
+      <div className="overflow-x-scroll">
+        <table className="table-auto border-collapse border border-gray-300 text-center">
+          <thead className="">
+            <tr>
+              <th className="border-[10px] border-white bg-white">
+                <div className="mx-auto h-16 flex items-center justify-center w-40 md:w-52">
+                  <Image
+                    src={AllImages.storyBankIcon}
+                    alt="storyBankIcon"
+                    className="h-16 w-16  md:w-20 mx-auto"
+                    width={100}
+                  />
+                </div>
+              </th>
+              {xAxis?.map((x) => (
+                <th
+                  key={x.value}
+                  className="border-[10px] border-white bg-white ml-40 md:ml-52"
+                >
+                  <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
+                    {x.label}
+                  </p>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="">
+            {yAxis?.map((y) => (
+              <tr key={y.value}>
+                <th className="border-[10px] border-white bg-white">
+                  <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
+                    {y.label}
+                  </p>
+                </th>
+                {xAxis?.map((x) => (
+                  <td
+                    key={`${y.value}-${x.value}`}
+                    className="border-[10px] border-white"
+                    onClick={() => {
+                      setClickedCell({
+                        topicId: x,
+                        experienceId: y,
+                        storyId: getCellValue(x.value, y.value).storyId,
+                      });
+                    }}
+                  >
+                    <p
+                      className="text-sm  font-semibold h-16 place-content-center rounded-md p-3 w-40 md:w-52"
+                      style={
+                        getCellValue(x.value, y.value).value
+                          ? {
+                              backgroundColor: generateRandomColor(0.08),
+                              borderWidth: 1,
+                              borderColor: generateRandomColor(0.08),
+                            }
+                          : {
+                              backgroundColor: "white",
+                              borderWidth: 1,
+                              borderColor: "#f3f4f6",
+                            }
                       }
-                    )}
-                  </tbody> */}
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
+                      // style={{
+                      //   backgroundColor: getCellValue(x.value, y.value).value
+                      //     ? generateRandomColor(0.08)
+                      //     : "white",
+
+                      //   borderWidth: 2,
+                      //   borderColor: "red",
+                      // }}
+                    >
+                      {getCellValue(x.value, y.value).value}
+                    </p>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

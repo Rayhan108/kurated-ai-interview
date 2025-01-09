@@ -84,7 +84,7 @@ const storyBankApi = baseApi.injectEndpoints({
           body: [data],
         };
       },
-      invalidatesTags: [TAGS.interviewMatrix],
+      invalidatesTags: [TAGS.interviewMatrix, TAGS.portfolioExperience],
     }),
 
     getSavedStory: builder.query({
