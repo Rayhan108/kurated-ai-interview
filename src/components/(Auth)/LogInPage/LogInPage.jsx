@@ -17,6 +17,7 @@ const LogInPage = () => {
   const router = useRouter();
   const [logIn, { isLoading }] = useLogInMutation();
   const { data, isLoading: isLoadingUser } = useLoggedInUserQuery();
+  console.log('data in login', data);
   const onFinish = (values) => {
     const finalData = {
       email: values?.email,

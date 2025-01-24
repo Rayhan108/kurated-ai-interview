@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const ForgotPasswordEmail = () => {
   const route = useRouter();
   const onFinish = (values) => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     route.push("/verification-code");
   };
 

@@ -79,13 +79,13 @@ const authApi = baseApi.injectEndpoints({
     //     body: password,
     //   }),
     // }),
-    // forgetPassword: builder.mutation({
-    //   query: (password) => ({
-    //     url: "/auth/forget-password",
-    //     method: "POST",
-    //     body: password,
-    //   }),
-    // }),
+    forgetPassword: builder.mutation({
+      query: (id) => ({
+        url: `{{base url (local)}}/webapis/auth/forgetPassword/${id}`,
+        method: "POST",
+        body: id,
+      }),
+    }),
     // resetPassword: builder.mutation({
     //   query: ({ data, headers }) => ({
     //     url: "/auth/reset-password",
@@ -106,4 +106,5 @@ export const {
   useCheckEmailExistenceMutation,
   useSendOtpMutation,
   useLogoutMutation,
+  useForgetPasswordMutation,
 } = authApi;
