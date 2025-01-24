@@ -23,9 +23,11 @@ import kuratedAiLogo from "./kurated-ai-logo.png";
 import logo from "./logo.png";
 import defaultAvatar from "./user-avatar.png";
 import videoThumb from "./video-thumb.png";
+import blackLogo from "./kurated-ai-logo.png";
 
 export const AllImages = {
   logo,
+  blackLogo,
   kuratedAiLogo,
   frameIcon,
   storyIcon,

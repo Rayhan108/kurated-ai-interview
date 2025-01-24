@@ -14,7 +14,7 @@ const ResetPassword = () => {
 
   return (
     <div className="bg-gray-100 p-10">
-      <Image src={AllImages.logoBlack} alt="logo" className=" lg:h-full h-7" />
+      <Image src={AllImages.blackLogo} alt="logo" className=" lg:h-full h-7" />
       <div className="  h-screen flex items-center -mt-14">
         <div className=" flex flex-col justify-center max-w-xl px-6 py-8 bg-white shadow-xl rounded-lg  mx-auto md:w-[50%]">
           <h1 className="md:text-2xl text-xl mb-3 font-semibold text-gray-700">
