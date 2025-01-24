@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 const ForgotPasswordEmail = () => {
   const route = useRouter();
   const onFinish = (values) => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     route.push("/verification-code");
   };
 
   return (
     <div className="bg-gray-100 p-10">
-      <Image src={AllImages.logoBlack} alt="logo" className=" lg:h-full h-7" />
+      <Image src={AllImages.blackLogo} alt="logo" className=" lg:h-full h-full" />
       <div className="  h-screen flex items-center -mt-14">
         <div className=" flex flex-col justify-center max-w-xl px-6 py-8 bg-white shadow-xl rounded-lg  mx-auto md:w-[50%]">
           <Form name="login" onFinish={onFinish} layout="vertical">
