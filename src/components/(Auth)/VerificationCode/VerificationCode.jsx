@@ -1,21 +1,55 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
-import { Form, Input, Button, Checkbox, Typography } from "antd"; // Import necessary components
+import { Button, message } from "antd";
 import Image from "next/image";
-import Link from "next/link";
 import OtpInput from "react-otp-input";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForgotPasswordOtpMutation, useValidateOtpMutation } from "@/redux/feature/auth/authApi";
+import { useRouter, useSearchParams } from "next/navigation";
+import { set } from "date-fns";
 
 const VerificationCode = () => {
   const route = useRouter();
+  const searchParams = useSearchParams();
+  const [validateOtp] = useValidateOtpMutation()
+  const email = searchParams.get("email");
   const [otp, setOtp] = useState("");
-
+  const [resetPassword, setResetPassword] = useState("");
+  const [forgotPasswordOtp] = useForgotPasswordOtpMutation()
   const handleVerifyOtp = async () => {
-    console.log("Received OTP for verification:", otp);
-    setOtp("");
-    route.push("/reset-password");
+    if (!email) {
+      message.error("Email is required");
+      return
+    }
+    try {
+      const data = {
+        email,
+        otp,
+      }
+      const res = await validateOtp(data).unwrap();
+      message.success("OTP verified successfully");
+      setResetPassword(res?.data?.resetPassword);
+      route.push("/reset-password");
+    } catch (error) {
+      message.error(error?.data?.message);
+    }
+
   };
+
+
+  const handleResendOtp = async () => {
+    if (!email) {
+      message.error("Email is required");
+      return;
+    }
+    try {
+      const res = await forgotPasswordOtp({ email }).unwrap();
+      message.success("OTP sent to email");
+    } catch (error) {
+      message.error(error?.data?.message || "Failed to resend OTP");
+    }
+  };
+
 
   return (
     <div className="bg-gray-100 p-10">
@@ -35,7 +69,7 @@ const VerificationCode = () => {
             <OtpInput
               value={otp}
               onChange={setOtp}
-              numInputs={4}
+              numInputs={6}
               renderSeparator={<span className="lg:w-5"> </span>}
               renderInput={(props) => (
                 <input
@@ -47,7 +81,7 @@ const VerificationCode = () => {
           </div>
 
           <div>
-            <button className="md:text-base text-sm text-yellow-500 underline mb-3">
+            <button onClick={handleResendOtp} className="md:text-base text-sm text-yellow-500 hover:text-yellow-700 underline mb-3">
               Resend Code
             </button>
           </div>

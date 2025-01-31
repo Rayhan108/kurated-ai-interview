@@ -33,6 +33,7 @@ const SignUpPage = () => {
   const [otp, setOtp] = useState("");
   const [signUpData, setSignUpData] = useState();
 
+  // console.log("signUpData", signUpData);
   const handleVerifyOtp = () => {
     const dto = {
       firstName: signUpData.firstName,
@@ -89,6 +90,17 @@ const SignUpPage = () => {
         }
       });
   };
+
+  const handleResendOtp = () => {
+    sendOtp(signUpData.email)
+      .unwrap()
+      .then((res) => {
+        if (res.data.otp) {
+          message.success("OTP sent to email");
+        }
+      });
+  };
+
 
   if (isLoadingUser) {
     return <MyLoading />;
@@ -281,7 +293,7 @@ const SignUpPage = () => {
       ) : (
         <div className="bg-gray-100 p-10">
           <Image
-            src={AllImages.logoBlack}
+            src={AllImages.blackLogo}
             alt="logo"
             className=" lg:h-full h-7"
           />
@@ -296,20 +308,22 @@ const SignUpPage = () => {
                   code.
                 </p>
               </div>
-              <OtpInput
-                value={otp}
-                onChange={setOtp}
-                numInputs={6}
-                renderSeparator={<span className="lg:w-5"> </span>}
-                renderInput={(props) => (
-                  <input
-                    {...props}
-                    className="md:w-20 md:h-20 h-14 w-10 text-textColor border-2  text-4xl focus:outline-none focus:border-yellow-500 mx-2 rounded-md mb-10"
-                  />
-                )}
-              />
+              <div className="flex justify-center items-center ">
+                <OtpInput
+                  value={otp}
+                  onChange={setOtp}
+                  numInputs={6}
+                  renderSeparator={<span className="lg:w-5"> </span>}
+                  renderInput={(props) => (
+                    <input
+                      {...props}
+                      className="md:w-12 md:h-12 h-14 w-10 text-textColor border-2  text-4xl focus:outline-none focus:border-yellow-500 mx-2 rounded-md mb-10"
+                    />
+                  )}
+                />
+              </div>
               <div>
-                <button className="md:text-base text-sm text-yellow-500 underline mb-3">
+                <button onClick={handleResendOtp} className="md:text-base text-sm text-yellow-500 hover:text-yellow-700 underline mb-3">
                   Resend Code
                 </button>
               </div>

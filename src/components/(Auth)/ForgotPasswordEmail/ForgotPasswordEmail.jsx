@@ -1,15 +1,25 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
-import { Form, Input, Button, Checkbox, Typography } from "antd"; // Import necessary components
+import { useForgotPasswordOtpMutation } from "@/redux/feature/auth/authApi";
+import { Form, Input, Button, Typography, message } from "antd";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const ForgotPasswordEmail = () => {
+  const [forgotPasswordOtp] = useForgotPasswordOtpMutation()
   const route = useRouter();
-  const onFinish = (values) => {
-    // console.log("Success:", values);
-    route.push("/verification-code");
+  const onFinish = async (values) => {
+    const data = { email: values.email }
+    try {
+      const res = await forgotPasswordOtp(data).unwrap();
+      console.log(res);
+      message.success("OTP sent to email");
+      route.push(`/verification-code?email=${encodeURIComponent(values.email)}`);
+
+    } catch (error) {
+      console.log(error);
+      message.error(error?.data?.message);
+    }
   };
 
   return (
