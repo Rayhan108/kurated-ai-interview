@@ -104,7 +104,7 @@ const StudyPlan = () => {
                     // Update the URL without reloading the page
                     router.push(`${pathname}?${currentParams.toString()}`);
                   }}
-                  // className="data-[state=active]:bg-primaryColor data-[state=active]:text-white text-[#373B3F] font-semibold  md:w-fit"
+                // className="data-[state=active]:bg-primaryColor data-[state=active]:text-white text-[#373B3F] font-semibold  md:w-fit"
                 >
                   {item.title}
                 </TabsTrigger>

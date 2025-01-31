@@ -1,6 +1,6 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
-import { Form, Input, Button, Checkbox, Typography } from "antd"; // Import necessary components
+import { Form, Input, Button, Checkbox, Typography } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ const ResetPassword = () => {
 
 
 
-  
+
 
   return (
     <div className="bg-gray-100 p-10">

@@ -34,7 +34,8 @@ export default function LessonDetails() {
 
   return (
     <div className="space-y-3">
-      {lesson?.type === "VIDEO" && (
+
+      {!isLoading && lesson?.type === "VIDEO" && (
         <video
           src={lesson.video_url}
           controls
@@ -59,6 +60,7 @@ export default function LessonDetails() {
           </MyButton>
         )}
       </div>
+
       {transcript && lesson?.video_subtitles && (
         <p>
           <TranscriptViewer url={lesson?.video_subtitles} />
@@ -91,19 +93,23 @@ export default function LessonDetails() {
             </>
           )}
         </div>
-        <div>
+        <div className="">
           <MyButton
             variant="outline"
             onClick={() => {
               handleMarkAsCompleted(lessonId);
             }}
             loading={markLoading}
-            className="bg-primaryColor text-white"
+            className={`${lesson?.is_completed ? "bg-primaryColor text-white" : "disabled"} 
+            `}
           >
-            Mark as Complete
+            {
+              lesson?.is_completed ? "Mark as Incomplete" : "Mark as Completed "
+            }
           </MyButton>
         </div>
       </div>
+
     </div>
   );
 }
