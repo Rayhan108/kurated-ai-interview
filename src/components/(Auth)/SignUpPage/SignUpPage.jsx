@@ -91,6 +91,17 @@ const SignUpPage = () => {
       });
   };
 
+  const handleResendOtp = () => {
+    sendOtp(signUpData.email)
+      .unwrap()
+      .then((res) => {
+        if (res.data.otp) {
+          message.success("OTP sent to email");
+        }
+      });
+  };
+
+
   if (isLoadingUser) {
     return <MyLoading />;
   }
@@ -312,7 +323,7 @@ const SignUpPage = () => {
                 />
               </div>
               <div>
-                <button className="md:text-base text-sm text-yellow-500 underline mb-3">
+                <button onClick={handleResendOtp} className="md:text-base text-sm text-yellow-500 hover:text-yellow-700 underline mb-3">
                   Resend Code
                 </button>
               </div>

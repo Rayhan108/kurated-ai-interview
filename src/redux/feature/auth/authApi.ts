@@ -73,30 +73,21 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    // changedPassword: builder.mutation({
-    //   query: (password) => ({
-    //     url: "/auth/change-password",
-    //     method: "POST",
-    //     body: password,
-    //   }),
-    // }),
-    forgetPassword: builder.mutation({
-      query: (id) => ({
-        url: `{{base url (local)}}/webapis/auth/forgetPassword/${id}`,
+    forgotPasswordOtp: builder.mutation({
+      query: (data) => ({
+        url: '/webapis/auth/interviewApp/sendOTPForPasswordReset',
         method: "POST",
-        body: id,
-      }),
+        body: data
+      })
     }),
-    // resetPassword: builder.mutation({
-    //   query: ({ data, headers }) => ({
-    //     url: "/auth/reset-password",
-    //     method: "POST",
-    //     body: data,
-    //     headers: {
-    //       ...headers,
-    //     },
-    //   }),
-    // }),
+    validateOtp: builder.mutation({
+      query: (data) => ({
+        url: '/webapis/auth/interviewApp/validateEmailOTP',
+        method: "POST",
+        body: data
+      })
+    })
+
   }),
 });
 
@@ -107,5 +98,6 @@ export const {
   useCheckEmailExistenceMutation,
   useSendOtpMutation,
   useLogoutMutation,
-  useForgetPasswordMutation,
+  useForgotPasswordOtpMutation,
+  useValidateOtpMutation
 } = authApi;

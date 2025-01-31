@@ -1,18 +1,37 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
-import { Form, Input, Button, Checkbox, Typography } from "antd"; // Import necessary components
+import { Button, message } from "antd";
 import Image from "next/image";
-import Link from "next/link";
 import OtpInput from "react-otp-input";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useValidateOtpMutation } from "@/redux/feature/auth/authApi";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const VerificationCode = () => {
   const route = useRouter();
+  const searchParams = useSearchParams();
+  const [validateOtp] = useValidateOtpMutation()
+  const email = searchParams.get("email");
+  console.log(email);
   const [otp, setOtp] = useState("");
 
   const handleVerifyOtp = async () => {
-    console.log("Received OTP for verification:", otp);
+    if (!email) {
+      message.error("Email is required");
+      return
+    }
+    try {
+      const data = {
+        email,
+        otp,
+      }
+      console.log(data);
+      const res = await validateOtp(data).unwrap();
+      console.log(res);
+      message.success("OTP verified successfully");
+    } catch (error) {
+      message.error(error?.data?.message);
+    }
     setOtp("");
     route.push("/reset-password");
   };
@@ -35,7 +54,7 @@ const VerificationCode = () => {
             <OtpInput
               value={otp}
               onChange={setOtp}
-              numInputs={4}
+              numInputs={6}
               renderSeparator={<span className="lg:w-5"> </span>}
               renderInput={(props) => (
                 <input
