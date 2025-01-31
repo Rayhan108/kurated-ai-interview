@@ -86,7 +86,14 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data
       })
-    })
+    }),
+    resetPasswordApi: builder.mutation({
+      query: (data) => ({
+        url: '/webapis/auth/forgetPassword/652a0c8c85f504dda0b81a1a',
+        method: "POST",
+        body: data
+      })
+    }),
 
   }),
 });

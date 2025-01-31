@@ -12,6 +12,10 @@ const ResetPassword = () => {
     route.push("/overview");
   };
 
+
+
+  
+
   return (
     <div className="bg-gray-100 p-10">
       <Image src={AllImages.blackLogo} alt="logo" className=" lg:h-full h-7" />

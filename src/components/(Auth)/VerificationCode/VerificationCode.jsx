@@ -3,18 +3,19 @@ import { AllImages } from "@/assets/AllImages";
 import { Button, message } from "antd";
 import Image from "next/image";
 import OtpInput from "react-otp-input";
-import { useEffect, useState } from "react";
-import { useValidateOtpMutation } from "@/redux/feature/auth/authApi";
+import { useState } from "react";
+import { useForgotPasswordOtpMutation, useValidateOtpMutation } from "@/redux/feature/auth/authApi";
 import { useRouter, useSearchParams } from "next/navigation";
+import { set } from "date-fns";
 
 const VerificationCode = () => {
   const route = useRouter();
   const searchParams = useSearchParams();
   const [validateOtp] = useValidateOtpMutation()
   const email = searchParams.get("email");
-  console.log(email);
   const [otp, setOtp] = useState("");
-
+  const [resetPassword, setResetPassword] = useState("");
+  const [forgotPasswordOtp] = useForgotPasswordOtpMutation()
   const handleVerifyOtp = async () => {
     if (!email) {
       message.error("Email is required");
@@ -25,16 +26,30 @@ const VerificationCode = () => {
         email,
         otp,
       }
-      console.log(data);
       const res = await validateOtp(data).unwrap();
-      console.log(res);
       message.success("OTP verified successfully");
+      setResetPassword(res?.data?.resetPassword);
+      route.push("/reset-password");
     } catch (error) {
       message.error(error?.data?.message);
     }
-    setOtp("");
-    route.push("/reset-password");
+
   };
+
+
+  const handleResendOtp = async () => {
+    if (!email) {
+      message.error("Email is required");
+      return;
+    }
+    try {
+      const res = await forgotPasswordOtp({ email }).unwrap();
+      message.success("OTP sent to email");
+    } catch (error) {
+      message.error(error?.data?.message || "Failed to resend OTP");
+    }
+  };
+
 
   return (
     <div className="bg-gray-100 p-10">
@@ -66,7 +81,7 @@ const VerificationCode = () => {
           </div>
 
           <div>
-            <button className="md:text-base text-sm text-yellow-500 underline mb-3">
+            <button onClick={handleResendOtp} className="md:text-base text-sm text-yellow-500 hover:text-yellow-700 underline mb-3">
               Resend Code
             </button>
           </div>
