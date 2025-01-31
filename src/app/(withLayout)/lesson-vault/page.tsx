@@ -11,11 +11,10 @@ const LessonPage = () => {
         <p className="font-bold text-xl">Lesson Vault</p>
       </div>
       <MySpacer className="h-4" />
-      <div className="md:grid grid-cols-3 gap-5">
+      <div className="grid md:grid-cols-3 gap-5">
         <div className="col-span-2">
           <LessonDetails />
         </div>
-
         <div className="col-span-1 relative">
           <LessonsList />
         </div>
