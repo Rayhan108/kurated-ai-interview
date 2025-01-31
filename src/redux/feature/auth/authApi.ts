@@ -41,6 +41,7 @@ const authApi = baseApi.injectEndpoints({
     loggedInUser: builder.query({
       query: () => ({
         url: "/webapis/user/userProfile",
+        method: "GET",
       }),
       providesTags: [TAGS.loggedInUser],
     }),
