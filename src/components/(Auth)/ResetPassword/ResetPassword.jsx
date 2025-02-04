@@ -1,15 +1,36 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
-import { Form, Input, Button, Checkbox, Typography } from "antd";
+import { useResetPasswordApiMutation } from "@/redux/feature/auth/authApi";
+import { Form, Input, Button, Checkbox, Typography, message } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const ResetPassword = () => {
+
+  const router = useRouter();
+  const id = localStorage.getItem("resetPasswordId");
+  console.log(id);
+  const [resetPasswordApi] = useResetPasswordApiMutation()
   const route = useRouter();
   const onFinish = (values) => {
-    console.log("Success:", values);
-    route.push("/overview");
+    try {
+      const data = {
+        newPassword: values.password,
+        confirmPassword: values.confirmPassword,
+      };
+      if (data.newPassword !== data.confirmPassword) {
+        message.error("Password not matched")
+      }
+      const res = resetPasswordApi({ _id: id, data }).unwrap();
+      if (res.code === StatusCode.OK) {
+        message.success("Password reset successfully");
+        route.push("/login");
+      }
+    } catch (error) {
+      console.log(error);
+      message.error("Failed to reset password");
+    }
   };
 
 
