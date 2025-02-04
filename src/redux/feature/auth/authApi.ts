@@ -88,8 +88,9 @@ const authApi = baseApi.injectEndpoints({
       })
     }),
     resetPasswordApi: builder.mutation({
-      query: (data) => ({
-        url: '/webapis/auth/forgetPassword/652a0c8c85f504dda0b81a1a',
+      query: ({ _id, data }) => ({
+        url: `/webapis/auth/forgetPassword/${_id}`,
+        // url: '/webapis/auth/forgetPassword/652a0c8c85f504dda0b81a1a',
         method: "POST",
         body: data
       })
@@ -106,5 +107,6 @@ export const {
   useSendOtpMutation,
   useLogoutMutation,
   useForgotPasswordOtpMutation,
-  useValidateOtpMutation
+  useValidateOtpMutation,
+  useResetPasswordApiMutation
 } = authApi;
