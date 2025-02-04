@@ -109,7 +109,6 @@ export default function LessonDetails() {
           </MyButton>
         </div>
       </div>
-
     </div>
   );
 }

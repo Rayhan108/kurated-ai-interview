@@ -12,7 +12,7 @@ const ForgotPasswordEmail = () => {
     const data = { email: values.email }
     try {
       const res = await forgotPasswordOtp(data).unwrap();
-      console.log(res);
+      console.log("res", res);
       message.success("OTP sent to email");
       route.push(`/verification-code?email=${encodeURIComponent(values.email)}`);
 
