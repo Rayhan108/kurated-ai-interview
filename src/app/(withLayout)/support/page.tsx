@@ -546,8 +546,10 @@ export default function SupportPage() {
         borderRadius: "10px",
       },
     },
-  
+
   ];
+
+
   // const feedbackItems = [
   //   {
   //     key: "1",

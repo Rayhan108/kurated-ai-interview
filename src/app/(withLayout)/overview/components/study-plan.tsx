@@ -9,7 +9,7 @@ import { SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export type ILessonType =
   | "curriculum"
@@ -17,6 +17,11 @@ export type ILessonType =
   | "six-week"
   | "twelve-week"
   | undefined;
+export type valueType = {
+  title: string;
+  value: ILessonType;
+}
+
 
 const StudyPlan = () => {
   const searchParams = useSearchParams();
@@ -25,118 +30,115 @@ const StudyPlan = () => {
 
   const { data, isLoading } = useLoggedInUserQuery(undefined);
 
-  const tab = searchParams.get(KeyConstant.TAB) as ILessonType;
-  const tabList = [
-    {
-      title: "Curriculum",
-      value: "curriculum",
-    },
-    {
-      title: "1 Week Study Plan",
-      value: "one-week",
-    },
-    {
-      title: "6 Week Study Plan",
-      value: "six-week",
-    },
-    {
-      title: "12 Week Study Plan",
-      value: "twelve-week",
-    },
+  const [selectedTab, setSelectedTab] = useState<ILessonType>(
+    (searchParams.get(KeyConstant.TAB) as ILessonType) || "curriculum"
+  );
+
+  const tabList: valueType[] = [
+    { title: "Curriculum", value: "curriculum" },
+    { title: "1 Week Study Plan", value: "one-week" },
+    { title: "6 Week Study Plan", value: "six-week" },
+    { title: "12 Week Study Plan", value: "twelve-week" },
   ];
 
   useEffect(() => {
-    if (tab === null || tab === undefined) {
-      const currentParams = new URLSearchParams(searchParams);
-      currentParams.set(KeyConstant.TAB, "curriculum");
-
-      // Update the URL without reloading the page
-      router.replace(`${pathname}?${currentParams.toString()}`);
+    if (!selectedTab) {
+      setSelectedTab("curriculum");
+      router.replace(`${pathname}?${KeyConstant.TAB}=curriculum`);
     }
   }, []);
+
+  const handleTabChange = (value: ILessonType) => {
+    setSelectedTab(value);
+    const currentParams = new URLSearchParams(searchParams);
+    currentParams.set(KeyConstant.TAB, value);
+    router.push(`${pathname}?${currentParams.toString()}`);
+  };
+
   return (
     <div>
-      <div>
-        <div className="md:flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Image src={AllImages.trophyIcon} alt="trophyIcon" />
-            <h1 className="text-lg md:text-xl">
-              Hey{" "}
-              <span className="text-red-500 font-bold">
-                {data?.data?.userProfile?.name}!
-              </span>{" "}
-              Let's Make Your Next Interview a Success!!
-            </h1>
-          </div>
-          <MyLinkButton
-            href={`/lesson-vault`}
-            className="bg-red-400 hidden md:block w-fit"
-          >
-            Start Learning
-          </MyLinkButton>
+      <div className="md:flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Image src={AllImages.trophyIcon} alt="trophyIcon" />
+          <h1 className="text-lg md:text-xl">
+            Hey{" "}
+            <span className="text-red-500 font-bold">
+              {data?.data?.userProfile?.name}!
+            </span>{" "}
+            Let's Make Your Next Interview a Success!!
+          </h1>
         </div>
-
-        <MySpacer className="h-5" />
-        <p>
-          Welcome to Kurated Interview!
-          <br />
-          Kurated Interview is a complete interview prep guide that includes 14+
-          hours of content, including 14 modules with over 70 lesson videos. You
-          also have access to downloadable worksheets to guide your work and
-          progress. bf Explore the course curriculum and choose from our 1-week,
-          6-week, or 12-week playlists, tailored to your current stage in the
-          interviewing process.
-        </p>
+        <MyLinkButton href={`/lesson-vault`} className="bg-red-400 hidden md:block w-fit">
+          Start Learning
+        </MyLinkButton>
       </div>
 
       <MySpacer className="h-5" />
-      <div>
-        <div className="space-y-4">
-          <Tabs defaultValue={tab || "curriculum"} className="">
-            <TabsList className="inline-grid md:inline-flex h-fit w-full md:w-fit">
-              {tabList.map((item) => (
-                <TabsTrigger
-                  value={item.value}
-                  onClick={() => {
-                    const currentParams = new URLSearchParams(searchParams);
-                    currentParams.set(KeyConstant.TAB, item.value);
 
-                    // Update the URL without reloading the page
-                    router.push(`${pathname}?${currentParams.toString()}`);
-                  }}
-                // className="data-[state=active]:bg-primaryColor data-[state=active]:text-white text-[#373B3F] font-semibold  md:w-fit"
-                >
-                  {item.title}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+      <p>
+        Welcome to Kurated Interview!
+        <br />
+        Kurated Interview is a complete interview prep guide that includes 14+ hours of content,
+        including 14 modules with over 70 lesson videos. You also have access to downloadable
+        worksheets to guide your work and progress. Explore the course curriculum and choose from
+        our 1-week, 6-week, or 12-week playlists, tailored to your current stage in the interviewing
+        process.
+      </p>
 
-          <p>
-            Start here to understand the full contents of the course. Click on
-            the left thumbnail to view or download the full curriculum and watch
-            the video to get an overview of the document
-          </p>
-        </div>
+      <MySpacer className="h-5" />
+
+      <div className="space-y-4">
+        <Tabs defaultValue={selectedTab} className="">
+          <TabsList className="inline-grid md:inline-flex h-fit w-full md:w-fit">
+            {tabList.map((item: valueType) => (
+              <TabsTrigger key={item.value} value={item.value} onClick={() => handleTabChange(item.value)}>
+                {item.title}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
 
         <div>
-          <Link
-            href="/overview/curriculum"
-            className="text-red-400 underline flex w-fit gap-1 items-center font-bold py-3"
-          >
-            View Curriculum <SquareArrowOutUpRight size={14} />
-          </Link>
+          {selectedTab === "curriculum" && (
+            <div>
+              <p>
+                Start here to understand the full contents of the course. Click on the left thumbnail
+                to view or download the full curriculum and watch the video to get an overview of the document.
+              </p>
+              <Link href="/overview/curriculum" className="text-red-400 underline flex w-fit gap-1 items-center font-bold py-3">
+                View Curriculum <SquareArrowOutUpRight size={14} />
+              </Link>
+              <div>
+                <video
+                  src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+                  controls
+                  className="rounded-lg w-full lg:w-2/3 bg-black"
+                  autoPlay
+                ></video>
+              </div>
+            </div>
+          )}
 
-          <div>
-            <video
-              src={
-                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-              }
-              controls
-              className="rounded-lg w-full lg:w-2/3 bg-black"
-              autoPlay
-            ></video>
-          </div>
+          {selectedTab === "one-week" && (
+            <div>
+              <h2 className="text-lg font-semibold">1 Week Study Plan</h2>
+              <p>This is a fast-paced study plan designed to get you ready in just 1 week.</p>
+            </div>
+          )}
+
+          {selectedTab === "six-week" && (
+            <div>
+              <h2 className="text-lg font-semibold">6 Week Study Plan</h2>
+              <p>Comprehensive plan to prepare you over a 6-week period.</p>
+            </div>
+          )}
+
+          {selectedTab === "twelve-week" && (
+            <div>
+              <h2 className="text-lg font-semibold">12 Week Study Plan</h2>
+              <p>In-depth preparation over 12 weeks to master every topic.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
