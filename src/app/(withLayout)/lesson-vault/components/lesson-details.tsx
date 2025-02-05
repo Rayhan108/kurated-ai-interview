@@ -12,6 +12,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import TranscriptViewer from "./transcript";
+import { MyLoading } from "@/components/shared/common/my-loading";
 
 export default function LessonDetails() {
   const searchParams = useSearchParams();
@@ -34,6 +35,7 @@ export default function LessonDetails() {
 
   return (
     <div className="space-y-3">
+      {isLoading && <MyLoading />}
 
       {!isLoading && lesson?.type === "VIDEO" && (
         <video
@@ -94,6 +96,7 @@ export default function LessonDetails() {
           )}
         </div>
         <div className="">
+
           <MyButton
             variant="outline"
             onClick={() => {

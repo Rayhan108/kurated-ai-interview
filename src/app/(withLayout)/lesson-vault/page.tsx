@@ -11,14 +11,22 @@ const LessonPage = () => {
         <p className="font-bold text-xl">Lesson Vault</p>
       </div>
       <MySpacer className="h-4" />
-      <div className="grid md:grid-cols-3 gap-5">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-5">
+        <div className="w-full md:w-[60%]">
+          <LessonDetails />
+        </div>
+        <div className="w-full md:w-[40%]">
+          <LessonsList />
+        </div>
+      </div>
+      {/* <div className="grid md:grid-cols-3 gap-5">
         <div className="col-span-2">
           <LessonDetails />
         </div>
         <div className="col-span-1 relative">
           <LessonsList />
         </div>
-      </div>
+      </div> */}
       <MySpacer className="h-20" />
     </div>
   );
