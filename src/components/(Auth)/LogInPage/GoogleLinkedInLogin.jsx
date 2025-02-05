@@ -1,12 +1,20 @@
 import { AllImages } from "@/assets/AllImages";
 import Image from "next/image";
-import { Button, Flex } from "antd";
+import { Button, Flex, message } from "antd";
 import { Divider } from "antd";
 import LinkedInLogin from "./LinkedInLogin";
+import { useLoginWithGoogleMutation } from "@/redux/feature/auth/authApi";
 const GoogleLinkedInLogin = () => {
-  const handleGoogleLogin = () => {
-    console.log("google");
-  }
+  const [loginWithGoogle] = useLoginWithGoogleMutation()
+  const handleGoogleLogin = async () => {
+    try {
+      const res = await loginWithGoogle({}).unwrap();
+      console.log("Google login response:", res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
 
 
@@ -16,7 +24,7 @@ const GoogleLinkedInLogin = () => {
         Log in
       </h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <Button onClick={GoogleLinkedInLogin} className="flex items-center justify-center gap-4 border py-4 px-10 rounded-md text-sm font-semibold">
+        <Button onClick={handleGoogleLogin} className="flex items-center justify-center gap-4 border py-4 px-10 rounded-md text-sm font-semibold">
           {" "}
           <Image src={AllImages.googleIcon} alt="google" /> Sign Up with Google
         </Button>

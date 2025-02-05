@@ -96,6 +96,14 @@ const authApi = baseApi.injectEndpoints({
       })
     }),
 
+    loginWithGoogle: builder.mutation({
+      query: (data) => ({
+        url: '/webapis/auth/interviewApp/loginViaGoogle',
+        method: "POST",
+        body: data
+      })
+    }),
+
   }),
 });
 
@@ -108,5 +116,6 @@ export const {
   useLogoutMutation,
   useForgotPasswordOtpMutation,
   useValidateOtpMutation,
-  useResetPasswordApiMutation
+  useResetPasswordApiMutation,
+  useLoginWithGoogleMutation,
 } = authApi;
