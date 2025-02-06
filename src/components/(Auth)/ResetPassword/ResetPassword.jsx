@@ -10,31 +10,34 @@ const ResetPassword = () => {
 
   const router = useRouter();
   const id = localStorage.getItem("resetPasswordId");
-  console.log(id);
+  const otp = localStorage.getItem('otp')
+  console.log(id, otp);
   const [resetPasswordApi] = useResetPasswordApiMutation()
   const route = useRouter();
-  const onFinish = (values) => {
+
+  const onFinish = async (values) => {
+    if (values.password !== values.confirmPassword) {
+      message.error("Password not matched");
+      return;
+    }
     try {
       const data = {
-        newPassword: values.password,
-        confirmPassword: values.confirmPassword,
+        body: {
+          userId: id,
+          otp,
+        },
+        headers: {
+          password: values.confirmPassword,
+        },
       };
-      if (data.newPassword !== data.confirmPassword) {
-        message.error("Password not matched")
-      }
-      const res = resetPasswordApi({ _id: id, data }).unwrap();
-      if (res.code === StatusCode.OK) {
-        message.success("Password reset successfully");
-        route.push("/login");
-      }
+      const res = await resetPasswordApi(data).unwrap();
+      console.log(res);
+      route.push("/log-in");
     } catch (error) {
       console.log(error);
       message.error("Failed to reset password");
     }
   };
-
-
-
 
 
   return (
