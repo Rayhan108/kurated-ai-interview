@@ -29,6 +29,7 @@ const VerificationCode = () => {
       const res = await validateOtp(data).unwrap();
       const id = res?.data?.result?._id;
       localStorage.setItem("resetPasswordId", id)
+      localStorage.setItem('otp', otp)
       message.success("OTP verified successfully");
       setResetPassword(res?.data?.resetPassword);
       // route.push(`/reset-password?id=${res?.data?.result?._id}`);

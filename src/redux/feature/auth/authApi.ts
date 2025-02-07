@@ -87,20 +87,22 @@ const authApi = baseApi.injectEndpoints({
         body: data
       })
     }),
+
     resetPasswordApi: builder.mutation({
-      query: ({ _id, data }) => ({
-        url: `/webapis/auth/forgetPassword/${_id}`,
-        // url: '/webapis/auth/forgetPassword/652a0c8c85f504dda0b81a1a',
+      query: (data) => ({
+        url: '/webapis/auth/interviewApp/updatePassword',
         method: "POST",
-        body: data
+        body: data.body,
+        headers: data.headers
       })
     }),
 
     loginWithGoogle: builder.mutation({
-      query: (data) => ({
+      query: (allData) => ({
         url: '/webapis/auth/interviewApp/loginViaGoogle',
         method: "POST",
-        body: data
+        body: allData.data,
+        password: allData.password,
       })
     }),
 
