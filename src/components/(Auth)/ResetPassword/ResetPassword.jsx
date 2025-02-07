@@ -1,9 +1,8 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
 import { useResetPasswordApiMutation } from "@/redux/feature/auth/authApi";
-import { Form, Input, Button, Checkbox, Typography, message } from "antd";
+import { Form, Input, Button, Typography, message } from "antd";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const ResetPassword = () => {
@@ -38,8 +37,6 @@ const ResetPassword = () => {
       message.error("Failed to reset password");
     }
   };
-
-
   return (
     <div className="bg-gray-100 p-10">
       <Image src={AllImages.blackLogo} alt="logo" className=" lg:h-full h-7" />

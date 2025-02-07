@@ -87,19 +87,13 @@ const authApi = baseApi.injectEndpoints({
         body: data
       })
     }),
-    // resetPasswordApi: builder.mutation({
-    //   query: (data) => ({
-    //     url: '/webapis/auth/interviewApp/updatePassword',
-    //     method: "POST",
-    //     body: data
-    //   })
-    // }),
+
     resetPasswordApi: builder.mutation({
       query: (data) => ({
         url: '/webapis/auth/interviewApp/updatePassword',
         method: "POST",
-        body: data.body, // Pass the body data
-        headers: data.headers // Pass the headers
+        body: data.body,
+        headers: data.headers
       })
     }),
 
