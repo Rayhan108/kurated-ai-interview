@@ -11,13 +11,16 @@ import { useEffect, useState } from "react";
 
 function PortfolioFilter() {
   const searchParams = useSearchParams();
+  // console.log(searchParams)
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const router = useRouter();
 
   const [search, setSearch] = useState("");
+// console.log(search)
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
+    // console.log("search params",params.toString())
     params.set(KeyConstant.STORY_TYPE, storyType || "EXTRACTED");
     if (search) {
       params.set(KeyConstant.query, search);
@@ -40,7 +43,7 @@ function PortfolioFilter() {
             onClick={() => {
               const params = new URLSearchParams(searchParams);
               params.set(KeyConstant.STORY_TYPE, "EXTRACTED");
-
+// console.log("when even trigger",params.toString());
               router.push(`/storybank/story-portfolio?${params.toString()}`);
             }}
             variant={storyType === "EXTRACTED" ? "default" : "secondary"}

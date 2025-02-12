@@ -88,8 +88,9 @@ export const LessonsList = () => {
         }
       >
         <div className="space-y-2">
-          {chaptersArray?.map((item) => (
+          {chaptersArray?.map((item,idx) => (
             <Collapse
+            key={idx}
               expandIconPosition="right"
               className="border-0 rounded-lg bg-primaryColor/40 font-mulish"
               //   defaultActiveKey={1}
@@ -107,12 +108,13 @@ export const LessonsList = () => {
                     </div>
                   ),
                   children: (
-                    <div className=" divide-y">
+                    <div className=" divide-y"  >
                       {item?.lessons
                         ?.slice()
                         .sort((a, b) => a.number - b.number)
-                        ?.map((lesson) => (
+                        ?.map((lesson,idx) => (
                           <div
+                          key={idx}
                             className={`space-y-1.5 hover:bg-gray-50 hover:cursor-pointer p-2 rounded-md ${
                               lessonId === lesson._id
                                 ? "bg-gray-100 hover:bg-gray-100"
@@ -155,8 +157,9 @@ export const LessonsList = () => {
       </Drawer>
 
       <div className="space-y-2 hidden md:block h-[70vh] overflow-y-scroll">
-        {chaptersArray?.map((item) => (
+        {chaptersArray?.map((item,idx) => (
           <Collapse
+          key={idx}
             expandIconPosition="right"
             className="border-0 rounded-lg bg-primaryColor/40 font-mulish"
             defaultActiveKey={firstLessonId}
@@ -178,8 +181,9 @@ export const LessonsList = () => {
                     {item?.lessons
                       ?.slice()
                       .sort((a, b) => a.number - b.number)
-                      ?.map((lesson) => (
+                      ?.map((lesson,idx) => (
                         <div
+                        key={idx}
                           className={`space-y-1.5 hover:bg-gray-50 hover:cursor-pointer p-2 rounded-md ${
                             lessonId === lesson._id
                               ? "bg-gray-100 hover:bg-gray-100"

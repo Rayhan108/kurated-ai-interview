@@ -24,8 +24,8 @@ const PortfolioPage = () => {
       {/* <MySpacer className="h-8" /> */}
 
       <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {filteredPortfolioExperience?.map((item) => (
-          <StoryPortfolioCard item={item} />
+        {filteredPortfolioExperience?.map((item,idx) => (
+          <StoryPortfolioCard key={idx} item={item} />
         ))}
       </div>
 
