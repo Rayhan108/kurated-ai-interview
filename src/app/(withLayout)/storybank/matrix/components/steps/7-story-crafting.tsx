@@ -59,7 +59,7 @@ export const StoryCrafting = () => {
     relevance: item.relevance,
     _id: item._id,
   }));
-
+// console.log(steps)
   const items = steps.map((item) => ({
     key: item.index,
     title: null,
@@ -276,6 +276,7 @@ export const StoryCrafting = () => {
                 <MyButton
                   onClick={() => current > 0 && prev()}
                   startIcon={<ChevronLeft />}
+                  disabled={current == 0}
                   variant="ghost"
                   className="bg-red-400 text-white"
                 >
