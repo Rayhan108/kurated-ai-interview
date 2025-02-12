@@ -26,6 +26,7 @@ export const ParsedResume = () => {
     KeyConstant.PARSED_EXPERIENCE,
     null
   );
+  // console.log(experienceLocal)
   const [selectedExperienceLocal, setSelectedExperienceLocal] = useLocalStorage(
     KeyConstant.SELECTED_EXPERIENCE,
     null
@@ -73,7 +74,7 @@ export const ParsedResume = () => {
               </p>
               <div className="space-y-4">
                 {experienceLocal?.map((item, index) => (
-                  <div>
+                  <div key={index}>
                     <div
                       className={`border rounded-md p-4 hover:cursor-pointer  ${
                         selectedExperienceLocal === index?.toString()
@@ -120,9 +121,9 @@ export const ParsedResume = () => {
                             index: index,
                             title: item.job_title,
                             company: item.employer,
-                            startDate: item.dates_of_employment.split("-")[0],
-                            endDate: item.dates_of_employment.split("-")[1],
-                            description: item.responsibilities.toString(),
+                            startDate: item.dates_of_employment?.split("-")[0],
+                            endDate: item.dates_of_employment?.split("-")[1],
+                            description: item.responsibilities?.toString(),
                           });
                         }}
                       >
@@ -140,11 +141,16 @@ export const ParsedResume = () => {
               <div className="space-x-2">
                 <MyButton
                   onClick={() => {
-                    const params = new URLSearchParams(searchParam.toString()); // Clone existing params
-                    const step = params.get(KeyConstant.STEP);
-                    params.set(KeyConstant.STEP, `${Number(step) - 1}`);
+                    // const params = new URLSearchParams(searchParam.toString()); // Clone existing params
+                    // console.log("Params as string:", params.toString());
+                    // const step = params.get(KeyConstant.STEP);
 
-                    router.push(`?${params.toString()}`);
+                    // params.set(KeyConstant.STEP, `${Number(step) - 1}`);
+
+                    // router.push(`?${params.toString()}`);
+                    
+                      // redirect to Personal story crafting page. 
+                    router.push(`?modal=true&step=9`);
                   }}
                   variant="ghost"
                 >
