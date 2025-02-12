@@ -74,7 +74,7 @@ export const ParsedResume = () => {
               </p>
               <div className="space-y-4">
                 {experienceLocal?.map((item, index) => (
-                  <div>
+                  <div key={index}>
                     <div
                       className={`border rounded-md p-4 hover:cursor-pointer  ${
                         selectedExperienceLocal === index?.toString()
