@@ -105,10 +105,12 @@ const StudyPlan = () => {
                 Start here to understand the full contents of the course. Click on the left thumbnail
                 to view or download the full curriculum and watch the video to get an overview of the document.
               </p>
-              <Link href="/overview/curriculum" className="text-red-400 underline flex w-fit gap-1 items-center font-bold py-3">
+              {/* view curriculumn button */}
+
+              {/* <Link href="/overview/curriculum" className="text-red-400 underline flex w-fit gap-1 items-center font-bold py-3">
                 View Curriculum <SquareArrowOutUpRight size={14} />
-              </Link>
-              <div className="flex justify-between items-center gap-4">
+              </Link> */}
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
                 <div >
                   <Link href="https://uat.kurated.ai/assets/Curriculum-0691c17e.pdf">
                     <Image src={AllImages.curriculumn} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
@@ -119,7 +121,7 @@ const StudyPlan = () => {
                   <video
                     src="https://uat.kurated.ai/assets/Curriculum-1c030253.mp4"
                     controls
-                    className="rounded-lg w-full lg:w-2/3 bg-black"
+                    className="rounded-lg w-full lg:w-[50%] bg-black"
                     autoPlay
                   ></video>
                 </div>
@@ -129,7 +131,7 @@ const StudyPlan = () => {
           )}
 
           {selectedTab === "one-week" && (
-            <div className="flex justify-between items-center gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
               <div >
                 <Link href="https://uat.kurated.ai/assets/1-week-8c7a33e8.pdf">
                   <Image src={AllImages.oneWeek} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
@@ -140,7 +142,7 @@ const StudyPlan = () => {
                 <video
                   src="https://uat.kurated.ai/assets/1-week-f1550b78.mp4"
                   controls
-                  className="rounded-lg w-full lg:w-2/3 bg-black"
+                  className="rounded-lg w-full lg:w-[50%] bg-black"
                   autoPlay
                 ></video>
               </div>
@@ -149,7 +151,7 @@ const StudyPlan = () => {
           )}
 
           {selectedTab === "six-week" && (
-            <div className="flex justify-between items-center gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
               <div >
                 <Link href="https://uat.kurated.ai/assets/6-week-21769cdd.pdf">
                   <Image src={AllImages.sixWeek} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
@@ -160,7 +162,7 @@ const StudyPlan = () => {
                 <video
                   src="https://uat.kurated.ai/assets/6-week-6aeee375.mp4"
                   controls
-                  className="rounded-lg w-full lg:w-2/3 bg-black"
+                  className="rounded-lg w-full lg:w-[50%] bg-black"
                   autoPlay
                 ></video>
               </div>
@@ -169,7 +171,7 @@ const StudyPlan = () => {
           )}
 
           {selectedTab === "twelve-week" && (
-            <div className="flex justify-between items-center gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
               <div >
                 <Link href="https://uat.kurated.ai/assets/12-week-1a31f90d.pdf">
                   <Image src={AllImages.twelveWeek} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
@@ -180,7 +182,7 @@ const StudyPlan = () => {
                 <video
                   src="https://uat.kurated.ai/assets/12-week-c0a79bd8.mp4"
                   controls
-                  className="rounded-lg w-full lg:w-2/3 bg-black"
+                  className="rounded-lg w-full lg:w-[50%] bg-black"
                   autoPlay
                 ></video>
               </div>
