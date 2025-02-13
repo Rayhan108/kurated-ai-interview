@@ -6,7 +6,6 @@ import OtpInput from "react-otp-input";
 import { useState } from "react";
 import { useForgotPasswordOtpMutation, useValidateOtpMutation } from "@/redux/feature/auth/authApi";
 import { useRouter, useSearchParams } from "next/navigation";
-import { set } from "date-fns";
 
 const VerificationCode = () => {
   const route = useRouter();
