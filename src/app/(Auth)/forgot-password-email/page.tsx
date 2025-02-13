@@ -1,4 +1,4 @@
-import ForgotPasswordEmail from "@/components/(Auth)/ForgotPasswordEmail/ForgotPasswordEmail";
+import ForgotPasswordEmail from "@/components/Auth/ForgotPasswordEmail/ForgotPasswordEmail";
 import React from "react";
 
 const ForgotPasswordEmailPages = () => {
