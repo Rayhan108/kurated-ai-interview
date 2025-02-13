@@ -24,6 +24,10 @@ import logo from "./logo.png";
 import defaultAvatar from "./user-avatar.png";
 import videoThumb from "./video-thumb.png";
 import blackLogo from "./kurated-ai-logo.png";
+import curriculumn from "./Curriculam-548a056a.png";
+import oneWeek from "./week1plan-87aed52c.png";
+import sixWeek from "./week6plan-6554085b.png";
+import twelveWeek from "./week12plan-d79ae5c6.png";
 
 export const AllImages = {
   logo,
@@ -52,4 +56,8 @@ export const AllImages = {
   note,
   checkIcon,
   CloudCheck,
+  curriculumn,
+  oneWeek,
+  sixWeek,
+  twelveWeek,
 };

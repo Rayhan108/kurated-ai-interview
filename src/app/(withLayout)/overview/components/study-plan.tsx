@@ -109,12 +109,24 @@ const StudyPlan = () => {
                 View Curriculum <SquareArrowOutUpRight size={14} />
               </Link>
               <div>
-                <video
-                  src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-                  controls
-                  className="rounded-lg w-full lg:w-2/3 bg-black"
-                  autoPlay
-                ></video>
+                <div className="flex justify-between items-center gap-4">
+                  <div >
+                    <Link href="https://uat.kurated.ai/assets/Curriculum-0691c17e.pdf">
+                      <Image src={AllImages.curriculumn} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
+                    </Link>
+
+                  </div>
+                  <div>
+                    <video
+                      src="https://uat.kurated.ai/assets/Curriculum-1c030253.mp4"
+                      controls
+                      className="rounded-lg w-full lg:w-2/3 bg-black"
+                      autoPlay
+                    ></video>
+                  </div>
+
+                </div>
+
               </div>
             </div>
           )}
