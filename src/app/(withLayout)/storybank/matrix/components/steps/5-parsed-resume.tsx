@@ -26,7 +26,7 @@ export const ParsedResume = () => {
     KeyConstant.PARSED_EXPERIENCE,
     null
   );
-  // console.log(experienceLocal)
+  console.log(experienceLocal)
   const [selectedExperienceLocal, setSelectedExperienceLocal] = useLocalStorage(
     KeyConstant.SELECTED_EXPERIENCE,
     null
