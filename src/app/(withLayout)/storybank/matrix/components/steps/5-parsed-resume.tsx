@@ -26,7 +26,7 @@ export const ParsedResume = () => {
     KeyConstant.PARSED_EXPERIENCE,
     null
   );
-  // console.log(experienceLocal)
+  console.log(experienceLocal)
   const [selectedExperienceLocal, setSelectedExperienceLocal] = useLocalStorage(
     KeyConstant.SELECTED_EXPERIENCE,
     null
@@ -73,65 +73,76 @@ export const ParsedResume = () => {
                 questions for your target role it can best address.
               </p>
               <div className="space-y-4">
-                {experienceLocal?.map((item, index) => (
-                  <div key={index}>
-                    <div
-                      className={`border rounded-md p-4 hover:cursor-pointer  ${
-                        selectedExperienceLocal === index?.toString()
-                          ? "bg-green-50 border-green-200 hover:bg-green-50"
-                          : "hover:bg-primaryColor/10"
-                      }`}
-                      onClick={() =>
-                        setSelectedExperienceLocal(index.toString())
-                      }
-                    >
-                      <div className="space-y-2">
-                        <p className="font-bold">
-                          Your title{" "}
-                          <span className="font-normal text-gray-500">
-                            {item.job_title}
-                          </span>
-                        </p>
-                        <p className="font-bold">
-                          Company{" "}
-                          <span className="font-normal text-gray-500">
-                            {item.employer}
-                          </span>
-                        </p>
-                        <p className="font-bold">
-                          Dates of Employment{" "}
-                          <span className="font-normal text-gray-500">
-                            {item.dates_of_employment}
-                          </span>
-                        </p>
-                        <div className="md:flex gap-4">
-                          <p className="font-bold">Description</p>
-                          <p>{item.responsibilities}</p>
-                        </div>
-                      </div>
-                    </div>
+              {experienceLocal?.length > 0 ? (
+  experienceLocal.map((item, index) => (
+    <div key={index}>
+    <div
+      className={`border rounded-md p-4 hover:cursor-pointer  ${
+        selectedExperienceLocal === index?.toString()
+          ? "bg-green-50 border-green-200 hover:bg-green-50"
+          : "hover:bg-primaryColor/10"
+      }`}
+      onClick={() =>
+        setSelectedExperienceLocal(index.toString())
+      }
+    >
+      <div className="space-y-2">
+        <p className="font-bold">
+          Your title{" "}
+          <span className="font-normal text-gray-500">
+            {item.job_title}
+          </span>
+        </p>
+        <p className="font-bold">
+          Company{" "}
+          <span className="font-normal text-gray-500">
+            {item.employer}
+          </span>
+        </p>
+        <p className="font-bold">
+          Dates of Employment{" "}
+          <span className="font-normal text-gray-500">
+            {item.dates_of_employment}
+          </span>
+        </p>
+        <div className="md:flex gap-4">
+          <p className="font-bold">Description</p>
+          <p>{item.responsibilities}</p>
+        </div>
+      </div>
+    </div>
 
-                    <div className="text-right">
-                      <Button
-                        type="text"
-                        className="px-1"
-                        onClick={() => {
-                          setIsEditing(true);
-                          setEditedExperience({
-                            index: index,
-                            title: item.job_title,
-                            company: item.employer,
-                            startDate: item.dates_of_employment?.split("-")[0],
-                            endDate: item.dates_of_employment?.split("-")[1],
-                            description: item.responsibilities?.toString(),
-                          });
-                        }}
-                      >
-                        Edit
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+    <div className="text-right">
+      <Button
+        type="text"
+        className="px-1"
+        onClick={() => {
+          setIsEditing(true);
+          setEditedExperience({
+            index: index,
+            title: item.job_title,
+            company: item.employer,
+            startDate: item.dates_of_employment?.split("-")[0],
+            endDate: item.dates_of_employment?.split("-")[1],
+            description: item.responsibilities?.toString(),
+          });
+        }}
+      >
+        Edit
+      </Button>
+    </div>
+  </div>
+  ))
+) : (
+<div className="flex flex-col items-center justify-center px-4 py-10 md:py-16 lg:py-20 text-center">
+
+  <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-600 mt-4">
+    No Work Experience Data Found
+  </p>
+ 
+</div>
+)}
+
               </div>
             </div>
           </div>
