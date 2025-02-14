@@ -12,6 +12,7 @@ const { Dragger } = Upload;
 
 export const UploadResume = () => {
   const searchParam = useSearchParams();
+  
   const router = useRouter();
   const success = searchParam.get(KeyConstant.SUCCESS);
 
@@ -113,7 +114,15 @@ export const UploadResume = () => {
               <Dragger
                 name="resume"
                 multiple={false}
+                action="#" // Prevents automatic upload
+                showUploadList={true} // Show file list
+                beforeUpload={(file) => {
+                  console.log("🔄 Before upload triggered:", file);
+                
+                  return true;
+                }}
                 onChange={onChange}
+                // onDrop={(e) => console.log("File dropped:", e.dataTransfer.files)}
               
               
                 
