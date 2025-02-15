@@ -3,7 +3,7 @@ import MyButton from "@/components/shared/common/my-button";
 import { KeyConstant } from "@/constants/key.constant";
 import { useGetParsedResumeMutation } from "@/redux/feature/storybank/storybank-api";
 import { message, Upload } from "antd";
-import { CornerUpRight, Loader } from "lucide-react";
+import { CloudCog, CornerUpRight, Loader } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IoArrowDownCircleOutline } from "react-icons/io5";
@@ -12,6 +12,7 @@ const { Dragger } = Upload;
 
 export const UploadResume = () => {
   const searchParam = useSearchParams();
+  
   const router = useRouter();
   const success = searchParam.get(KeyConstant.SUCCESS);
 
@@ -24,10 +25,13 @@ export const UploadResume = () => {
 
   const onChange = (info: any) => {
     //   const params = new URLSearchParams(searchParam.toString()); // Clone existing params
+    console.log("from on change handler")
+    console.log(info.file.status    )
     if (info.file.status === "done") {
       getParsedResume(info.file.originFileObj)
         .unwrap()
         .then((res) => {
+          console.log(res?.data?.result?.work_experience)
           setExperienceLocal(res?.data?.result?.work_experience);
         })
         .catch((err) => {
@@ -110,7 +114,18 @@ export const UploadResume = () => {
               <Dragger
                 name="resume"
                 multiple={false}
+                action="#" // Prevents automatic upload
+                showUploadList={true} // Show file list
+                beforeUpload={(file) => {
+                  console.log("🔄 Before upload triggered:", file);
+                
+                  return true;
+                }}
                 onChange={onChange}
+                // onDrop={(e) => console.log("File dropped:", e.dataTransfer.files)}
+              
+              
+                
                 className="w-80 z-10 font-mulish"
               >
                 <div className="text-gray-500 font-semibold space-y-3 p-10">
