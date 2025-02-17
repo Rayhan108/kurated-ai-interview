@@ -1,11 +1,12 @@
 "use client";
+
+
 import { AllImages } from "@/assets/AllImages";
 import { MyLinkButton } from "@/components/shared/common/my-link-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { KeyConstant } from "@/constants/key.constant";
 import { useLoggedInUserQuery } from "@/redux/feature/auth/authApi";
-import { SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -24,10 +25,10 @@ export type valueType = {
 
 
 const StudyPlan = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-
   const { data, isLoading } = useLoggedInUserQuery(undefined);
 
   const [selectedTab, setSelectedTab] = useState<ILessonType>(
@@ -48,12 +49,17 @@ const StudyPlan = () => {
     }
   }, []);
 
+
   const handleTabChange = (value: ILessonType) => {
     setSelectedTab(value);
     const currentParams = new URLSearchParams(searchParams);
     currentParams.set(KeyConstant.TAB, value);
     router.push(`${pathname}?${currentParams.toString()}`);
   };
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   return (
     <div>
@@ -115,17 +121,18 @@ const StudyPlan = () => {
                   <Link href="https://uat.kurated.ai/assets/Curriculum-0691c17e.pdf">
                     <Image src={AllImages.curriculumn} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
                   </Link>
-
                 </div>
                 <div>
                   <video
-                    src="https://uat.kurated.ai/assets/Curriculum-1c030253.mp4"
+                    src='https://uat.kurated.ai/assets/Curriculum-1c030253.mp4'
                     controls
-                    className="rounded-lg w-full lg:w-[50%] bg-black"
+                    className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
+                      }`}
                     autoPlay
+                    onLoadedMetadata={() => setIsLoaded(true)}
+                    style={{ minWidth: "300px", minHeight: "200px" }}
                   ></video>
                 </div>
-
               </div>
             </div>
           )}
@@ -142,8 +149,11 @@ const StudyPlan = () => {
                 <video
                   src="https://uat.kurated.ai/assets/1-week-f1550b78.mp4"
                   controls
-                  className="rounded-lg w-full lg:w-[50%] bg-black"
+                  className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
+                    }`}
                   autoPlay
+                  onLoadedMetadata={() => setIsLoaded(true)}
+                  style={{ minWidth: "300px", minHeight: "200px" }}
                 ></video>
               </div>
 
@@ -162,8 +172,11 @@ const StudyPlan = () => {
                 <video
                   src="https://uat.kurated.ai/assets/6-week-6aeee375.mp4"
                   controls
-                  className="rounded-lg w-full lg:w-[50%] bg-black"
+                  className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
+                    }`}
                   autoPlay
+                  onLoadedMetadata={() => setIsLoaded(true)}
+                  style={{ minWidth: "300px", minHeight: "200px" }}
                 ></video>
               </div>
 
@@ -182,8 +195,11 @@ const StudyPlan = () => {
                 <video
                   src="https://uat.kurated.ai/assets/12-week-c0a79bd8.mp4"
                   controls
-                  className="rounded-lg w-full lg:w-[50%] bg-black"
+                  className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
+                    }`}
                   autoPlay
+                  onLoadedMetadata={() => setIsLoaded(true)}
+                  style={{ minWidth: "300px", minHeight: "200px" }}
                 ></video>
               </div>
 
