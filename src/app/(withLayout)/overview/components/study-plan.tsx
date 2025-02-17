@@ -105,38 +105,88 @@ const StudyPlan = () => {
                 Start here to understand the full contents of the course. Click on the left thumbnail
                 to view or download the full curriculum and watch the video to get an overview of the document.
               </p>
-              <Link href="/overview/curriculum" className="text-red-400 underline flex w-fit gap-1 items-center font-bold py-3">
+              {/* view curriculumn button */}
+
+              {/* <Link href="/overview/curriculum" className="text-red-400 underline flex w-fit gap-1 items-center font-bold py-3">
                 View Curriculum <SquareArrowOutUpRight size={14} />
-              </Link>
-              <div>
-                <video
-                  src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-                  controls
-                  className="rounded-lg w-full lg:w-2/3 bg-black"
-                  autoPlay
-                ></video>
+              </Link> */}
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
+                <div >
+                  <Link href="https://uat.kurated.ai/assets/Curriculum-0691c17e.pdf">
+                    <Image src={AllImages.curriculumn} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
+                  </Link>
+
+                </div>
+                <div>
+                  <video
+                    src="https://uat.kurated.ai/assets/Curriculum-1c030253.mp4"
+                    controls
+                    className="rounded-lg w-full lg:w-[50%] bg-black"
+                    autoPlay
+                  ></video>
+                </div>
+
               </div>
             </div>
           )}
 
           {selectedTab === "one-week" && (
-            <div>
-              <h2 className="text-lg font-semibold">1 Week Study Plan</h2>
-              <p>This is a fast-paced study plan designed to get you ready in just 1 week.</p>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
+              <div >
+                <Link href="https://uat.kurated.ai/assets/1-week-8c7a33e8.pdf">
+                  <Image src={AllImages.oneWeek} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
+                </Link>
+
+              </div>
+              <div>
+                <video
+                  src="https://uat.kurated.ai/assets/1-week-f1550b78.mp4"
+                  controls
+                  className="rounded-lg w-full lg:w-[50%] bg-black"
+                  autoPlay
+                ></video>
+              </div>
+
             </div>
           )}
 
           {selectedTab === "six-week" && (
-            <div>
-              <h2 className="text-lg font-semibold">6 Week Study Plan</h2>
-              <p>Comprehensive plan to prepare you over a 6-week period.</p>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
+              <div >
+                <Link href="https://uat.kurated.ai/assets/6-week-21769cdd.pdf">
+                  <Image src={AllImages.sixWeek} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
+                </Link>
+
+              </div>
+              <div>
+                <video
+                  src="https://uat.kurated.ai/assets/6-week-6aeee375.mp4"
+                  controls
+                  className="rounded-lg w-full lg:w-[50%] bg-black"
+                  autoPlay
+                ></video>
+              </div>
+
             </div>
           )}
 
           {selectedTab === "twelve-week" && (
-            <div>
-              <h2 className="text-lg font-semibold">12 Week Study Plan</h2>
-              <p>In-depth preparation over 12 weeks to master every topic.</p>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
+              <div >
+                <Link href="https://uat.kurated.ai/assets/12-week-1a31f90d.pdf">
+                  <Image src={AllImages.twelveWeek} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
+                </Link>
+
+              </div>
+              <div>
+                <video
+                  src="https://uat.kurated.ai/assets/12-week-c0a79bd8.mp4"
+                  controls
+                  className="rounded-lg w-full lg:w-[50%] bg-black"
+                  autoPlay
+                ></video>
+              </div>
+
             </div>
           )}
         </div>
