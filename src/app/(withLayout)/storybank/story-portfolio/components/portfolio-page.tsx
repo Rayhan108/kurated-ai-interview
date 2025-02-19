@@ -13,7 +13,7 @@ const PortfolioPage = () => {
 
   const { data: portfolioExperience, isLoading } =
     useGetPortfolioExperienceQuery(undefined);
-// console.log(portfolioExperience);
+// console.log(portfolioExperience?.data?.response);
 
   const filteredPortfolioExperience =
     portfolioExperience?.data?.response?.filter(
