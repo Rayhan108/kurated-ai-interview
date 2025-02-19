@@ -13,11 +13,13 @@ const PortfolioPage = () => {
 
   const { data: portfolioExperience, isLoading } =
     useGetPortfolioExperienceQuery(undefined);
+// console.log(portfolioExperience);
 
   const filteredPortfolioExperience =
     portfolioExperience?.data?.response?.filter(
       (item) => item.type === storyType
     );
+    // console.log(filteredPortfolioExperience);
   return (
     <div>
       <PortfolioFilter />

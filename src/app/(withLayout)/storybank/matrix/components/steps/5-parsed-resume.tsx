@@ -161,7 +161,7 @@ export const ParsedResume = () => {
                     // router.push(`?${params.toString()}`);
                     
                       // redirect to Personal story crafting page. 
-                    router.push(`?modal=true&step=9`);
+                    router.push(`?modal=true&step=4`);
                   }}
                   variant="ghost"
                 >

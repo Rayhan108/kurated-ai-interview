@@ -36,7 +36,7 @@ export const StoryRelevance = () => {
     if (index.toString() === selectedExperience) {
       return item;
     }
-  });
+  })
 
   const { data, isLoading } = useGetTopicRelevancyQuery({
     role: selectedRole?.role,
