@@ -139,6 +139,17 @@ export const ParsedResume = () => {
   <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-600 mt-4">
     No Work Experience Data Found
   </p>
+ <div className="mt-3">
+ <MyButton
+                  onClick={() => {
+                   
+                    router.push(`?modal=true&step=4`);
+                  }}
+                  variant="outline"
+                >
+                  Try Again
+                </MyButton>
+  </div>  
  
 </div>
 )}
