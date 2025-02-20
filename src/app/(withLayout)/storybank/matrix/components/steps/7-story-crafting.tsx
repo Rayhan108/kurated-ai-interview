@@ -296,14 +296,14 @@ export const StoryCrafting = () => {
                         experience: {
                           title: experience?.job_title,
                           date_start:
-                            experience?.dates_of_employment.split("-")[0],
+                            experience?.dates_of_employment?.split("-")[0],
                           date_end:
-                            experience?.dates_of_employment.split("-")[1] ||
+                            experience?.dates_of_employment?.split("-")[1] ||
                             "present",
                           description: Array.isArray(
                             experience?.responsibilities
                           )
-                            ? experience?.responsibilities.join(" ")
+                            ? experience?.responsibilities?.join(" ")
                             : experience?.responsibilities,
                           company: experience?.employer,
                           type: craftingType, // Allowed Ones are EXTRACTED,PERSONAL

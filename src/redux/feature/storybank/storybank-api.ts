@@ -104,6 +104,7 @@ const storyBankApi = baseApi.injectEndpoints({
       },
       providesTags: [TAGS.portfolioExperience],
     }),
+
   }),
 });
 
@@ -116,5 +117,5 @@ export const {
   useReGenerateStoryInHearsMutation,
   useSaveStoryMutation,
   useGetSavedStoryQuery,
-  useGetPortfolioExperienceQuery,
+  useGetPortfolioExperienceQuery
 } = storyBankApi;
