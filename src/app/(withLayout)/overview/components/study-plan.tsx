@@ -94,119 +94,117 @@ const StudyPlan = () => {
       <MySpacer className="h-5" />
 
       <div className="space-y-4">
-        <Tabs defaultValue={selectedTab} className="">
-          <TabsList className="inline-grid md:inline-flex h-fit w-full md:w-fit">
-            {tabList.map((item: valueType) => (
-              <TabsTrigger key={item.value} value={item.value} onClick={() => handleTabChange(item.value)}>
-                {item.title}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+  <Tabs defaultValue={selectedTab} className="">
+    <TabsList className="inline-grid md:inline-flex h-fit w-full md:w-fit">
+      {tabList.map((item: valueType) => (
+        <TabsTrigger key={item.value} value={item.value} onClick={() => handleTabChange(item.value)}>
+          {item.title}
+        </TabsTrigger>
+      ))}
+    </TabsList>
+  </Tabs>
 
-        <div>
-          {selectedTab === "curriculum" && (
-            <div>
-              <p>
-                Start here to understand the full contents of the course. Click on the left thumbnail
-                to view or download the full curriculum and watch the video to get an overview of the document.
-              </p>
-              {/* view curriculumn button */}
-
-              {/* <Link href="/overview/curriculum" className="text-red-400 underline flex w-fit gap-1 items-center font-bold py-3">
-                View Curriculum <SquareArrowOutUpRight size={14} />
-              </Link> */}
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
-                <div >
-                  <Link href="https://uat.kurated.ai/assets/Curriculum-0691c17e.pdf">
-                    <Image src={AllImages.curriculumn} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
-                  </Link>
-                </div>
-                <div>
-                  <video
-                    src='https://uat.kurated.ai/assets/Curriculum-1c030253.mp4'
-                    controls
-                    className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
-                      }`}
-                    autoPlay
-                    onLoadedMetadata={() => setIsLoaded(true)}
-                    style={{ minWidth: "300px", minHeight: "200px" }}
-                  ></video>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {selectedTab === "one-week" && (
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
-              <div >
-                <Link href="https://uat.kurated.ai/assets/1-week-8c7a33e8.pdf">
-                  <Image src={AllImages.oneWeek} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
-                </Link>
-
-              </div>
-              <div>
-                <video
-                  src="https://uat.kurated.ai/assets/1-week-f1550b78.mp4"
-                  controls
-                  className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
-                    }`}
-                  autoPlay
-                  onLoadedMetadata={() => setIsLoaded(true)}
-                  style={{ minWidth: "300px", minHeight: "200px" }}
-                ></video>
-              </div>
-
-            </div>
-          )}
-
-          {selectedTab === "six-week" && (
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
-              <div >
-                <Link href="https://uat.kurated.ai/assets/6-week-21769cdd.pdf">
-                  <Image src={AllImages.sixWeek} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
-                </Link>
-
-              </div>
-              <div>
-                <video
-                  src="https://uat.kurated.ai/assets/6-week-6aeee375.mp4"
-                  controls
-                  className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
-                    }`}
-                  autoPlay
-                  onLoadedMetadata={() => setIsLoaded(true)}
-                  style={{ minWidth: "300px", minHeight: "200px" }}
-                ></video>
-              </div>
-
-            </div>
-          )}
-
-          {selectedTab === "twelve-week" && (
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mt-10">
-              <div >
-                <Link href="https://uat.kurated.ai/assets/12-week-1a31f90d.pdf">
-                  <Image src={AllImages.twelveWeek} alt="curriculum" height={400} width={400} className="cursor-pointer"></Image>
-                </Link>
-
-              </div>
-              <div>
-                <video
-                  src="https://uat.kurated.ai/assets/12-week-c0a79bd8.mp4"
-                  controls
-                  className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
-                    }`}
-                  autoPlay
-                  onLoadedMetadata={() => setIsLoaded(true)}
-                  style={{ minWidth: "300px", minHeight: "200px" }}
-                ></video>
-              </div>
-
-            </div>
-          )}
+  <div>
+    {selectedTab === "curriculum" && (
+      <div>
+        <p>
+          Start here to understand the full contents of the course. Click on the left thumbnail
+          to view or download the full curriculum and watch the video to get an overview of the document.
+        </p>
+        
+        {/* Curriculum Video */}
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-10">
+          <div>
+            <Link href="https://uat.kurated.ai/assets/Curriculum-0691c17e.pdf">
+              <Image src={AllImages.curriculumn} alt="curriculum" height={400} width={400} className="cursor-pointer" />
+            </Link>
+          </div>
+          <div className="">
+        
+              <video
+                src="https://uat.kurated.ai/assets/Curriculum-1c030253.mp4"
+                controls
+                className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
+                autoPlay
+                onLoadedMetadata={() => setIsLoaded(true)}
+                style={{ minWidth: "300px", minHeight: "200px" }}
+              ></video>
+       
+          </div>
         </div>
       </div>
+    )}
+
+    {/* Similar structure for other tabs (one-week, six-week, twelve-week) */}
+    {selectedTab === "one-week" && (
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-10">
+        <div>
+          <Link href="https://uat.kurated.ai/assets/1-week-8c7a33e8.pdf">
+            <Image src={AllImages.oneWeek} alt="curriculum" height={400} width={400} className="cursor-pointer" />
+          </Link>
+        </div>
+        <div className="">
+       
+            <video
+              src="https://uat.kurated.ai/assets/1-week-f1550b78.mp4"
+              controls
+              className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
+              autoPlay
+              onLoadedMetadata={() => setIsLoaded(true)}
+              style={{ minWidth: "300px", minHeight: "200px" }}
+            ></video>
+     
+        </div>
+      </div>
+    )}
+
+    {/* Repeat the same for "six-week" and "twelve-week" tabs */}
+    {selectedTab === "six-week" && (
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-10">
+        <div>
+          <Link href="https://uat.kurated.ai/assets/6-week-21769cdd.pdf">
+            <Image src={AllImages.sixWeek} alt="curriculum" height={400} width={400} className="cursor-pointer" />
+          </Link>
+        </div>
+        <div className="">
+       
+            <video
+              src="https://uat.kurated.ai/assets/6-week-6aeee375.mp4"
+              controls
+              className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
+              autoPlay
+              onLoadedMetadata={() => setIsLoaded(true)}
+              style={{ minWidth: "300px", minHeight: "200px" }}
+            ></video>
+      
+        </div>
+      </div>
+    )}
+
+    {selectedTab === "twelve-week" && (
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-10">
+        <div>
+          <Link href="https://uat.kurated.ai/assets/12-week-1a31f90d.pdf">
+            <Image src={AllImages.twelveWeek} alt="curriculum" height={400} width={400} className="cursor-pointer" />
+          </Link>
+        </div>
+        <div className="">
+        
+            <video
+              src="https://uat.kurated.ai/assets/12-week-c0a79bd8.mp4"
+              controls
+              className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
+              autoPlay
+              onLoadedMetadata={() => setIsLoaded(true)}
+              style={{ minWidth: "300px", minHeight: "200px" }}
+            ></video>
+       
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
     </div>
   );
 };
