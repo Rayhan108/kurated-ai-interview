@@ -2,6 +2,7 @@ import ReduxProviders from "@/redux/ReduxProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Mulish } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Kurated App",
@@ -22,6 +23,10 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${mulish.className} antialiased`}>
         <AntdRegistry>
+        <Toaster
+  position="top-right"
+  reverseOrder={false}
+/>
           {/* <Suspense fallback={<div>Loading...</div>}> */}
           <ReduxProviders>{children}</ReduxProviders>
           {/* </Suspense> */}
