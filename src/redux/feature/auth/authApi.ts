@@ -98,11 +98,11 @@ const authApi = baseApi.injectEndpoints({
     }),
 
     loginWithGoogle: builder.mutation({
-      query: (allData) => ({
+      query: (data) => ({
         url: '/webapis/auth/interviewApp/loginViaGoogle',
         method: "POST",
-        body: allData.data,
-        password: allData.password,
+        body: { user_token: data },
+       
       })
     }),
 
