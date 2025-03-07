@@ -6,10 +6,11 @@ import {
   useGetPortfolioExperienceQuery,
   useGetSavedStoryQuery,
 } from "@/redux/feature/storybank/storybank-api";
+import { get } from "http";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import { FaBook } from "react-icons/fa6";
 function InterviewMatrix() {
   const router = useRouter();
   const [clickedCell, setClickedCell] = useState(null);
@@ -70,11 +71,21 @@ function InterviewMatrix() {
       value: item.story_text.slice(0, 20).concat("..."),
     };
   });
+
   const getCellValue = (xValue, yValue) => {
     const cell = data.find((item) => item.x === xValue && item.y === yValue);
+
     return cell ? cell : ""; // Return value if found, else empty
   };
-  console.log(clickedCell);
+  // console.log(clickedCell);
+
+const handleViewStory = (clickedCell) => {
+console.log(getCellValue(clickedCell.x, clickedCell.y));
+}
+
+
+
+
   return (
     <div className="">
       <div className="">
@@ -125,7 +136,7 @@ function InterviewMatrix() {
                       }}
                     >
                       <p
-                        className="text-sm font-semibold h-16 place-content-center rounded-md p-3 w-40 md:w-52"
+                        className=" text-sm font-semibold h-16 place-content-center rounded-md p-3 w-40 md:w-52"
                         style={
                           getCellValue(x.value, y.value).value
                             ? {
@@ -140,7 +151,15 @@ function InterviewMatrix() {
                               }
                         }
                       >
-                        {getCellValue(x.value, y.value).value}
+                        {getCellValue(x.value, y.value).value ? (
+                          <FaBook onClick={() => handleViewStory} className="mx-auto text-primaryColor h-5 w-5 cursor-pointer" />
+                    
+                        ) : (
+                          ""
+                        )}
+                        {" "}
+                   
+                        {/* {getCellValue(x.value, y.value).value} */}
                       </p>
                     </td>
                   ))}
