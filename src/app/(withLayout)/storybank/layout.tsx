@@ -7,7 +7,7 @@ function StroyBankLayout({ children }) {
   const params = pathname.split("/").pop();
 
   return (
-    <div>
+    <div >
       <div className="border-b flex gap-8 items-center justify-center md:justify-normal mb-2">
         <Link
           href="/storybank/matrix"
