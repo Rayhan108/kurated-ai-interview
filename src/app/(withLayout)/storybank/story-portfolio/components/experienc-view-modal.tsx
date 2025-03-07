@@ -12,6 +12,7 @@ interface IExperience {
   description: string;
 }
 export const ExperienceModal = ({ data }) => {
+  console.log("data from experience 15", data);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
@@ -43,7 +44,7 @@ export const ExperienceModal = ({ data }) => {
   return (
     <div>
       {!isEditing && (
-        <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
+        <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)] bg-red-50">
           <div className="flex-1 overflow-y-auto place-content-center py-10">
             <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg z-20">
               Experience from your Resume
@@ -133,7 +134,7 @@ export const ExperienceModal = ({ data }) => {
               </div>
             </div>
           </div>
-
+          {/* TODO: save and delete story does not work */}
           <div className="border-t py-3 w-full bg-white">
             <div className="flex justify-between gap-1">
               <MyButton
@@ -153,7 +154,7 @@ export const ExperienceModal = ({ data }) => {
                   }}
                   variant="outline"
                   startIcon={<Save />}
-                  className="border-black"
+                  className="border-black "
                 >
                   Save
                 </MyButton>

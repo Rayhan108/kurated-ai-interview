@@ -18,7 +18,7 @@ function StoryPortfolioCard({ item }) {
           {item?.description}
         </p>
 
-        <p className="text-sm font-semibold">
+        <p className="text-sm font-semibold ">
           Last Updated:{" "}
           <span className="font-bold">
             {DateUtil.formatOnlyDate(item?.updatedAt)}
