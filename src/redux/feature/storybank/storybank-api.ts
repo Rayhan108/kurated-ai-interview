@@ -105,6 +105,22 @@ const storyBankApi = baseApi.injectEndpoints({
       providesTags: [TAGS.portfolioExperience],
     }),
 
+    ownerShip: builder.mutation({
+      query: (body) => ({
+        url: '/role-topics-experience-relevancy-percentage',
+        method: 'POST',
+        body,
+      }),
+    }),
+    
+    getSpecificSavedStory: builder.query({
+      query: (id) => ({
+        url: `/webapis/storybank/saved-stories/${id}`,
+        method: "GET",
+      }),
+    })
+    
+
   }),
 });
 
@@ -117,5 +133,7 @@ export const {
   useReGenerateStoryInHearsMutation,
   useSaveStoryMutation,
   useGetSavedStoryQuery,
-  useGetPortfolioExperienceQuery
+  useGetPortfolioExperienceQuery,
+  useOwnerShipMutation,
+  useGetSpecificSavedStoryQuery
 } = storyBankApi;

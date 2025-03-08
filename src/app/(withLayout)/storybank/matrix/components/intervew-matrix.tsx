@@ -15,9 +15,14 @@ function InterviewMatrix() {
   const router = useRouter();
   const [clickedCell, setClickedCell] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [storyText, setStoryText] = useState(""); 
+  const [storyText, setStoryText] = useState("");
   const { data: savedStory, isLoading } = useGetSavedStoryQuery(undefined);
   const { data: savedExperience } = useGetPortfolioExperienceQuery(undefined);
+
+  const companyNames = savedExperience?.data?.response?.map(
+    (item) => item.company
+  );
+  // console.log("savedStory", companyNames);
 
   const generateRandomColor = (opacity) => {
     const r = Math.floor(Math.random() * 256);
@@ -60,7 +65,9 @@ function InterviewMatrix() {
   const xAxis = savedExperience?.data?.response?.map((item) => ({
     value: item._id,
     label: item.title,
+    company: item.company,
   }));
+  console.log("xAxis", xAxis);
 
   const data = savedStory?.data?.response?.map((item) => ({
     storyId: item._id,
@@ -70,17 +77,17 @@ function InterviewMatrix() {
   }));
 
   const getCellValue = (xValue, yValue) => {
-    return data.find((item) => item.x === xValue && item.y === yValue) || ""; 
+    return data.find((item) => item.x === xValue && item.y === yValue) || "";
   };
 
   const handleViewStory = (id) => {
     const story = savedStory?.data?.response?.find((item) => item._id === id);
     if (story) {
-      setStoryText(story.story_text); 
+      setStoryText(story.story_text);
     } else {
-      setStoryText("No story found"); 
+      setStoryText("No story found");
     }
-    setIsModalVisible(true); 
+    setIsModalVisible(true);
   };
 
   const sections = storyText.split("**").filter((part) => part.trim() !== "");
@@ -106,7 +113,7 @@ function InterviewMatrix() {
                   key={y.value}
                   className="border-[10px] border-white bg-white ml-40 md:ml-52"
                 >
-                  <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
+                  <p className="text-sm font-semibold h-20 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
                     {y.label}
                   </p>
                 </th>
@@ -117,8 +124,9 @@ function InterviewMatrix() {
             {xAxis?.map((x) => (
               <tr key={x.value}>
                 <th className="border-[10px] border-white bg-white">
-                  <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
+                  <p className="text-sm font-semibold h-20 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
                     {x.label}
+                    <p>{x.company}</p>
                   </p>
                 </th>
                 {yAxis?.map((y) => (
