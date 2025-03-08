@@ -16,7 +16,7 @@ function PortfolioFilter() {
   const router = useRouter();
 
   const [search, setSearch] = useState("");
-// console.log(search)
+  // console.log(search)
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
@@ -43,7 +43,7 @@ function PortfolioFilter() {
             onClick={() => {
               const params = new URLSearchParams(searchParams);
               params.set(KeyConstant.STORY_TYPE, "EXTRACTED");
-// console.log("when even trigger",params.toString());
+              // console.log("when even trigger",params.toString());
               router.push(`/storybank/story-portfolio?${params.toString()}`);
             }}
             variant={storyType === "EXTRACTED" ? "default" : "secondary"}

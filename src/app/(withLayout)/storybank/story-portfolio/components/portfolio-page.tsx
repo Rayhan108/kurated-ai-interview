@@ -13,20 +13,20 @@ const PortfolioPage = () => {
 
   const { data: portfolioExperience, isLoading } =
     useGetPortfolioExperienceQuery(undefined);
-// console.log(portfolioExperience?.data?.response);
+  // console.log( "portfolioExperience",portfolioExperience?.data?.response);
 
   const filteredPortfolioExperience =
     portfolioExperience?.data?.response?.filter(
       (item) => item.type === storyType
     );
-    // console.log(filteredPortfolioExperience);
+  // console.log(filteredPortfolioExperience);
   return (
     <div>
       <PortfolioFilter />
       {/* <MySpacer className="h-8" /> */}
 
       <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {filteredPortfolioExperience?.map((item,idx) => (
+        {filteredPortfolioExperience?.map((item, idx) => (
           <StoryPortfolioCard key={idx} item={item} />
         ))}
       </div>

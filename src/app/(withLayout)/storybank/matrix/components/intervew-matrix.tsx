@@ -65,7 +65,7 @@ function InterviewMatrix() {
     company: item.company,
     type: item.type,
   }));
-  console.log("yAxis", yAxis);
+  // console.log("yAxis", yAxis);
 
   const data = savedStory?.data?.response?.map((item) => ({
     storyId: item._id,
@@ -74,7 +74,7 @@ function InterviewMatrix() {
     value: item.story_text,
     type: item.experience_info.type,
   }));
-
+// console.log("data", data);
   // console.log("savedStory", savedStory?.data?.response?.map((item) => item.experience_info.type));
 
   const getCellValue = (xValue, yValue) => {

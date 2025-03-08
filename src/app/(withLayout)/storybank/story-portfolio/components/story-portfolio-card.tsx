@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ExperienceModal } from "./experienc-view-modal";
 
 function StoryPortfolioCard({ item }) {
+  console.log("item", item);
   const [openModal, setModal] = useState(false);
   return (
     <>
@@ -27,7 +28,7 @@ function StoryPortfolioCard({ item }) {
       </div>
 
       {openModal && (
-        <div className="fixed top-0 left-0 flex flex-1 w-full bg-gray-500/50 p-2 md:p-5 lg:p-10 h-screen z-50">
+        <div className=" fixed top-0 left-0 flex flex-1 w-full bg-gray-500/50 p-2 md:p-5 lg:p-10 h-screen z-50">
           <div className="bg-white h-full w-full lg:w-8/12 mx-auto rounded-lg pb-0 relative p-4">
             {/* <div className="flex flex-col h-full place-content-center"> */}
             <div className="">
