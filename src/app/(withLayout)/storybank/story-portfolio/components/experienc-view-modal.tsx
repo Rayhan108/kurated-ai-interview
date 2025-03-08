@@ -1,9 +1,9 @@
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
-import { useGetTopicRelevancyQuery, useOwnerShipMutation } from "@/redux/feature/storybank/storybank-api";
+import { useGetSpecificSavedStoryQuery} from "@/redux/feature/storybank/storybank-api";
 import { Button, Checkbox, Form, Input, Progress, Typography } from "antd";
 import { Save } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface IExperience {
   title: string;
@@ -17,8 +17,8 @@ export const ExperienceModal = ({ data }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
-  const [ownerShip, { data: ownerShipData }] = useOwnerShipMutation();
-
+const {data:specificSavedStory}=useGetSpecificSavedStoryQuery(data?.storyId)
+console.log("specificSavedStory", specificSavedStory);
   // useEffect(() => {
   //   if (ownerShipData) {
   //     console.log("ownerShipData", ownerShipData);
@@ -34,8 +34,7 @@ export const ExperienceModal = ({ data }) => {
 
   
 
-  const ownershipPercentage = ownerShipData;
-  console.log("ownershipPercentage", ownershipPercentage);
+  
 
   const onFinish = (values) => {
     // setParsedExperience((prev) =>
@@ -139,7 +138,7 @@ export const ExperienceModal = ({ data }) => {
                 </div>
                 <div className="colspan-1 md:col-span-2">
                   <Progress
-                    percent={ownershipPercentage}
+                    // percent={ownershipPercentage}
                     // percent={40} //show ownership percentage
                     status="normal"
                     strokeColor={"#EAB030"}
