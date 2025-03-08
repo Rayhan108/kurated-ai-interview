@@ -1,8 +1,9 @@
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
+import { useGetTopicRelevancyQuery, useOwnerShipMutation } from "@/redux/feature/storybank/storybank-api";
 import { Button, Checkbox, Form, Input, Progress, Typography } from "antd";
 import { Save } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IExperience {
   title: string;
@@ -12,9 +13,29 @@ interface IExperience {
   description: string;
 }
 export const ExperienceModal = ({ data }) => {
+  console.log("data from experience 15", data);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
+  const [ownerShip, { data: ownerShipData }] = useOwnerShipMutation();
+
+  // useEffect(() => {
+  //   if (ownerShipData) {
+  //     console.log("ownerShipData", ownerShipData);
+  //   }
+  // }, [ownerShipData]);
+
+    const requestBody = {
+      role: 'Staff engineer',
+      roleTopics: ['Ownership', 'Team work', 'Front-End development', 'Backend Development'],
+      experience:
+        'Contributed to a team-based project as a Front-End Developer during a three-month internship at an IT company. Worked on ongoing projects, implementing front-end technologies to enhance user interface and experience. Collaborated effectively with a team of developers, contributing to the successful completion of project milestones. Demonstrated problem-solving skills and a strong understanding of Data Structures and Algorithms to write efficient and maintainable code.',
+    };
+
+  
+
+  const ownershipPercentage = ownerShipData;
+  console.log("ownershipPercentage", ownershipPercentage);
 
   const onFinish = (values) => {
     // setParsedExperience((prev) =>
@@ -43,7 +64,7 @@ export const ExperienceModal = ({ data }) => {
   return (
     <div>
       {!isEditing && (
-        <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
+        <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)] ">
           <div className="flex-1 overflow-y-auto place-content-center py-10">
             <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg z-20">
               Experience from your Resume
@@ -118,7 +139,8 @@ export const ExperienceModal = ({ data }) => {
                 </div>
                 <div className="colspan-1 md:col-span-2">
                   <Progress
-                    percent={40}
+                    percent={ownershipPercentage}
+                    // percent={40} //show ownership percentage
                     status="normal"
                     strokeColor={"#EAB030"}
                     // strokeColor={
@@ -133,7 +155,7 @@ export const ExperienceModal = ({ data }) => {
               </div>
             </div>
           </div>
-
+          {/* TODO: save and delete story does not work */}
           <div className="border-t py-3 w-full bg-white">
             <div className="flex justify-between gap-1">
               <MyButton
@@ -153,7 +175,7 @@ export const ExperienceModal = ({ data }) => {
                   }}
                   variant="outline"
                   startIcon={<Save />}
-                  className="border-black"
+                  className="border-black "
                 >
                   Save
                 </MyButton>

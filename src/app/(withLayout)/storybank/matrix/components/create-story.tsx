@@ -8,7 +8,7 @@ export const CreateStory = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   return (
-    <div>
+    <div >
       <div className="h-[calc(100vh-230px)] flex justify-center items-center">
         <div className="space-y-2">
           <p className="text-gray-400 text-center">

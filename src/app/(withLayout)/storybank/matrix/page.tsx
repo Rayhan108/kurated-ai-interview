@@ -5,7 +5,7 @@ import InterviewMatrix from "./components/intervew-matrix";
 const data = [1];
 function MatrixPage() {
   return (
-    <div>
+    <div >
       {data.length ? <InterviewMatrix /> : <CreateStory />}
       <CreateStroyModal />
     </div>
