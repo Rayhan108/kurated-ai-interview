@@ -7,9 +7,10 @@ import {
 } from "@/redux/feature/storybank/storybank-api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaBook } from "react-icons/fa6";
+import { FaBook, FaPen } from "react-icons/fa6";
 import { Modal } from "antd"; // Importing Ant Design modal
 import Image from "next/image";
+import { get } from "http";
 
 function InterviewMatrix() {
   const router = useRouter();
@@ -18,11 +19,6 @@ function InterviewMatrix() {
   const [storyText, setStoryText] = useState("");
   const { data: savedStory, isLoading } = useGetSavedStoryQuery(undefined);
   const { data: savedExperience } = useGetPortfolioExperienceQuery(undefined);
-
-  const companyNames = savedExperience?.data?.response?.map(
-    (item) => item.company
-  );
-  // console.log("savedStory", companyNames);
 
   const generateRandomColor = (opacity) => {
     const r = Math.floor(Math.random() * 256);
@@ -57,6 +53,7 @@ function InterviewMatrix() {
       acc.push({
         value: item.topic_id,
         label: item.role_info.topic_name,
+        type: item.experience_info.type,
       });
     }
     return acc;
@@ -66,15 +63,19 @@ function InterviewMatrix() {
     value: item._id,
     label: item.title,
     company: item.company,
+    type: item.type,
   }));
-  console.log("xAxis", xAxis);
+  console.log("yAxis", yAxis);
 
   const data = savedStory?.data?.response?.map((item) => ({
     storyId: item._id,
     x: item.experience_id,
     y: item.topic_id,
     value: item.story_text,
+    type: item.experience_info.type,
   }));
+
+  // console.log("savedStory", savedStory?.data?.response?.map((item) => item.experience_info.type));
 
   const getCellValue = (xValue, yValue) => {
     return data.find((item) => item.x === xValue && item.y === yValue) || "";
@@ -142,7 +143,10 @@ function InterviewMatrix() {
                     }}
                   >
                     <p
-                      className="text-sm font-semibold h-16 place-content-center rounded-md p-3 w-40 md:w-52"
+                      onClick={() =>
+                        handleViewStory(getCellValue(x.value, y.value).storyId)
+                      }
+                      className="cursor-pointer text-sm font-semibold h-16 place-content-center rounded-md p-3 w-40 md:w-52"
                       style={
                         getCellValue(x.value, y.value).value
                           ? {
@@ -157,18 +161,15 @@ function InterviewMatrix() {
                             }
                       }
                     >
-                      {getCellValue(x.value, y.value).value ? (
-                        <FaBook
-                          onClick={() =>
-                            handleViewStory(
-                              getCellValue(x.value, y.value).storyId
-                            )
-                          }
-                          className="mx-auto text-primaryColor h-5 w-5 cursor-pointer"
-                        />
-                      ) : (
-                        ""
-                      )}
+                      {getCellValue(x.value, y.value)?.value &&
+                        (getCellValue(x.value, y.value)?.type ===
+                        "EXTRACTED" ? (
+                          <FaBook className="mx-auto text-primaryColor h-5 w-5 cursor-pointer" />
+                        ) : getCellValue(x.value, y.value)?.type ===
+                          "PERSONAL" ? (
+                            <Image src={AllImages.editIcon} alt="pencil" className="mx-auto h-5 w-5 cursor-pointer"></Image>
+                          // <FaPen className="mx-auto text-primaryColor h-5 w-5 cursor-pointer" />
+                        ) : null)}
                     </p>
                   </td>
                 ))}
