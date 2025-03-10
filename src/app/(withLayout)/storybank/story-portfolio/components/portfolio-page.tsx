@@ -15,7 +15,7 @@ const PortfolioPage = () => {
   const query = searchParams.get(KeyConstant.query);
 
   const { data: portfolioExperience } = useGetPortfolioExperienceQuery(undefined);
-  const { data: savedStory } = useGetSavedStoryQuery(undefined);
+  const { data: savedStory,refetch } = useGetSavedStoryQuery(undefined);
 
   // Filter portfolio experience by storyType
   const filteredExperience = portfolioExperience?.data?.response?.filter(
@@ -39,7 +39,7 @@ const PortfolioPage = () => {
           );
 
           return (
-            <StoryPortfolioCard key={idx} item={item} savedItem={matchingSaved} />
+            <StoryPortfolioCard key={idx} item={item} savedItem={matchingSaved} refetch={refetch} />
           );
         })}
       </div>

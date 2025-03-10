@@ -1,7 +1,19 @@
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
-import { useGetSpecificSavedStoryQuery, useSaveStoryMutation } from "@/redux/feature/storybank/storybank-api";
-import { Button, Checkbox, Form, Input, Progress, Typography } from "antd";
+import {
+  useGetSpecificSavedStoryQuery,
+  useSaveStoryMutation,
+} from "@/redux/feature/storybank/storybank-api";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  message,
+  Progress,
+  Typography,
+} from "antd";
+import { error } from "console";
 import { Save } from "lucide-react";
 import { useState } from "react";
 
@@ -12,39 +24,90 @@ interface IExperience {
   endDate: string;
   description: string;
 }
-export const ExperienceModal = ({ data, savedItem }) => {
+export const ExperienceModal = ({ data, savedItem ,refetch,handleClose}) => {
   const id = savedItem?._id;
   // console.log("data from experience 15", savedItem);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
-const [saveStory]=  useSaveStoryMutation()
-  const onFinish = (values) => {
-    // setParsedExperience((prev) =>
-    //   prev.map((item, index) =>
-    //     index === editedExperience?.index
-    //       ? {
-    //           ...item,
-    //           dates_of_employment: `${values.startDate} ${
-    //             values.endDate ? `- ${values.endDate}` : ""
-    //           }`,
-    //           employer: values.company,
-    //           job_title: values.title,
-    //           responsibilities: values.description,
-    //         }
-    //       : item
-    //   )
-    // );
-    console.log(values);
+  const [saveStory] = useSaveStoryMutation();
 
-    setIsEditing(false);
+  const onFinish = async (values) => {
+    console.log("Success:", values);
+    try {
+      const data = {
+        storyId: id,
+        role: savedItem?.role_topic_relevancy?.[0]?.role,
+        roleTopic: savedItem?.role_topic_relevancy?.[0]?.topic,
+        storyInHearsFormat: values.description,
+      };
+
+      console.log("Sending data:", data);
+
+      // Wait for the API response
+      const response = await saveStory(data).unwrap();
+
+      message.success("Story saved successfully");
+
+      // Update the local UI state with the new data
+      setEditedExperience(values);
+
+      // Refresh data after saving
+      refetch(); // Call this if you're using useGetSpecificSavedStoryQuery
+
+      setIsEditing(false);
+    } catch (error) {
+      message.error(error?.data?.message || "Failed to save story");
+    }
   };
+
+  // const onFinish = (values) => {
+  //   // setParsedExperience((prev) =>
+  //   //   prev.map((item, index) =>
+  //   //     index === editedExperience?.index
+  //   //       ? {
+  //   //           ...item,
+  //   //           dates_of_employment: `${values.startDate} ${
+  //   //             values.endDate ? `- ${values.endDate}` : ""
+  //   //           }`,
+  //   //           employer: values.company,
+  //   //           job_title: values.title,
+  //   //           responsibilities: values.description,
+  //   //         }
+  //   //       : item
+  //   //   )
+  //   // );
+
+  //   try {
+  //     const data = {
+  //       storyId: id,
+  //       role: savedItem?.role_topic_relevancy?.[0]?.role,
+  //       roleTopic: savedItem?.role_topic_relevancy?.[0]?.topic,
+  //       storyInHearsFormat: values.description,
+  //     };
+  //     console.log(data);
+  //     saveStory(data).unwrap();
+  //     setEditedExperience(data)
+  //     message.success("Story saved successfully");
+  //   } catch (error) {
+  //     message.error(error?.data?.message);
+  //   }
+
+  //   console.log(values);
+
+  //   setIsEditing(false);
+  // };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
+  const handleSubmit = () => {
+  handleClose();
+  };
+
   const sections = savedItem?.story_text?.split("**").filter(Boolean);
-const ownershipPercentage = savedItem?.role_topic_relevancy?.[0]?.relevancy
+  const ownershipPercentage = savedItem?.role_topic_relevancy?.[0]?.relevancy;
   return (
     <div>
       {!isEditing && (
@@ -91,6 +154,7 @@ const ownershipPercentage = savedItem?.role_topic_relevancy?.[0]?.relevancy
                       <div className="md:flex gap-4">
                         <p className="font-bold">Description</p>
                         <p>{data.description}</p>
+                        {/* <p>{data.description}</p> */}
                       </div>
                     </div>
                   </div>
@@ -161,9 +225,10 @@ const ownershipPercentage = savedItem?.role_topic_relevancy?.[0]?.relevancy
               </MyButton>
               <Form.Item label={null} className="m-0">
                 <MyButton
-                  onClick={() => {
-                    // setIsEditing(false);
-                  }}
+                onClick={handleSubmit}
+                  // onClick={() => {
+                  //   // setIsEditing(false);
+                  // }}
                   variant="outline"
                   startIcon={<Save />}
                   className="border-black "
