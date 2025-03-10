@@ -65,7 +65,7 @@ export const ExperienceModal = ({ data, savedItem }) => {
   };
 
   const sections = savedItem?.story_text?.split("**").filter(Boolean);
-
+const ownershipPercentage = savedItem?.role_topic_relevancy?.[0]?.relevancy
   return (
     <div>
       {!isEditing && (
@@ -152,7 +152,7 @@ export const ExperienceModal = ({ data, savedItem }) => {
                 </div>
                 <div className="colspan-1 md:col-span-2">
                   <Progress
-                    // percent={ownershipPercentage}
+                    percent={ownershipPercentage}
                     // percent={40} //show ownership percentage
                     status="normal"
                     strokeColor={"#EAB030"}
