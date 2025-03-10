@@ -4,8 +4,12 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import { ExperienceModal } from "./experienc-view-modal";
 
-function StoryPortfolioCard({ item }) {
-  console.log("item", item);
+function StoryPortfolioCard({ item ,savedItem}) {
+  // console.log("item", item,);
+  // console.log( "savedItem", savedItem);
+
+
+
   const [openModal, setModal] = useState(false);
   return (
     <>
@@ -53,7 +57,7 @@ function StoryPortfolioCard({ item }) {
                 </MyButton>
               </div>
 
-              <ExperienceModal data={item} />
+              <ExperienceModal data={item} savedItem={savedItem} />
             </div>
           </div>
         </div>
