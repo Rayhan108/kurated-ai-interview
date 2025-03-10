@@ -1,6 +1,6 @@
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
-import { useGetSpecificSavedStoryQuery } from "@/redux/feature/storybank/storybank-api";
+import { useGetSpecificSavedStoryQuery, useSaveStoryMutation } from "@/redux/feature/storybank/storybank-api";
 import { Button, Checkbox, Form, Input, Progress, Typography } from "antd";
 import { Save } from "lucide-react";
 import { useState } from "react";
@@ -14,32 +14,11 @@ interface IExperience {
 }
 export const ExperienceModal = ({ data, savedItem }) => {
   const id = savedItem?._id;
-  console.log("data from experience 15", savedItem);
+  // console.log("data from experience 15", savedItem);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
-  // const { data: specificSavedStory } = useGetSpecificSavedStoryQuery(
-  //   savedItem?.id
-  // );
-  // console.log("specificSavedStory", specificSavedStory);
-  // useEffect(() => {
-  //   if (ownerShipData) {
-  //     console.log("ownerShipData", ownerShipData);
-  //   }
-  // }, [ownerShipData]);
-
-  // const requestBody = {
-  //   role: "Staff engineer",
-  //   roleTopics: [
-  //     "Ownership",
-  //     "Team work",
-  //     "Front-End development",
-  //     "Backend Development",
-  //   ],
-  //   experience:
-  //     "Contributed to a team-based project as a Front-End Developer during a three-month internship at an IT company. Worked on ongoing projects, implementing front-end technologies to enhance user interface and experience. Collaborated effectively with a team of developers, contributing to the successful completion of project milestones. Demonstrated problem-solving skills and a strong understanding of Data Structures and Algorithms to write efficient and maintainable code.",
-  // };
-
+const [saveStory]=  useSaveStoryMutation()
   const onFinish = (values) => {
     // setParsedExperience((prev) =>
     //   prev.map((item, index) =>
@@ -153,7 +132,6 @@ const ownershipPercentage = savedItem?.role_topic_relevancy?.[0]?.relevancy
                 <div className="colspan-1 md:col-span-2">
                   <Progress
                     percent={ownershipPercentage}
-                    // percent={40} //show ownership percentage
                     status="normal"
                     strokeColor={"#EAB030"}
                     // strokeColor={
