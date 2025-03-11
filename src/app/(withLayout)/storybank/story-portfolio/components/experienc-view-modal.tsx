@@ -33,33 +33,6 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const [saveStory] = useSaveStoryMutation();
 
   // Onfinish for update story:
-  // const onFinish = async (values) => {
-  //   console.log("Success:", values);
-  //   try {
-  //     const data = {
-  //       id: id,
-  //       role: savedItem?.role_topic_relevancy?.[0]?.role,
-  //       roleTopic: savedItem?.role_topic_relevancy?.[0]?.topic,
-  //       storyInHearsFormat: values.description,
-  //     };
-
-  //     console.log("Sending data:", data);
-
-  //     const response = await saveStory(data).unwrap();
-
-  //     console.log("response", response);
-  //     return
-  //     message.success("Story saved successfully");
-
-  //     setEditedExperience(values);
-
-  //     refetch();
-
-  //     setIsEditing(false);
-  //   } catch (error) {
-  //     message.error(error?.data?.message || "Failed to save story");
-  //   }
-  // };
 
   const onFinish = async (values) => {
     console.log("success:", values);
@@ -86,11 +59,11 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
             removed: [],
           },
         ],
-        topic_relevancies:[
+        topic_relevancies: [
           {
-            topic_id:savedItem?.role_topic_relevancy?.[0]?.topic_id,
-            relevancy:savedItem?.role_topic_relevancy?.[0]?.relevancy
-          }
+            topic_id: savedItem?.role_topic_relevancy?.[0]?.topic_id,
+            relevancy: savedItem?.role_topic_relevancy?.[0]?.relevancy,
+          },
         ],
       };
 
@@ -110,11 +83,19 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
 
   const hnadleDelete = async () => {
     try {
-      const data = {
-        id: id,
-      };
+      const data = [
+        {
+          experience: {
+             id: id,
+          },
+          stories: [
+            {
+              removed: [id],
+            },
+          ],
+        },
+      ];
       console.log("Sending data:", data);
-
       const response = await saveStory(data).unwrap();
       console.log("response", response);
 
