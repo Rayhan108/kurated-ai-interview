@@ -83,19 +83,19 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
 
   const hnadleDelete = async () => {
     try {
-      const data = [
-        {
-          experience: {
-             id: id,
-          },
-          stories: [
-            {
-              removed: [id],
-            },
-          ],
+      const data = {
+        experience: {
+           id: id,
         },
-      ];
-      console.log("Sending data:", data);
+        stories: [
+          {
+            removed: [id],
+          },
+        ],
+      }
+
+      
+      // console.log("Sending data:", data);
       const response = await saveStory(data).unwrap();
       console.log("response", response);
 
