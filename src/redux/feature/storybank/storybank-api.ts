@@ -119,13 +119,15 @@ const storyBankApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+   
+
     searchSavedStory: builder.query({
       query: (keywords) => ({
-        url: `webapis/storybank/saved-stories/role?search=${keywords}`,
+        url: "webapis/storybank/saved-stories/role",
         method: "GET",
+        params: { search: keywords },
       }),
-    })
-
+    }),
     
 
   }),

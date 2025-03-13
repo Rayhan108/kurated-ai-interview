@@ -4,32 +4,35 @@ import MyButton from "@/components/shared/common/my-button";
 import { MyLinkButton } from "@/components/shared/common/my-link-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import { KeyConstant } from "@/constants/key.constant";
+
 import { Input, Select } from "antd";
 import { BookText, FilePenLine, Plus, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-function PortfolioFilter() {
+function PortfolioFilter({ onSearch }) {
+  // const [search, setSearch] = useState("");
+
   const searchParams = useSearchParams();
-  console.log("search params",searchParams)
+  // console.log("search params",searchParams)
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const router = useRouter();
 
-  const [search, setSearch] = useState("");
+  
   // console.log(search)
          
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-    // console.log("search params",params.toString())
-    params.set(KeyConstant.STORY_TYPE, storyType || "EXTRACTED");
-    if (search) {
-      params.set(KeyConstant.query, search);
-    } else {
-      params.delete(KeyConstant.query);
-    }
+  // useEffect(() => {
+  //   const params = new URLSearchParams(searchParams);
+ 
+  //   params.set(KeyConstant.STORY_TYPE, storyType || "EXTRACTED");
+  //   if (search) {
+  //     params.set(KeyConstant.query, search);
+  //   } else {
+  //     params.delete(KeyConstant.query);
+  //   }
 
-    router.push(`/storybank/story-portfolio?${params.toString()}`);
-  }, [search]);
+  //   router.push(`/storybank/story-portfolio?${params.toString()}`);
+  // }, [search]);
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -72,7 +75,8 @@ function PortfolioFilter() {
             placeholder="Search Story..."
             prefix={<Search size={16} className="text-gray-400" />}
             className="rounded-full bg-transparent py-2 px-3 w-full lg:w-60"
-            onChange={(e) => setSearch(e.target.value)}
+            // onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => onSearch(e.target.value)}
           />
           <Select
             style={{ width: 130 }}
