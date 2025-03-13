@@ -11,13 +11,13 @@ import { useEffect, useState } from "react";
 
 function PortfolioFilter() {
   const searchParams = useSearchParams();
-  // console.log(searchParams)
+  console.log("search params",searchParams)
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const router = useRouter();
 
   const [search, setSearch] = useState("");
   // console.log(search)
-
+         
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     // console.log("search params",params.toString())

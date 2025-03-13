@@ -118,7 +118,14 @@ const storyBankApi = baseApi.injectEndpoints({
         url: `/webapis/storybank/saved-stories/${id}`,
         method: "GET",
       }),
+    }),
+    searchSavedStory: builder.query({
+      query: (keywords) => ({
+        url: `webapis/storybank/saved-stories/role?search=${keywords}`,
+        method: "GET",
+      }),
     })
+
     
 
   }),
@@ -135,5 +142,6 @@ export const {
   useGetSavedStoryQuery,
   useGetPortfolioExperienceQuery,
   useOwnerShipMutation,
-  useGetSpecificSavedStoryQuery
+  useGetSpecificSavedStoryQuery,
+  useSearchSavedStoryQuery
 } = storyBankApi;
