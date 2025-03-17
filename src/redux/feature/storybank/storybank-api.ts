@@ -86,11 +86,11 @@ const storyBankApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [TAGS.interviewMatrix, TAGS.portfolioExperience],
     }),
-
+    // get saved story:
     getSavedStory: builder.query({
       query: () => {
         return {
-          url: `/webapis/storybank/saved-stories/role`,
+          url: `/webapis/storybank/saved-stories/role?rend=1`,
         };
       },
       providesTags: [TAGS.interviewMatrix],
@@ -107,20 +107,18 @@ const storyBankApi = baseApi.injectEndpoints({
 
     ownerShip: builder.mutation({
       query: (body) => ({
-        url: '/role-topics-experience-relevancy-percentage',
-        method: 'POST',
+        url: "/role-topics-experience-relevancy-percentage",
+        method: "POST",
         body,
       }),
     }),
-    
+
     getSpecificSavedStory: builder.query({
       query: (id) => ({
         url: `/webapis/storybank/saved-stories/${id}`,
         method: "GET",
       }),
-    })
-    
-
+    }),
   }),
 });
 
@@ -135,5 +133,5 @@ export const {
   useGetSavedStoryQuery,
   useGetPortfolioExperienceQuery,
   useOwnerShipMutation,
-  useGetSpecificSavedStoryQuery
+  useGetSpecificSavedStoryQuery,
 } = storyBankApi;
