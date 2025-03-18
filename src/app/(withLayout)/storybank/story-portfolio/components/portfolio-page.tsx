@@ -13,7 +13,7 @@ const PortfolioPage = () => {
   const searchParams = useSearchParams();
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const query = searchParams.get("story_type");
-  // console.log("query", query);
+  console.log("query", query);
 
   const { data: portfolioExperience } =
     useGetPortfolioExperienceQuery(undefined);
@@ -23,7 +23,12 @@ const PortfolioPage = () => {
     (item) => item.story_text?.trim().split("**")
   );
   const storyTypeDataHeadline= storyTypeData?.map((item) => item?.map((item2) => item2?.trim())[4]);
-  // console.log("savedStory", savedStory?.data?.response?.length);
+  console.log("savedStory", savedStory?.data?.response?.length);
+
+
+
+
+
 
 
 
@@ -33,7 +38,7 @@ const PortfolioPage = () => {
   );
 
 
-  // console.log("filteredExperience", filteredExperience?.length);
+  console.log("filteredExperience", filteredExperience?.length);
 
   // Filter saved stories by storyType
   const savedExperience = savedStory?.data?.response?.filter(
@@ -61,6 +66,7 @@ const PortfolioPage = () => {
             <StoryPortfolioCard
               key={idx}
               item={item}
+              storyTypeDataHeadline={storyTypeDataHeadline}
               
               savedItem={matchingSaved}
               refetch={refetch}
