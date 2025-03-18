@@ -4,23 +4,23 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import { ExperienceModal } from "./experienc-view-modal";
 
-function StoryPortfolioCard({ item ,savedItem,refetch}) {
-  // console.log("item", item,);
+function StoryPortfolioCard({ item, savedItem,storyTypeDataHeadline, refetch }) {
+  // console.log("item", item);
   // console.log( "savedItem", savedItem);
 
-
-
+  const sections = savedItem?.story_text?.split("**").filter(Boolean);
+  // console.log("sections", sections);
   const [openModal, setModal] = useState(false);
-const handleClose = () => setModal(false);
-
+  const handleClose = () => setModal(false);
 
   return (
     <>
       <div
-        className="space-y-3 border rounded-lg p-4 border-gray-300 shadow-sm hover:bg-primaryColor/30 hover:cursor-pointer"
+        className=" space-y-3 border rounded-lg p-4 border-gray-300 shadow-sm hover:bg-primaryColor/30 hover:cursor-pointer"
         onClick={() => setModal(true)}
       >
-        <h1 className="font-bold text-base">{item?.title}</h1>
+        {/* <h1 className="font-bold text-base">{item?.title}</h1> */}
+        <h1 className="font-bold text-base">{sections?.[2]?.trim()}</h1>
 
         <p className="text-gray-700 text-xs md:text-sm line-clamp-3">
           {item?.description}
@@ -60,7 +60,12 @@ const handleClose = () => setModal(false);
                 </MyButton>
               </div>
 
-              <ExperienceModal data={item} savedItem={savedItem} refetch={refetch}  handleClose={handleClose}/>
+              <ExperienceModal
+                data={item}
+                savedItem={savedItem}
+                refetch={refetch}
+                handleClose={handleClose}
+              />
             </div>
           </div>
         </div>

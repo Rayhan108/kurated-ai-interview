@@ -90,7 +90,8 @@ const storyBankApi = baseApi.injectEndpoints({
     getSavedStory: builder.query({
       query: () => {
         return {
-          url: `/webapis/storybank/saved-stories/role?rend=1`,
+          // url: `/webapis/storybank/saved-stories/role?rend=1`,
+          url: `/webapis/storybank/saved-stories/role`,
         };
       },
       providesTags: [TAGS.interviewMatrix],

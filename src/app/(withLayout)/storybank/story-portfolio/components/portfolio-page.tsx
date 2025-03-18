@@ -14,13 +14,29 @@ const PortfolioPage = () => {
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const query = searchParams.get(KeyConstant.query);
 
-  const { data: portfolioExperience } = useGetPortfolioExperienceQuery(undefined);
-  const { data: savedStory,refetch } = useGetSavedStoryQuery(undefined);
+  const { data: portfolioExperience } =
+    useGetPortfolioExperienceQuery(undefined);
+  const { data: savedStory, refetch } = useGetSavedStoryQuery(undefined);
 
+  const storyTypeData = savedStory?.data?.response?.map(
+    (item) => item.story_text?.trim().split("**")
+  );
+  const storyTypeDataHeadline= storyTypeData?.map((item) => item?.map((item2) => item2?.trim())[4]);
+  // console.log("savedStory", storyTypeDataHeadline);
+
+
+
+
+
+
+
+
+  
   // Filter portfolio experience by storyType
   const filteredExperience = portfolioExperience?.data?.response?.filter(
     (item) => item.type === storyType
   );
+  console.log("filteredExperience", filteredExperience);
 
   // Filter saved stories by storyType
   const savedExperience = savedStory?.data?.response?.filter(
@@ -39,7 +55,13 @@ const PortfolioPage = () => {
           );
 
           return (
-            <StoryPortfolioCard key={idx} item={item} savedItem={matchingSaved} refetch={refetch} />
+            <StoryPortfolioCard
+              key={idx}
+              item={item}
+              storyTypeDataHeadline={storyTypeDataHeadline}
+              savedItem={matchingSaved}
+              refetch={refetch}
+            />
           );
         })}
       </div>
