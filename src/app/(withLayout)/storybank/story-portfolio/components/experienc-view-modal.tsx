@@ -26,7 +26,7 @@ interface IExperience {
 }
 export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const id = data?._id;
-  console.log("data from experience 15", savedItem);
+  // console.log("data from experience 15", savedItem);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
@@ -45,15 +45,15 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
           date_end: values.endDate,
           description: values.description,
           company: values.company,
-          type: data.type,
+          type: data?.experience_info?.type,
         },
 
         stories: [
           {
             current: [
               {
-                storyText: savedItem.story_text,
-                topic_id: savedItem?.topic_id,
+                storyText: data.story_text,
+                topic_id: data?.topic_id,
               },
             ],
             removed: [],
@@ -61,8 +61,8 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
         ],
         topic_relevancies: [
           {
-            topic_id: savedItem?.role_topic_relevancy?.[0]?.topic_id,
-            relevancy: savedItem?.role_topic_relevancy?.[0]?.relevancy,
+            topic_id: data?.role_topic_relevancy?.[0]?.topic_id,
+            relevancy: data?.role_topic_relevancy?.[0]?.relevancy,
           },
         ],
       };
@@ -85,7 +85,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
     try {
       const data = {
         experience: {
-           id: id,
+           id: savedItem?._id,
         },
         stories: [
           {

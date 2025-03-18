@@ -55,6 +55,7 @@ function StoryPortfolioCard({ item, savedItem, refetch }) {
               </div>
 
               <ExperienceModal
+              
                 data={item}
                 savedItem={savedItem}
                 refetch={refetch}
