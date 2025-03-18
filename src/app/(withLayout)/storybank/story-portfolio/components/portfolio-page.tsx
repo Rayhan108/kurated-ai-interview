@@ -40,7 +40,7 @@ const PortfolioPage = () => {
     (item) => item.experience_info.type === query
   );
 
-  
+  console.log("savedExperience", savedExperience);
 
 
 
