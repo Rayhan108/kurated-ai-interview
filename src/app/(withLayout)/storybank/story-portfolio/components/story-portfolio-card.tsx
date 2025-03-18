@@ -16,7 +16,7 @@ function StoryPortfolioCard({ item, savedItem, refetch }) {
   return (
     <>
       <div
-        className="bg-red-200 space-y-3 border rounded-lg p-4 border-gray-300 shadow-sm hover:bg-primaryColor/30 hover:cursor-pointer"
+        className="space-y-3 border rounded-lg p-4 border-gray-300 shadow-sm hover:bg-primaryColor/30 hover:cursor-pointer"
         onClick={() => setModal(true)}
       >
         <h1 className=" text-base">{item?.story_text?.slice(0,100)}</h1>
