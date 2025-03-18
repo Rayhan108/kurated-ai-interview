@@ -26,7 +26,7 @@ interface IExperience {
 }
 export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const id = data?._id;
-  console.log("data from experience 15", savedItem);
+  console.log("data from experience 15", data);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
@@ -115,7 +115,8 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
     handleClose();
   };
 
-  const sections = savedItem?.story_text?.split("**").filter(Boolean);
+  const sections = data?.story_text?.split("**").filter(Boolean);
+  // console.log("sections", sections);
   const ownershipPercentage = savedItem?.role_topic_relevancy?.[0]?.relevancy;
   return (
     <div>

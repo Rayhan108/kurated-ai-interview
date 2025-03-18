@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import { ExperienceModal } from "./experienc-view-modal";
 
-function StoryPortfolioCard({ item, savedItem,storyTypeDataHeadline, refetch }) {
+function StoryPortfolioCard({ item, savedItem, refetch }) {
   // console.log("item", item);
   // console.log( "savedItem", savedItem);
 
@@ -16,11 +16,11 @@ function StoryPortfolioCard({ item, savedItem,storyTypeDataHeadline, refetch }) 
   return (
     <>
       <div
-        className=" space-y-3 border rounded-lg p-4 border-gray-300 shadow-sm hover:bg-primaryColor/30 hover:cursor-pointer"
+        className="bg-red-200 space-y-3 border rounded-lg p-4 border-gray-300 shadow-sm hover:bg-primaryColor/30 hover:cursor-pointer"
         onClick={() => setModal(true)}
       >
-        {/* <h1 className="font-bold text-base">{item?.title}</h1> */}
-        <h1 className="font-bold text-base">{sections?.[2]?.trim()}</h1>
+        <h1 className=" text-base">{item?.story_text?.slice(0,100)}</h1>
+        {/* <h1 className="font-bold text-base">{sections?.map((item) => item?.trim())[0]}</h1> */}
 
         <p className="text-gray-700 text-xs md:text-sm line-clamp-3">
           {item?.description}
