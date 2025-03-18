@@ -51,7 +51,7 @@ const PortfolioPage = () => {
 
   return (
     <div>
-      <PortfolioFilter />
+      <PortfolioFilter onSearch={""} />
 
       <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
         {/* // Find matching saved story for this experience item */}
@@ -66,7 +66,6 @@ const PortfolioPage = () => {
             <StoryPortfolioCard
               key={idx}
               item={item}
-              storyTypeDataHeadline={storyTypeDataHeadline}
               
               savedItem={matchingSaved}
               refetch={refetch}
