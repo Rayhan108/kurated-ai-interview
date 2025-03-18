@@ -257,13 +257,12 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          // initialValues={editedExperience}
           initialValues={{
-            title: data.title,
-            company: data.company,
-            startDate: data.date_start,
-            endDate: data.date_end,
-            description: data.description,
+            title: savedItem.title,
+            company: savedItem.company,
+            startDate: savedItem.date_start,
+            endDate: savedItem.date_end,
+            description: savedItem.description,
           }}
           className="font-mulish"
         >
