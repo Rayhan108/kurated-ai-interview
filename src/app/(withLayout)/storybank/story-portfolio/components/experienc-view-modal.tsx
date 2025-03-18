@@ -26,7 +26,7 @@ interface IExperience {
 }
 export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const id = data?._id;
-  console.log("data from experience 15", data);
+  console.log("data from experience 15", savedItem);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
@@ -146,25 +146,24 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                       <p className="font-bold">
                         Your title{" "}
                         <span className="font-normal text-gray-500">
-                          {data.title}
+                          {savedItem?.title||"Title not found"} 
                         </span>
                       </p>
                       <p className="font-bold">
                         Company{" "}
                         <span className="font-normal text-gray-500">
-                          {data.company}
+                          {savedItem.company}
                         </span>
                       </p>
                       <p className="font-bold">
                         Dates of Employment{" "}
                         <span className="font-normal text-gray-500">
-                          {data.date_start} - {data.date_end}
+                          {savedItem.date_start} - {savedItem.date_end}
                         </span>
                       </p>
                       <div className="md:flex gap-4">
                         <p className="font-bold">Description</p>
-                        <p>{data.description}</p>
-                        {/* <p>{data.description}</p> */}
+                        <p>{savedItem.description}</p>
                       </div>
                     </div>
                   </div>
