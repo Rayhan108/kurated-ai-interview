@@ -32,10 +32,12 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const [currentEmployee, setCurrentEmployee] = useState(false);
   const [saveStory] = useSaveStoryMutation();
 
+console.log("data from experience 15", data?.role_topic_relevancy?.[0]?.relevancy);
+
   // Onfinish for update story:
 
   const onFinish = async (values) => {
-    console.log("success:", values);
+    // console.log("success:", values);
     try {
       const updatedStoryData = {
         experience: {
@@ -67,10 +69,10 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
         ],
       };
 
-      console.log("Sending updated story data:", updatedStoryData);
+      // console.log("Sending updated story data:", updatedStoryData);
 
       const response = await saveStory(updatedStoryData).unwrap();
-      console.log("Update response:", response);
+      // console.log("Update response:", response);
 
       message.success("Story updated successfully");
       refetch();
@@ -97,7 +99,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
       
       // console.log("Sending data:", data);
       const response = await saveStory(data).unwrap();
-      console.log("response", response);
+      // console.log("response", response);
 
       message.success("Story deleted successfully");
       refetch();
@@ -108,7 +110,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   const handleSubmit = () => {
@@ -116,8 +118,8 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
-  // console.log("sections", sections);
-  const ownershipPercentage = savedItem?.role_topic_relevancy?.[0]?.relevancy;
+  const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
+  console.log("ownershipPercentage from experience 120", ownershipPercentage);
   return (
     <div>
       {!isEditing && (

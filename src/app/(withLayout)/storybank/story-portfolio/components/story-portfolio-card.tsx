@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ExperienceModal } from "./experienc-view-modal";
 
 function StoryPortfolioCard({ item, savedItem, refetch }) {
-  console.log("savedItem", savedItem);
+  // console.log("savedItem", savedItem);
   const [openModal, setModal] = useState(false);
   const handleClose = () => setModal(false);
 
