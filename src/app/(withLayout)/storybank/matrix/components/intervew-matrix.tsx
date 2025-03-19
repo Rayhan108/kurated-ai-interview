@@ -156,7 +156,7 @@ function InterviewMatrix() {
                       style={
                         getCellValue(x.value, y.value).value
                           ? {
-                              backgroundColor: " #9e9e9e",
+                              // backgroundColor: " #9e9e9e",
                               borderWidth: 1,
                               // borderColor: generateRandomColor(0.08),
                             }
