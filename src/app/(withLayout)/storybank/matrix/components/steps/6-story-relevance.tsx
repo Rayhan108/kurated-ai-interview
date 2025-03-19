@@ -79,6 +79,14 @@ export const StoryRelevance = () => {
     });
   };
 
+
+const handleRetry = () => {
+  setSelectedRelevanceTopics([]);
+  setSelectedRelevance([]);
+  router.push("/storybank/matrix?modal=true&step=5");
+}
+
+
   return (
     <div>
       {success ? (
@@ -165,35 +173,45 @@ export const StoryRelevance = () => {
                   <p className="text-gray-500 py-3 ">
                     Select up to 4 topics for Kurated to generate stories
                   </p>
+
+
+                  
                   <div className="space-y-4">
                     <div className="space-y-3">
-                      {Object?.keys(relevance)?.map((key) => (
-                        <div className="grid grid-cols-2 md:grid-cols-3 items-center">
-                          <div className="col-span-1">
-                            <Checkbox
-                              name={key}
-                              onChange={handleCheckboxChange}
-                              checked={selectedRelevance.includes(key)}
-                              className="font-bold font-mulish checked:bg-red-100"
-                            >
-                              {key}
-                            </Checkbox>
+                      {Object.keys(relevance).length===0 ? (
+                        <div className="space-y-3">
+                        <button onClick={handleRetry}>Retry</button> {/* Add retry logic here */}
+                      </div>
+                      ):(
+                        Object?.keys(relevance)?.map((key) => (
+                          <div className="grid grid-cols-2 md:grid-cols-3 items-center">
+                            <div className="col-span-1">
+                              <Checkbox
+                                name={key}
+                                onChange={handleCheckboxChange}
+                                checked={selectedRelevance.includes(key)}
+                                className="font-bold font-mulish checked:bg-red-100"
+                              >
+                                {key}
+                              </Checkbox>
+                            </div>
+                            <div className="colspan-1 md:col-span-2">
+                              <Progress
+                                percent={relevance[key]}
+                                status="normal"
+                                strokeColor={
+                                  relevance[key] < 80
+                                    ? relevance[key] < 50
+                                      ? "red"
+                                      : "#EAB030"
+                                    : "green"
+                                }
+                              />
+                            </div>
                           </div>
-                          <div className="colspan-1 md:col-span-2">
-                            <Progress
-                              percent={relevance[key]}
-                              status="normal"
-                              strokeColor={
-                                relevance[key] < 80
-                                  ? relevance[key] < 50
-                                    ? "red"
-                                    : "#EAB030"
-                                  : "green"
-                              }
-                            />
-                          </div>
-                        </div>
-                      ))}
+                        ))
+                      )
+                      }
                     </div>
                   </div>
                 </div>

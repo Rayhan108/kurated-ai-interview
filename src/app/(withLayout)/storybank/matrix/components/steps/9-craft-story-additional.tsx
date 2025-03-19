@@ -35,7 +35,7 @@ export const CraftingAdditionStory = () => {
     router.push(`?${params.toString()}`);
   };
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
   return (
     <div>

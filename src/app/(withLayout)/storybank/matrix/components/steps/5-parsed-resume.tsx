@@ -26,7 +26,7 @@ export const ParsedResume = () => {
     KeyConstant.PARSED_EXPERIENCE,
     null
   );
-  console.log(experienceLocal);
+  // console.log(experienceLocal);
   const [selectedExperienceLocal, setSelectedExperienceLocal] = useLocalStorage(
     KeyConstant.SELECTED_EXPERIENCE,
     null
@@ -55,7 +55,7 @@ export const ParsedResume = () => {
     setIsEditing(false);
   };
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   return (
