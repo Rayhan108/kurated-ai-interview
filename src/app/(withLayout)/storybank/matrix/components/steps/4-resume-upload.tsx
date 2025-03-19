@@ -24,9 +24,11 @@ export const UploadResume = () => {
   const [getParsedResume, { isLoading }] = useGetParsedResumeMutation();
 
   const onChange = (info: any) => {
-    //   const params = new URLSearchParams(searchParam.toString()); // Clone existing params
-    console.log("from on change handler")
-    console.log(info.file.status    )
+    console.log("info", info.fileList.length);
+    if (info.fileList.length > 0) {
+      info.fileList = [info.fileList.pop()];
+    };
+
     if (info.file.status === "done") {
       getParsedResume(info.file.originFileObj)
         .unwrap()
@@ -38,8 +40,7 @@ export const UploadResume = () => {
           message.error(err?.data?.message);
         });
     }
-    //   params.set(KeyConstant.SUCCESS, "true");
-    //   router.push(`?${params.toString()}`);
+
   };
 
   return (
@@ -111,15 +112,22 @@ export const UploadResume = () => {
               <p className="font-semibold text-gray-600 py-3">
                 Upload either DOC, DOCX, HTML, PDF, or TXT file types (5MB max)
               </p>
+
+
               <Dragger
                 name="resume"
-                multiple={false}
+                multiple={true}
                 action="#" // Prevents automatic upload
                 showUploadList={true} // Show file list
-                beforeUpload={(file) => {
+                beforeUpload={(file,fileList) => {
+                  if(fileList.length > 1){
+                    message.error("You can only upload one file at a time.");
+                    return false
+                  }
                   console.log("🔄 Before upload triggered:", file);
                 
-                  return true;
+                  // return true;
+                  return false
                 }}
                 onChange={onChange}
                 // onDrop={(e) => console.log("File dropped:", e.dataTransfer.files)}

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ExperienceModal } from "./experienc-view-modal";
 
 function StoryPortfolioCard({ item, savedItem, refetch }) {
+  console.log("savedItem", savedItem);
   const [openModal, setModal] = useState(false);
   const handleClose = () => setModal(false);
 
@@ -14,11 +15,11 @@ function StoryPortfolioCard({ item, savedItem, refetch }) {
         className="space-y-3 border rounded-lg p-4 border-gray-300 shadow-sm hover:bg-primaryColor/30 hover:cursor-pointer"
         onClick={() => setModal(true)}
       >
-        <h1 className=" text-base">{item?.story_text?.slice(0,100).trim().split("**")}</h1>
-
-        {/* <p className="text-gray-700 text-xs md:text-sm line-clamp-3">
-          {item?.description}
-        </p> */}
+        <h1 className="text-lg font-semibold">{savedItem?.title}</h1>
+        <h1 className=" text-base">
+          {item?.story_heading ||
+            item?.story_text?.slice(0, 100).trim().split(/###|\*\*/)}
+        </h1>
 
         <p className="text-sm font-semibold ">
           Last Updated:{" "}
@@ -55,7 +56,6 @@ function StoryPortfolioCard({ item, savedItem, refetch }) {
               </div>
 
               <ExperienceModal
-              
                 data={item}
                 savedItem={savedItem}
                 refetch={refetch}
