@@ -181,7 +181,11 @@ export const CraftingAdditionStory = () => {
               <Form.Item label={null} className="m-0">
                 <MyButton
                   onClick={() => {
-                    // setIsEditing(false);
+                    // const params = new URLSearchParams(searchParam.toString()); // Clone existing params
+
+                    // params.set(KeyConstant.STEP, "5");
+
+                    // router.push(`?${params.toString()}`);
                   }}
                   variant="outline"
                   startIcon={<Save />}
