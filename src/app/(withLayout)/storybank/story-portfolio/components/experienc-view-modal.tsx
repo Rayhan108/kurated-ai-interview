@@ -128,9 +128,9 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
             </p>
 
             <div className="px-0 md:px-5 mb-5">
-              {sections.map((section, index) => (
+              {sections?.map((section, index) => (
                 <p key={index} className="mb-4">
-                  {section.trim()}
+                  {section?.trim()}
                 </p>
               ))}
             </div>

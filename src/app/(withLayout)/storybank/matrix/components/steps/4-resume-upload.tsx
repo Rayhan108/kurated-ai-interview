@@ -12,7 +12,7 @@ const { Dragger } = Upload;
 
 export const UploadResume = () => {
   const searchParam = useSearchParams();
-  
+
   const router = useRouter();
   const success = searchParam.get(KeyConstant.SUCCESS);
 
@@ -24,23 +24,26 @@ export const UploadResume = () => {
   const [getParsedResume, { isLoading }] = useGetParsedResumeMutation();
 
   const onChange = (info: any) => {
-    console.log("info", info.fileList.length);
-    if (info.fileList.length > 0) {
-      info.fileList = [info.fileList.pop()];
-    };
+    //   const params = new URLSearchParams(searchParam.toString()); // Clone existing params
+    console.log("from on change handler:", info.fileList.length);
+
+    if (info.file.status === "done") {
+      info.fileList.pop();
+    }
 
     if (info.file.status === "done") {
       getParsedResume(info.file.originFileObj)
         .unwrap()
         .then((res) => {
-          console.log(res?.data?.result?.work_experience)
+          console.log(res?.data?.result?.work_experience);
           setExperienceLocal(res?.data?.result?.work_experience);
         })
         .catch((err) => {
           message.error(err?.data?.message);
         });
     }
-
+    //   params.set(KeyConstant.SUCCESS, "true");
+    //   router.push(`?${params.toString()}`);
   };
 
   return (
@@ -112,28 +115,22 @@ export const UploadResume = () => {
               <p className="font-semibold text-gray-600 py-3">
                 Upload either DOC, DOCX, HTML, PDF, or TXT file types (5MB max)
               </p>
-
-
               <Dragger
                 name="resume"
-                multiple={true}
+                multiple={false}
                 action="#" // Prevents automatic upload
                 showUploadList={true} // Show file list
                 beforeUpload={(file,fileList) => {
                   if(fileList.length > 1){
                     message.error("You can only upload one file at a time.");
-                    return false
                   }
                   console.log("🔄 Before upload triggered:", file);
-                
-                  // return true;
-                  return false
+
+                  return true;
                 }}
                 onChange={onChange}
                 // onDrop={(e) => console.log("File dropped:", e.dataTransfer.files)}
-              
-              
-                
+
                 className="w-80 z-10 font-mulish"
               >
                 <div className="text-gray-500 font-semibold space-y-3 p-10">
