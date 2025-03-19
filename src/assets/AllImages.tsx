@@ -5,6 +5,7 @@ import checkIcon from "./icons/check.png";
 import classIcon from "./icons/class.png";
 import CloudCheck from "./icons/cloud-check.svg";
 import editIcon from "./icons/edit.png";
+import edit from "./icons/edit2.png";
 import frameIcon from "./icons/framing.png";
 import googleIcon from "./icons/googleIcon.png";
 import homeIcon from "./icons/home.svg";
@@ -28,6 +29,7 @@ import curriculumn from "./Curriculam-548a056a.png";
 import oneWeek from "./week1plan-87aed52c.png";
 import sixWeek from "./week6plan-6554085b.png";
 import twelveWeek from "./week12plan-d79ae5c6.png";
+import { Edit2 } from "lucide-react";
 
 export const AllImages = {
   logo,
@@ -53,6 +55,7 @@ export const AllImages = {
   trophyIcon,
   starIcon,
   editIcon,
+  edit,
   note,
   checkIcon,
   CloudCheck,

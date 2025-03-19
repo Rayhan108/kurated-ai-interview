@@ -8,7 +8,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaBook, FaPen } from "react-icons/fa6";
-import { Modal } from "antd"; // Importing Ant Design modal
+import { Modal, Tooltip } from "antd"; // Importing Ant Design modal
 import Image from "next/image";
 import { get } from "http";
 
@@ -20,12 +20,12 @@ function InterviewMatrix() {
   const { data: savedStory, isLoading } = useGetSavedStoryQuery(undefined);
   const { data: savedExperience } = useGetPortfolioExperienceQuery(undefined);
 
-  const generateRandomColor = (opacity) => {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgba(${r}, ${g}, ${b}, ${opacity || 1})`;
-  };
+  // const generateRandomColor = (opacity) => {
+  //   const r = Math.floor(Math.random() * 256);
+  //   const g = Math.floor(Math.random() * 256);
+  //   const b = Math.floor(Math.random() * 256);
+  //   return `rgba(${r}, ${g}, ${b}, ${opacity || 1})`;
+  // };
 
   const topics = savedStory?.data?.response?.reduce((acc, item) => {
     const exists = acc.some((entry) => entry.topicId === item.topic_id);
@@ -74,7 +74,7 @@ function InterviewMatrix() {
     value: item.story_text,
     type: item.experience_info.type,
   }));
-// console.log("data", data);
+  // console.log("data", data);
   // console.log("savedStory", savedStory?.data?.response?.map((item) => item.experience_info.type));
 
   const getCellValue = (xValue, yValue) => {
@@ -114,7 +114,7 @@ function InterviewMatrix() {
                   key={y.value}
                   className="border-[10px] border-white bg-white ml-40 md:ml-52"
                 >
-                  <p className="text-sm font-semibold h-20 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
+                  <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
                     {y.label}
                   </p>
                 </th>
@@ -125,9 +125,15 @@ function InterviewMatrix() {
             {xAxis?.map((x) => (
               <tr key={x.value}>
                 <th className="border-[10px] border-white bg-white">
-                  <p className="text-sm font-semibold h-20 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
-                    {x.label}
-                    <p>{x.company}</p>
+                  <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
+                    <Tooltip title={x.label}>
+                      <p className="truncate cursor-pointer">{x.label}</p>
+                    </Tooltip>
+                    <Tooltip title={x.company}>
+                      <p className="truncate cursor-pointer w-full">
+                        {x.company}
+                      </p>
+                    </Tooltip>
                   </p>
                 </th>
                 {yAxis?.map((y) => (
@@ -150,9 +156,9 @@ function InterviewMatrix() {
                       style={
                         getCellValue(x.value, y.value).value
                           ? {
-                              backgroundColor: generateRandomColor(0.08),
+                              backgroundColor: " #9e9e9e",
                               borderWidth: 1,
-                              borderColor: generateRandomColor(0.08),
+                              // borderColor: generateRandomColor(0.08),
                             }
                           : {
                               backgroundColor: "white",
@@ -167,9 +173,13 @@ function InterviewMatrix() {
                           <FaBook className="mx-auto text-primaryColor h-5 w-5 cursor-pointer" />
                         ) : getCellValue(x.value, y.value)?.type ===
                           "PERSONAL" ? (
-                            <Image src={AllImages.editIcon} alt="pencil" className="mx-auto h-5 w-5 cursor-pointer"></Image>
-                          // <FaPen className="mx-auto text-primaryColor h-5 w-5 cursor-pointer" />
-                        ) : null)}
+                          <Image
+                            src={AllImages.edit}
+                            alt="pencil"
+                            className="mx-auto h-5 w-5 cursor-pointer"
+                          ></Image>
+                        ) : // <FaPen className="mx-auto text-primaryColor h-5 w-5 cursor-pointer" />
+                        null)}
                     </p>
                   </td>
                 ))}

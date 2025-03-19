@@ -21,10 +21,6 @@ function StoryPortfolioCard({ item, savedItem, refetch }) {
             item?.story_text?.slice(0, 100).trim().split(/###|\*\*/)}
         </h1>
 
-        {/* <p className="text-gray-700 text-xs md:text-sm line-clamp-3">
-          {item?.description}
-        </p> */}
-
         <p className="text-sm font-semibold ">
           Last Updated:{" "}
           <span className="font-bold">
