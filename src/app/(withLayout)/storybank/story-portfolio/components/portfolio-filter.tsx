@@ -4,38 +4,27 @@ import MyButton from "@/components/shared/common/my-button";
 import { MyLinkButton } from "@/components/shared/common/my-link-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import { KeyConstant } from "@/constants/key.constant";
+import { useSearchSavedStoryQuery } from "@/redux/feature/storybank/storybank-api";
 
-import { Input, Select } from "antd";
+import { Input, Select, Spin } from "antd";
 import { BookText, FilePenLine, Plus, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-function PortfolioFilter({ onSearch }) {
-  // const [search, setSearch] = useState("");
+function PortfolioFilter() {
+  const [search, setSearch] = useState("");
+  const { data: searchSavedStory, isLoading } = useSearchSavedStoryQuery(search ? { query: search } : {} );
+  console.log("searchSavedStory", searchSavedStory?.data?.response);
 
   const searchParams = useSearchParams();
-  // console.log("search params",searchParams)
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const router = useRouter();
 
-  
-  // console.log(search)
-         
-  // useEffect(() => {
-  //   const params = new URLSearchParams(searchParams);
- 
-  //   params.set(KeyConstant.STORY_TYPE, storyType || "EXTRACTED");
-  //   if (search) {
-  //     params.set(KeyConstant.query, search);
-  //   } else {
-  //     params.delete(KeyConstant.query);
-  //   }
+  const handleChange = (value: string) => {};
 
-  //   router.push(`/storybank/story-portfolio?${params.toString()}`);
-  // }, [search]);
-
-  const handleChange = (value: string) => {
-    // console.log(`selected ${value}`);
+  const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.value;
+    setSearch(value); // This will trigger the search query whenever the search value changes
   };
 
   return (
@@ -46,7 +35,6 @@ function PortfolioFilter({ onSearch }) {
             onClick={() => {
               const params = new URLSearchParams(searchParams);
               params.set(KeyConstant.STORY_TYPE, "EXTRACTED");
-              // console.log("when even trigger",params.toString());
               router.push(`/storybank/story-portfolio?${params.toString()}`);
             }}
             variant={storyType === "EXTRACTED" ? "default" : "secondary"}
@@ -59,7 +47,6 @@ function PortfolioFilter({ onSearch }) {
             onClick={() => {
               const params = new URLSearchParams(searchParams);
               params.set(KeyConstant.STORY_TYPE, "PERSONAL");
-
               router.push(`/storybank/story-portfolio?${params.toString()}`);
             }}
             variant={storyType === "PERSONAL" ? "default" : "secondary"}
@@ -71,13 +58,15 @@ function PortfolioFilter({ onSearch }) {
         </div>
         <MySpacer className="h-2" />
         <div className="flex items-center gap-3">
+          {/* Search Input */}
           <Input
-            placeholder="Search Story..."
+            placeholder="Search here..."
             prefix={<Search size={16} className="text-gray-400" />}
             className="rounded-full bg-transparent py-2 px-3 w-full lg:w-60"
-            // onChange={(e) => setSearch(e.target.value)}
-            onChange={(e) => onSearch(e.target.value)}
+            value={search}
+            onChange={onSearch} // Handles updating the search term
           />
+
           <Select
             style={{ width: 130 }}
             onChange={handleChange}
@@ -102,14 +91,29 @@ function PortfolioFilter({ onSearch }) {
           >
             <Plus size={18} /> Create New Story
           </MyLinkButton>
-          {/* <MyButton
-            startIcon={<Plus />}
-            onClick={() => {}}
-            className="bg-red-500  w-full text-center"
-          >
-            Create New Story
-          </MyButton> */}
         </div>
+      </div>
+
+      <div className="mt-4">
+        {isLoading ? (
+          <Spin />
+        ) : (
+          <>
+            {search?.data?.response?.length > 0 ? (
+              <ul className="bg-white p-4 rounded-lg shadow-md">
+                {search?.data?.response.map((story: any) => (
+                  <li key={story._id} className="border-b py-2">
+                    {story.story_text}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500">
+                {search ? "No results found." : "No stories to display here"}
+              </p>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

@@ -114,9 +114,11 @@ function InterviewMatrix() {
                   key={y.value}
                   className="border-[10px] border-white bg-white ml-40 md:ml-52"
                 >
-                  <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
+                  <Tooltip title={y.label}>
+                  <p className="truncate cursor-pointer text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
                     {y.label}
                   </p>
+                  </Tooltip>
                 </th>
               ))}
             </tr>
@@ -157,11 +159,14 @@ function InterviewMatrix() {
                         getCellValue(x.value, y.value).value
                           ? {
                               // backgroundColor: " #9e9e9e",
+                              backgroundColor: " #919191",
                               borderWidth: 1,
                               // borderColor: generateRandomColor(0.08),
                             }
                           : {
                               backgroundColor: "white",
+                              // backgroundColor: "#919191",
+                  
                               borderWidth: 1,
                               borderColor: "#f3f4f6",
                             }
