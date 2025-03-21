@@ -51,7 +51,7 @@ const PortfolioPage = () => {
 
   return (
     <div>
-      <PortfolioFilter onSearch={""} />
+      <PortfolioFilter />
 
       <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
         {/* // Find matching saved story for this experience item */}
