@@ -26,18 +26,15 @@ interface IExperience {
 }
 export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const id = data?._id;
-  // console.log("data from experience 15", savedItem);
+  console.log("data from experience 15", savedItem);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
   const [saveStory] = useSaveStoryMutation();
 
-console.log("data from experience 15", data?.role_topic_relevancy?.[0]?.relevancy);
 
-  // Onfinish for update story:
 
   const onFinish = async (values) => {
-    // console.log("success:", values);
     try {
       const updatedStoryData = {
         experience: {
@@ -119,14 +116,17 @@ console.log("data from experience 15", data?.role_topic_relevancy?.[0]?.relevanc
 
   const sections = data?.story_text?.split("**").filter(Boolean);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
-  console.log("ownershipPercentage from experience 120", ownershipPercentage);
+  // console.log("ownershipPercentage from experience 120", ownershipPercentage);
   return (
     <div>
       {!isEditing && (
         <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)] ">
           <div className="flex-1 overflow-y-auto place-content-center py-10">
             <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg z-20">
-              Experience from your Resume
+             {
+              savedItem?.type==="EXTRACTED" ? "Experience from your Resume" :"Experience from Personal Story"
+             
+             }
             </p>
 
             <div className="px-0 md:px-5 mb-5">
