@@ -94,7 +94,7 @@ function PortfolioFilter() {
         </div>
       </div>
 
-      <div className="mt-4">
+      {/* <div className="mt-4">
         {isLoading ? (
           <Spin />
         ) : (
@@ -114,7 +114,7 @@ function PortfolioFilter() {
             )}
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
