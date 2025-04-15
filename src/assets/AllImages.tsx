@@ -30,6 +30,8 @@ import oneWeek from "./week1plan-87aed52c.png";
 import sixWeek from "./week6plan-6554085b.png";
 import twelveWeek from "./week12plan-d79ae5c6.png";
 import { Edit2 } from "lucide-react";
+import personalStoryIcon from "../assets/icons/Personal Story Icon.png";
+import resumeIcon from "../assets/icons/Resume Icon.png";
 
 export const AllImages = {
   logo,
@@ -63,4 +65,6 @@ export const AllImages = {
   oneWeek,
   sixWeek,
   twelveWeek,
+  personalStoryIcon,
+  resumeIcon
 };

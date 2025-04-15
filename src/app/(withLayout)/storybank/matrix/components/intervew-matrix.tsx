@@ -115,9 +115,9 @@ function InterviewMatrix() {
                   className="border-[10px] border-white bg-white ml-40 md:ml-52"
                 >
                   <Tooltip title={y.label}>
-                  <p className="truncate cursor-pointer text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
-                    {y.label}
-                  </p>
+                    <p className="truncate cursor-pointer text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
+                      {y.label}
+                    </p>
                   </Tooltip>
                 </th>
               ))}
@@ -158,15 +158,11 @@ function InterviewMatrix() {
                       style={
                         getCellValue(x.value, y.value).value
                           ? {
-                              // backgroundColor: " #9e9e9e",
-                              backgroundColor: " #919191",
+                              backgroundColor: " #EDEDED",
                               borderWidth: 1,
-                              // borderColor: generateRandomColor(0.08),
                             }
                           : {
                               backgroundColor: "white",
-                              // backgroundColor: "#919191",
-                  
                               borderWidth: 1,
                               borderColor: "#f3f4f6",
                             }
@@ -175,11 +171,15 @@ function InterviewMatrix() {
                       {getCellValue(x.value, y.value)?.value &&
                         (getCellValue(x.value, y.value)?.type ===
                         "EXTRACTED" ? (
-                          <FaBook className="mx-auto text-primaryColor h-5 w-5 cursor-pointer" />
+                          <Image
+                            src={AllImages.resumeIcon}
+                            alt="pencil"
+                            className="mx-auto h-5 w-5 cursor-pointer"
+                          ></Image>
                         ) : getCellValue(x.value, y.value)?.type ===
                           "PERSONAL" ? (
                           <Image
-                            src={AllImages.edit}
+                            src={AllImages.personalStoryIcon}
                             alt="pencil"
                             className="mx-auto h-5 w-5 cursor-pointer"
                           ></Image>

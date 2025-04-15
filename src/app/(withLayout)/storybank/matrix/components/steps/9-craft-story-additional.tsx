@@ -131,9 +131,23 @@ export const CraftingAdditionStory = () => {
                         name="endDate"
                         rules={[
                           {
-                            required: currentEmployee ? false : true,
+                            required: !currentEmployee,
                             message: "Please input a date",
                           },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              const startDate = getFieldValue("startDate");
+                              if (!value || !startDate) {
+                                return Promise.resolve();
+                              }
+                              if (new Date(value) < new Date(startDate)) {
+                                return Promise.reject(
+                                  "End date cannot be before start date"
+                                );
+                              }
+                              return Promise.resolve();
+                            },
+                          }),
                         ]}
                         className="m-0"
                       >
@@ -141,6 +155,7 @@ export const CraftingAdditionStory = () => {
                       </Form.Item>
                     )}
                   </div>
+               
                 </div>
               </div>
               <div>
@@ -182,9 +197,7 @@ export const CraftingAdditionStory = () => {
                 <MyButton
                   onClick={() => {
                     // const params = new URLSearchParams(searchParam.toString()); // Clone existing params
-
                     // params.set(KeyConstant.STEP, "5");
-
                     // router.push(`?${params.toString()}`);
                   }}
                   variant="outline"
