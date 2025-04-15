@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ExperienceModal } from "./experienc-view-modal";
 
 function StoryPortfolioCard({ item, savedItem, refetch }) {
-  // console.log("savedItem", savedItem);
+  console.log("item", item);
   const [openModal, setModal] = useState(false);
   const handleClose = () => setModal(false);
 
@@ -15,11 +15,18 @@ function StoryPortfolioCard({ item, savedItem, refetch }) {
         className="space-y-3 border rounded-lg p-4 border-gray-300 shadow-sm hover:bg-primaryColor/30 hover:cursor-pointer"
         onClick={() => setModal(true)}
       >
+
         <h1 className="text-lg font-semibold">{savedItem?.title}</h1>
+        {/* Story headline */}
         <h1 className=" text-base">
           {item?.story_heading ||
-            item?.story_text?.slice(0, 100).trim().split(/###|\*\*/)}
+            item?.story_text
+              ?.slice(0, 100)
+              .trim()
+              .split(/###|\*\*/)}
         </h1>
+
+    
 
         <p className="text-sm font-semibold ">
           Last Updated:{" "}

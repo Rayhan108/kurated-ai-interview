@@ -155,32 +155,7 @@ export const CraftingAdditionStory = () => {
                       </Form.Item>
                     )}
                   </div>
-                  {/* <Form.Item
-                    name="endDate"
-                    className="m-0"
-                    rules={[
-                      {
-                        required: !currentEmployee,
-                        message: "Please input a date",
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          const startDate = getFieldValue("startDate");
-                          if (!value || !startDate) {
-                            return Promise.resolve();
-                          }
-                          if (new Date(value) < new Date(startDate)) {
-                            return Promise.reject(
-                              "End date cannot be before start date"
-                            );
-                          }
-                          return Promise.resolve();
-                        },
-                      }),
-                    ]}
-                  >
-                    <Input type="date" />
-                  </Form.Item> */}
+               
                 </div>
               </div>
               <div>
