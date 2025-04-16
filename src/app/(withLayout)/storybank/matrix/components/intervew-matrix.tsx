@@ -7,10 +7,8 @@ import {
 } from "@/redux/feature/storybank/storybank-api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaBook, FaPen } from "react-icons/fa6";
 import { Modal, Tooltip } from "antd"; // Importing Ant Design modal
 import Image from "next/image";
-import { get } from "http";
 
 function InterviewMatrix() {
   const router = useRouter();
@@ -19,6 +17,8 @@ function InterviewMatrix() {
   const [storyText, setStoryText] = useState("");
   const { data: savedStory, isLoading } = useGetSavedStoryQuery(undefined);
   const { data: savedExperience } = useGetPortfolioExperienceQuery(undefined);
+
+// console.log("savedStory", savedStory);
 
   // const generateRandomColor = (opacity) => {
   //   const r = Math.floor(Math.random() * 256);
