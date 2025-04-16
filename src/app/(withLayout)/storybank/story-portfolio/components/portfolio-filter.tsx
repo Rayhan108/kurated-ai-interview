@@ -67,7 +67,7 @@ function PortfolioFilter() {
             onChange={onSearch} // Handles updating the search term
           />
 
-          <Select
+          {/* <Select
             style={{ width: 130 }}
             onChange={handleChange}
             placeholder="Your Resume"
@@ -76,7 +76,7 @@ function PortfolioFilter() {
               { value: "new-upload", label: "New Upload" },
               { value: "delete", label: "Delete" },
             ]}
-          />
+          /> */}
           <MyLinkButton
             href="/storybank/matrix?modal=true&step=1"
             className="bg-red-500 hover:bg-red-500/80 hidden lg:flex items-center gap-1 shadow-md"
