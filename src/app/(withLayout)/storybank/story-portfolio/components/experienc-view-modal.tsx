@@ -16,6 +16,7 @@ import {
 import { error } from "console";
 import { Save } from "lucide-react";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 interface IExperience {
   title: string;
@@ -31,8 +32,6 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
   const [saveStory] = useSaveStoryMutation();
-
-
 
   const onFinish = async (values) => {
     try {
@@ -80,29 +79,64 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
     }
   };
 
+  // const hnadleDelete = async () => {
+  //   try {
+  //     const data = {
+  //       experience: {
+  //          id: savedItem?._id,
+  //       },
+  //       stories: [
+  //         {
+  //           removed: [id],
+  //         },
+  //       ],
+  //     }
+
+  //     // console.log("Sending data:", data);
+  //     const response = await saveStory(data).unwrap();
+  //     // console.log("response", response);
+
+  //     message.success("Story deleted successfully");
+  //     refetch();
+  //     handleClose();
+  //   } catch (error) {
+  //     message.error(error?.data?.message || "Failed to delete story");
+  //   }
+  // };
+
+
+
   const hnadleDelete = async () => {
-    try {
-      const data = {
-        experience: {
-           id: savedItem?._id,
-        },
-        stories: [
-          {
-            removed: [id],
+    const confirmResult = await Swal.fire({
+      title: "Are you sure?",
+      text: "This story will be permanently deleted.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (confirmResult.isConfirmed) {
+      try {
+        const data = {
+          experience: {
+            id: savedItem?._id,
           },
-        ],
+          stories: [
+            {
+              removed: [id],
+            },
+          ],
+        };
+
+        const response = await saveStory(data).unwrap();
+        message.success("Story deleted successfully");
+        refetch();
+        handleClose();
+      } catch (error) {
+        message.error(error?.data?.message || "Failed to delete story");
       }
-
-      
-      // console.log("Sending data:", data);
-      const response = await saveStory(data).unwrap();
-      // console.log("response", response);
-
-      message.success("Story deleted successfully");
-      refetch();
-      handleClose();
-    } catch (error) {
-      message.error(error?.data?.message || "Failed to delete story");
     }
   };
 
@@ -123,10 +157,9 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
         <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)] ">
           <div className="flex-1 overflow-y-auto place-content-center py-10">
             <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg z-20">
-             {
-              savedItem?.type==="EXTRACTED" ? "Experience from your Resume" :"Experience from Personal Story"
-             
-             }
+              {savedItem?.type === "EXTRACTED"
+                ? "Experience from your Resume"
+                : "Experience from Personal Story"}
             </p>
 
             <div className="px-0 md:px-5 mb-5">
@@ -148,7 +181,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                       <p className="font-bold">
                         Your title{" "}
                         <span className="font-normal text-gray-500">
-                          {savedItem?.title||"Title not found"} 
+                          {savedItem?.title || "Title not found"}
                         </span>
                       </p>
                       <p className="font-bold">
