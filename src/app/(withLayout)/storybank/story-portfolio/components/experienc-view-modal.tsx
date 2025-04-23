@@ -240,7 +240,6 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
               </div>
             </div>
           </div>
-          {/* TODO: save and delete story does not work */}
           <div className="border-t py-3 w-full bg-white">
             <div className="flex justify-between gap-1">
               <MyButton
@@ -291,21 +290,21 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
           <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
             <div className="flex-1 overflow-y-auto py-10">
               <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg z-20">
-                Edit Experience
+                Edit Story
               </p>
-              <div className="space-y-2 px-2">
+              <div className="space-y-2 px-2 border border-neutral-800 rounded-md p-4 mt-5">
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                    Your title
+                  Predictive Topic
                   </Typography.Title>
                   <Form.Item
-                    name="title"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your title",
-                      },
-                    ]}
+                    name="topic"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input predictive topic",
+                    //   },
+                    // ]}
                     className="m-0"
                   >
                     <Input />
@@ -313,95 +312,80 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 </div>
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                    Company
+                  Headline:
                   </Typography.Title>
                   <Form.Item
-                    name="company"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your title",
-                      },
-                    ]}
+                    name="headline"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input your headline",
+                    //   },
+                    // ]}
                     className="m-0"
                   >
                     <Input />
                   </Form.Item>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold pt-3 pb-1">
-                    Dates of Employment
-                  </p>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Typography.Title level={5} className="font-mulish">
-                        Start Date
-                      </Typography.Title>
-                      <Form.Item
-                        name="startDate"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input a date",
-                          },
-                        ]}
-                        className="m-0"
-                      >
-                        <Input type="date" />
-                      </Form.Item>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-center">
-                        {currentEmployee ? (
-                          <div></div>
-                        ) : (
-                          <Typography.Title level={5} className="font-mulish">
-                            End Date
-                          </Typography.Title>
-                        )}
-
-                        <Checkbox
-                          value={currentEmployee}
-                          onChange={(e) => setCurrentEmployee(e.target.checked)}
-                          className="font-mulish"
-                        >
-                          Current Employee
-                        </Checkbox>
-                      </div>
-                      {!currentEmployee && (
-                        <Form.Item
-                          name="endDate"
-                          rules={[
-                            {
-                              required: currentEmployee ? false : true,
-                              message: "Please input a date",
-                            },
-                          ]}
-                          className="m-0"
-                        >
-                          <Input type="date" />
-                        </Form.Item>
-                      )}
-                    </div>
-                  </div>
+                  <Typography.Title level={5} className="font-mulish">
+                  Event:
+                  </Typography.Title>
+                  <Form.Item
+                    name="event"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input your Event",
+                    //   },
+                    // ]}
+                    className="m-0"
+                  >
+                    <Input />
+                  </Form.Item>
                 </div>
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                    Description
+                  Action:
                   </Typography.Title>
                   <Form.Item
-                    name="description"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your description",
-                      },
-                    ]}
+                    name="action"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input your Action",
+                    //   },
+                    // ]}
                     className="m-0"
                   >
-                    <Input.TextArea rows={6} />
+                    <Input />
                   </Form.Item>
                 </div>
+                <div>
+                  <Typography.Title level={5} className="font-mulish">
+                  Result:
+                  </Typography.Title>
+                  <Form.Item
+                    name="result"
+                  
+                    className="m-0"
+                  >
+                    <Input />
+                  </Form.Item>
+                </div>
+                <div>
+                  <Typography.Title level={5} className="font-mulish">
+                  Significance::
+                  </Typography.Title>
+                  <Form.Item
+                    name="significance:"
+                  
+                    className="m-0"
+                  >
+                    <Input />
+                  </Form.Item>
+                </div>
+            
               </div>
             </div>
 
