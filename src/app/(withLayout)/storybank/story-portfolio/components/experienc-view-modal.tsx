@@ -149,6 +149,11 @@ const router = useRouter()
     router.push("/storybank/matrix");
   };
 
+  const handleYes=()=>{
+    handleCloseUploadMoaModal();
+    handleCloseProcessModal();
+    router.push("/storybank/matrix?modal=true&step=1");
+  }
 
 
   const sections = data?.story_text?.split("**").filter(Boolean);
@@ -512,7 +517,7 @@ const router = useRouter()
                   <IoIosCheckboxOutline />
                   No, go to my Interview Matrix
                 </button>
-                <button className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2">
+                <button onClick={handleYes} className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2">
                   <IoCheckmarkDone />
                   Yes
                 </button>
