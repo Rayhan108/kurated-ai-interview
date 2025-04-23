@@ -22,6 +22,7 @@ import { AllImages } from "@/assets/AllImages";
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { IoCheckmarkDone } from "react-icons/io5";
 import { TbArrowBack } from "react-icons/tb";
+import { useRouter } from "next/navigation";
 
 interface IExperience {
   title: string;
@@ -137,6 +138,18 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const handleCloseUploadMoaModal = () => {
     setIsUploadMoaPOpen(false);
   };
+
+  const handleBack=()=>{
+    handleCloseProcessModal()    
+  };
+const router = useRouter()
+  const handleGoToMyInterviewMatrix = () => {
+    handleCloseUploadMoaModal();
+    handleCloseProcessModal();
+    router.push("/storybank/matrix");
+  };
+
+
 
   const sections = data?.story_text?.split("**").filter(Boolean);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
@@ -456,7 +469,9 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
               <p className="pt-12">Do you want to proceed?</p>
             </div>
             <div className="flex gap-2 mt-10 justify-between items-center">
-              <button className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2">
+              <button 
+              onClick={handleBack}
+              className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2">
                 <TbArrowBack />
                 Back
               </button>
@@ -493,7 +508,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
               ></Image>
               <p className="pt-12">Do you want to create more stories?</p>
               <div className="flex gap-2 mt-10 justify-center items-center">
-                <button className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2">
+                <button onClick={handleGoToMyInterviewMatrix} className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2">
                   <IoIosCheckboxOutline />
                   No, go to my Interview Matrix
                 </button>
