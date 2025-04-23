@@ -32,11 +32,13 @@ import twelveWeek from "./week12plan-d79ae5c6.png";
 import { Edit2 } from "lucide-react";
 import personalStoryIcon from "../assets/icons/Personal Story Icon.png";
 import resumeIcon from "../assets/icons/Resume Icon.png";
-import check from "../assets/icons/ci_cloud-check.png"
+import check from "../assets/icons/ci_cloud-check.png" 
+import frame from "../assets/icons/Frame.png" 
 
 
 
 export const AllImages = {
+  frame,
   check,
   logo,
   blackLogo,

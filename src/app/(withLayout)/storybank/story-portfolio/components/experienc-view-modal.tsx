@@ -21,6 +21,7 @@ import Image from "next/image";
 import { AllImages } from "@/assets/AllImages";
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { IoCheckmarkDone } from "react-icons/io5";
+import { TbArrowBack } from "react-icons/tb";
 
 interface IExperience {
   title: string;
@@ -428,10 +429,53 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
         </Form>
       )}
 
-      {/* Process Modal */}
+      {/* process modal */}
       <Modal
         open={isProceesModalOpen}
         onClose={handleCloseProcessModal}
+        onCancel={handleCloseProcessModal}
+        footer={null}
+        width={800}
+      >
+        <div className="flex flex-col">
+          <div className="flex-1py-10">
+            <h1 className="text-xl font-semibold text-center my-10">
+              Your story will be updated
+            </h1>
+            <p className="text-center my-10">
+              You've made changes to the existing story. Please review the
+              entire story before saving your changes.
+            </p>
+            <div className="flex flex-col justify-center items-center my-12">
+              <Image
+                src={AllImages.frame}
+                alt="success"
+                height={200}
+                width={200}
+              ></Image>
+              <p className="pt-12">Do you want to proceed?</p>
+            </div>
+            <div className="flex gap-2 mt-10 justify-between items-center">
+              <button className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2">
+                <TbArrowBack />
+                Back
+              </button>
+              <button 
+              onClick={showUploadMoaModal}
+              className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2">
+                <IoCheckmarkDone />
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* FInish Modal */}
+      <Modal
+        open={isUploadMoapOpen}
+        onClose={handleCloseUploadMoaModal}
+        onCancel={handleCloseUploadMoaModal}
         footer={null}
         width={800}
       >
