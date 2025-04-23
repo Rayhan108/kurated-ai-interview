@@ -1,14 +1,13 @@
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
-import {
-  useSaveStoryMutation,
-} from "@/redux/feature/storybank/storybank-api";
+import { useSaveStoryMutation } from "@/redux/feature/storybank/storybank-api";
 import {
   Button,
   Checkbox,
   Form,
   Input,
   message,
+  Modal,
   Progress,
   Typography,
 } from "antd";
@@ -18,7 +17,11 @@ import Swal from "sweetalert2";
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { PiClockClockwiseBold } from "react-icons/pi";
-
+import Image from "next/image";
+import { AllImages } from "@/assets/AllImages";
+import { IoIosCheckboxOutline } from "react-icons/io";
+import { IoCheckmarkDone } from "react-icons/io5";
+import { TbArrowBack } from "react-icons/tb";
 
 interface IExperience {
   title: string;
@@ -33,6 +36,8 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
+  const [isProceesModalOpen, setIsProceesModalOpen] = useState(false);
+  const [isUploadMoapOpen, setIsUploadMoaPOpen] = useState(false);
   const [saveStory] = useSaveStoryMutation();
 
   const onFinish = async (values) => {
@@ -118,6 +123,19 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
 
   const handleSubmit = () => {
     handleClose();
+  };
+
+  const showProcessModal = () => {
+    setIsProceesModalOpen(true);
+  };
+  const handleCloseProcessModal = () => {
+    setIsProceesModalOpen(false);
+  };
+  const showUploadMoaModal = () => {
+    setIsUploadMoaPOpen(true);
+  };
+  const handleCloseUploadMoaModal = () => {
+    setIsUploadMoaPOpen(false);
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
@@ -254,7 +272,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 variant="ghost"
                 className="text-red-500 hover:text-red-500 border border-red-500 flex items-center gap-2"
               >
-              <FaRegTrashAlt />
+                <FaRegTrashAlt />
                 Delete story
               </MyButton>
               <Form.Item label={null} className="m-0">
@@ -298,7 +316,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
               <div className="space-y-2 px-2 border border-neutral-800 rounded-md p-10 mt-5">
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                  Predictive Topic
+                    Predictive Topic
                   </Typography.Title>
                   <Form.Item
                     name="topic"
@@ -315,7 +333,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 </div>
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                  Headline:
+                    Headline:
                   </Typography.Title>
                   <Form.Item
                     name="headline"
@@ -332,7 +350,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 </div>
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                  Event:
+                    Event:
                   </Typography.Title>
                   <Form.Item
                     name="event"
@@ -349,7 +367,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 </div>
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                  Action:
+                    Action:
                   </Typography.Title>
                   <Form.Item
                     name="action"
@@ -366,29 +384,20 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 </div>
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                  Result:
+                    Result:
                   </Typography.Title>
-                  <Form.Item
-                    name="result"
-                  
-                    className="m-0"
-                  >
+                  <Form.Item name="result" className="m-0">
                     <Input.TextArea rows={2} />
                   </Form.Item>
                 </div>
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                  Significance::
+                    Significance::
                   </Typography.Title>
-                  <Form.Item
-                    name="significance:"
-                  
-                    className="m-0"
-                  >
+                  <Form.Item name="significance:" className="m-0">
                     <Input.TextArea rows={4} />
                   </Form.Item>
                 </div>
-            
               </div>
             </div>
 
@@ -406,14 +415,12 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 </MyButton>
                 <Form.Item label={null} className="m-0">
                   <MyButton
-                    onClick={() => {
-                      // setIsEditing(false);
-                    }}
+                    onClick={showProcessModal}
                     variant="outline"
                     className="border-black"
                   >
                     <PiClockClockwiseBold />
-                 Update Story
+                    Update Story
                   </MyButton>
                 </Form.Item>
               </div>
@@ -421,6 +428,84 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
           </div>
         </Form>
       )}
+
+      {/* process modal */}
+      <Modal
+        open={isProceesModalOpen}
+        onClose={handleCloseProcessModal}
+        onCancel={handleCloseProcessModal}
+        footer={null}
+        width={800}
+      >
+        <div className="flex flex-col">
+          <div className="flex-1py-10">
+            <h1 className="text-xl font-semibold text-center my-10">
+              Your story will be updated
+            </h1>
+            <p className="text-center my-10">
+              You've made changes to the existing story. Please review the
+              entire story before saving your changes.
+            </p>
+            <div className="flex flex-col justify-center items-center my-12">
+              <Image
+                src={AllImages.frame}
+                alt="success"
+                height={200}
+                width={200}
+              ></Image>
+              <p className="pt-12">Do you want to proceed?</p>
+            </div>
+            <div className="flex gap-2 mt-10 justify-between items-center">
+              <button className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2">
+                <TbArrowBack />
+                Back
+              </button>
+              <button 
+              onClick={showUploadMoaModal}
+              className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2">
+                <IoCheckmarkDone />
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* FInish Modal */}
+      <Modal
+        open={isUploadMoapOpen}
+        onClose={handleCloseUploadMoaModal}
+        onCancel={handleCloseUploadMoaModal}
+        footer={null}
+        width={800}
+      >
+        <div className="flex flex-col">
+          <div className="flex-1py-10">
+            <h1 className="text-xl font-semibold text-center my-10">
+              Your story has been successfully updated !
+            </h1>
+            <div className="flex flex-col justify-center items-center my-16">
+              <Image
+                src={AllImages.check}
+                alt="success"
+                height={100}
+                width={100}
+              ></Image>
+              <p className="pt-12">Do you want to create more stories?</p>
+              <div className="flex gap-2 mt-10 justify-center items-center">
+                <button className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2">
+                  <IoIosCheckboxOutline />
+                  No, go to my Interview Matrix
+                </button>
+                <button className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2">
+                  <IoCheckmarkDone />
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
