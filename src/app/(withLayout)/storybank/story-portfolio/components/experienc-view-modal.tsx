@@ -1,7 +1,6 @@
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import {
-  useGetSpecificSavedStoryQuery,
   useSaveStoryMutation,
 } from "@/redux/feature/storybank/storybank-api";
 import {
@@ -13,10 +12,10 @@ import {
   Progress,
   Typography,
 } from "antd";
-import { error } from "console";
 import { Save } from "lucide-react";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { FiEdit } from "react-icons/fi";
 
 interface IExperience {
   title: string;
@@ -65,10 +64,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
         ],
       };
 
-      // console.log("Sending updated story data:", updatedStoryData);
-
       const response = await saveStory(updatedStoryData).unwrap();
-      // console.log("Update response:", response);
 
       message.success("Story updated successfully");
       refetch();
@@ -78,33 +74,6 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
       message.error(error?.data?.message || "Failed to update story");
     }
   };
-
-  // const hnadleDelete = async () => {
-  //   try {
-  //     const data = {
-  //       experience: {
-  //          id: savedItem?._id,
-  //       },
-  //       stories: [
-  //         {
-  //           removed: [id],
-  //         },
-  //       ],
-  //     }
-
-  //     // console.log("Sending data:", data);
-  //     const response = await saveStory(data).unwrap();
-  //     // console.log("response", response);
-
-  //     message.success("Story deleted successfully");
-  //     refetch();
-  //     handleClose();
-  //   } catch (error) {
-  //     message.error(error?.data?.message || "Failed to delete story");
-  //   }
-  // };
-
-
 
   const hnadleDelete = async () => {
     const confirmResult = await Swal.fire({
@@ -169,7 +138,24 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 </p>
               ))}
             </div>
-
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-1 border border-black border-rounded-md my-3 mx-5 flex items-center gap-2 rounded-md"
+                onClick={() => {
+                  setIsEditing(true);
+                  // setEditedExperience({
+                  //   title: data.title,
+                  //   company: data.company,
+                  //   startDate: data.dates_of_employment.split("-")[0],
+                  //   endDate: data.dates_of_employment.split("-")[1],
+                  //   description: data.responsibilities.toString(),
+                  // });
+                }}
+              >
+                <FiEdit />
+                Edit
+              </button>
+            </div>
             <div className="px-0 md:px-5">
               <div className="space-y-4">
                 <div>
@@ -203,7 +189,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                     </div>
                   </div>
 
-                  <div className="text-right">
+                  {/* <div className="text-right">
                     <Button
                       type="text"
                       className="px-1"
@@ -220,7 +206,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                     >
                       Edit
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
