@@ -17,6 +17,9 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { PiClockClockwiseBold } from "react-icons/pi";
+
+
 interface IExperience {
   title: string;
   company: string;
@@ -274,7 +277,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
 
       {isEditing && (
         <Form
-          name="basic"
+          name="edit-story"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -292,7 +295,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
               <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg z-20">
                 Edit Story
               </p>
-              <div className="space-y-2 px-2 border border-neutral-800 rounded-md p-4 mt-5">
+              <div className="space-y-2 px-2 border border-neutral-800 rounded-md p-10 mt-5">
                 <div>
                   <Typography.Title level={5} className="font-mulish">
                   Predictive Topic
@@ -358,7 +361,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                     // ]}
                     className="m-0"
                   >
-                    <Input />
+                    <Input.TextArea rows={2} />
                   </Form.Item>
                 </div>
                 <div>
@@ -370,7 +373,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                   
                     className="m-0"
                   >
-                    <Input />
+                    <Input.TextArea rows={2} />
                   </Form.Item>
                 </div>
                 <div>
@@ -382,7 +385,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                   
                     className="m-0"
                   >
-                    <Input />
+                    <Input.TextArea rows={4} />
                   </Form.Item>
                 </div>
             
@@ -397,7 +400,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                     setEditedExperience(null);
                   }}
                   variant="ghost"
-                  className="text-red-500 hover:text-red-500"
+                  className="text-red-500 hover:text-red-500 border border-red-500 rounded-md"
                 >
                   Discard
                 </MyButton>
@@ -407,10 +410,10 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                       // setIsEditing(false);
                     }}
                     variant="outline"
-                    startIcon={<Save />}
                     className="border-black"
                   >
-                    Save
+                    <PiClockClockwiseBold />
+                 Update Story
                   </MyButton>
                 </Form.Item>
               </div>
