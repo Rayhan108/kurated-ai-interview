@@ -16,7 +16,7 @@ import { Save } from "lucide-react";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { FiEdit } from "react-icons/fi";
-
+import { FaRegTrashAlt } from "react-icons/fa";
 interface IExperience {
   title: string;
   company: string;
@@ -26,7 +26,7 @@ interface IExperience {
 }
 export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const id = data?._id;
-  console.log("data from experience 15", savedItem);
+  // console.log("data from experience 15", savedItem);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
@@ -250,8 +250,9 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 //   setEditedExperience(null);
                 // }}
                 variant="ghost"
-                className="text-red-500 hover:text-red-500"
+                className="text-red-500 hover:text-red-500 border border-red-500 flex items-center gap-2"
               >
+              <FaRegTrashAlt />
                 Delete story
               </MyButton>
               <Form.Item label={null} className="m-0">
@@ -264,7 +265,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                   startIcon={<Save />}
                   className="border-black "
                 >
-                  Save
+                  Save Story
                 </MyButton>
               </Form.Item>
             </div>
