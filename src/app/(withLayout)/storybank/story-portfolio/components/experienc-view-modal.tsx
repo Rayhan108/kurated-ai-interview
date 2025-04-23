@@ -1,7 +1,6 @@
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import {
-  useGetSpecificSavedStoryQuery,
   useSaveStoryMutation,
 } from "@/redux/feature/storybank/storybank-api";
 import {
@@ -13,10 +12,13 @@ import {
   Progress,
   Typography,
 } from "antd";
-import { error } from "console";
 import { Save } from "lucide-react";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { FiEdit } from "react-icons/fi";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { PiClockClockwiseBold } from "react-icons/pi";
+
 
 interface IExperience {
   title: string;
@@ -27,7 +29,7 @@ interface IExperience {
 }
 export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const id = data?._id;
-  console.log("data from experience 15", savedItem);
+  // console.log("data from experience 15", savedItem);
   const [isEditing, setIsEditing] = useState(false);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
@@ -65,10 +67,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
         ],
       };
 
-      // console.log("Sending updated story data:", updatedStoryData);
-
       const response = await saveStory(updatedStoryData).unwrap();
-      // console.log("Update response:", response);
 
       message.success("Story updated successfully");
       refetch();
@@ -78,33 +77,6 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
       message.error(error?.data?.message || "Failed to update story");
     }
   };
-
-  // const hnadleDelete = async () => {
-  //   try {
-  //     const data = {
-  //       experience: {
-  //          id: savedItem?._id,
-  //       },
-  //       stories: [
-  //         {
-  //           removed: [id],
-  //         },
-  //       ],
-  //     }
-
-  //     // console.log("Sending data:", data);
-  //     const response = await saveStory(data).unwrap();
-  //     // console.log("response", response);
-
-  //     message.success("Story deleted successfully");
-  //     refetch();
-  //     handleClose();
-  //   } catch (error) {
-  //     message.error(error?.data?.message || "Failed to delete story");
-  //   }
-  // };
-
-
 
   const hnadleDelete = async () => {
     const confirmResult = await Swal.fire({
@@ -169,7 +141,24 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 </p>
               ))}
             </div>
-
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-1 border border-black border-rounded-md my-3 mx-5 flex items-center gap-2 rounded-md"
+                onClick={() => {
+                  setIsEditing(true);
+                  // setEditedExperience({
+                  //   title: data.title,
+                  //   company: data.company,
+                  //   startDate: data.dates_of_employment.split("-")[0],
+                  //   endDate: data.dates_of_employment.split("-")[1],
+                  //   description: data.responsibilities.toString(),
+                  // });
+                }}
+              >
+                <FiEdit />
+                Edit
+              </button>
+            </div>
             <div className="px-0 md:px-5">
               <div className="space-y-4">
                 <div>
@@ -203,7 +192,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                     </div>
                   </div>
 
-                  <div className="text-right">
+                  {/* <div className="text-right">
                     <Button
                       type="text"
                       className="px-1"
@@ -220,7 +209,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                     >
                       Edit
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -254,7 +243,6 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
               </div>
             </div>
           </div>
-          {/* TODO: save and delete story does not work */}
           <div className="border-t py-3 w-full bg-white">
             <div className="flex justify-between gap-1">
               <MyButton
@@ -264,8 +252,9 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 //   setEditedExperience(null);
                 // }}
                 variant="ghost"
-                className="text-red-500 hover:text-red-500"
+                className="text-red-500 hover:text-red-500 border border-red-500 flex items-center gap-2"
               >
+              <FaRegTrashAlt />
                 Delete story
               </MyButton>
               <Form.Item label={null} className="m-0">
@@ -278,7 +267,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                   startIcon={<Save />}
                   className="border-black "
                 >
-                  Save
+                  Save Story
                 </MyButton>
               </Form.Item>
             </div>
@@ -288,7 +277,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
 
       {isEditing && (
         <Form
-          name="basic"
+          name="edit-story"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -304,21 +293,21 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
           <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
             <div className="flex-1 overflow-y-auto py-10">
               <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg z-20">
-                Edit Experience
+                Edit Story
               </p>
-              <div className="space-y-2 px-2">
+              <div className="space-y-2 px-2 border border-neutral-800 rounded-md p-10 mt-5">
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                    Your title
+                  Predictive Topic
                   </Typography.Title>
                   <Form.Item
-                    name="title"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your title",
-                      },
-                    ]}
+                    name="topic"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input predictive topic",
+                    //   },
+                    // ]}
                     className="m-0"
                   >
                     <Input />
@@ -326,95 +315,80 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 </div>
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                    Company
+                  Headline:
                   </Typography.Title>
                   <Form.Item
-                    name="company"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your title",
-                      },
-                    ]}
+                    name="headline"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input your headline",
+                    //   },
+                    // ]}
                     className="m-0"
                   >
                     <Input />
                   </Form.Item>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold pt-3 pb-1">
-                    Dates of Employment
-                  </p>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Typography.Title level={5} className="font-mulish">
-                        Start Date
-                      </Typography.Title>
-                      <Form.Item
-                        name="startDate"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input a date",
-                          },
-                        ]}
-                        className="m-0"
-                      >
-                        <Input type="date" />
-                      </Form.Item>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-center">
-                        {currentEmployee ? (
-                          <div></div>
-                        ) : (
-                          <Typography.Title level={5} className="font-mulish">
-                            End Date
-                          </Typography.Title>
-                        )}
-
-                        <Checkbox
-                          value={currentEmployee}
-                          onChange={(e) => setCurrentEmployee(e.target.checked)}
-                          className="font-mulish"
-                        >
-                          Current Employee
-                        </Checkbox>
-                      </div>
-                      {!currentEmployee && (
-                        <Form.Item
-                          name="endDate"
-                          rules={[
-                            {
-                              required: currentEmployee ? false : true,
-                              message: "Please input a date",
-                            },
-                          ]}
-                          className="m-0"
-                        >
-                          <Input type="date" />
-                        </Form.Item>
-                      )}
-                    </div>
-                  </div>
+                  <Typography.Title level={5} className="font-mulish">
+                  Event:
+                  </Typography.Title>
+                  <Form.Item
+                    name="event"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input your Event",
+                    //   },
+                    // ]}
+                    className="m-0"
+                  >
+                    <Input />
+                  </Form.Item>
                 </div>
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                    Description
+                  Action:
                   </Typography.Title>
                   <Form.Item
-                    name="description"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your description",
-                      },
-                    ]}
+                    name="action"
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input your Action",
+                    //   },
+                    // ]}
                     className="m-0"
                   >
-                    <Input.TextArea rows={6} />
+                    <Input.TextArea rows={2} />
                   </Form.Item>
                 </div>
+                <div>
+                  <Typography.Title level={5} className="font-mulish">
+                  Result:
+                  </Typography.Title>
+                  <Form.Item
+                    name="result"
+                  
+                    className="m-0"
+                  >
+                    <Input.TextArea rows={2} />
+                  </Form.Item>
+                </div>
+                <div>
+                  <Typography.Title level={5} className="font-mulish">
+                  Significance::
+                  </Typography.Title>
+                  <Form.Item
+                    name="significance:"
+                  
+                    className="m-0"
+                  >
+                    <Input.TextArea rows={4} />
+                  </Form.Item>
+                </div>
+            
               </div>
             </div>
 
@@ -426,7 +400,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                     setEditedExperience(null);
                   }}
                   variant="ghost"
-                  className="text-red-500 hover:text-red-500"
+                  className="text-red-500 hover:text-red-500 border border-red-500 rounded-md"
                 >
                   Discard
                 </MyButton>
@@ -436,10 +410,10 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                       // setIsEditing(false);
                     }}
                     variant="outline"
-                    startIcon={<Save />}
                     className="border-black"
                   >
-                    Save
+                    <PiClockClockwiseBold />
+                 Update Story
                   </MyButton>
                 </Form.Item>
               </div>
