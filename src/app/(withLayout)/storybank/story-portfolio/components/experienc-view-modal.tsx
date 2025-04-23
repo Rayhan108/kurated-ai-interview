@@ -1,6 +1,9 @@
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
-import { useSaveStoryMutation } from "@/redux/feature/storybank/storybank-api";
+import {
+  useGetSpecificSavedStoryQuery,
+  useSaveStoryMutation,
+} from "@/redux/feature/storybank/storybank-api";
 import {
   Button,
   Checkbox,
@@ -12,7 +15,7 @@ import {
   Typography,
 } from "antd";
 import { Save } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -40,6 +43,144 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const [isProceesModalOpen, setIsProceesModalOpen] = useState(false);
   const [isUploadMoapOpen, setIsUploadMoaPOpen] = useState(false);
   const [saveStory] = useSaveStoryMutation();
+  const { data: specificSavedStory } = useGetSpecificSavedStoryQuery(id);
+
+  const specificSavedStoryData = specificSavedStory?.data?.response?.[0];
+  console.log(
+    "specificSavedStoryData",
+    specificSavedStoryData?.story_text?.trim().split("**")
+  );
+  const [form] = Form.useForm();
+  const rawStoryArray =
+    specificSavedStoryData?.story_text?.trim().split(/\*\*|\n(?=\w+:)/) || [];
+
+  let storyObject: Partial<
+    Record<"headline" | "event" | "action" | "result" | "significance", string>
+  > = {};
+  for (let i = 0; i < rawStoryArray.length; i++) {
+    const key = rawStoryArray[i].trim().replace(":", "");
+    const value = rawStoryArray[i + 1]?.trim();
+    if (
+      ["Headline", "Event", "Action", "Result", "Significance"].includes(key)
+    ) {
+      storyObject[key.toLowerCase()] = value;
+    }
+  }
+
+  useEffect(() => {
+    if (!specificSavedStoryData?.story_text) return;
+
+    const lines = specificSavedStoryData.story_text
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+    console.log("lines", lines);
+    const storyMap = {
+      developmenttopic: "",
+      Headline: "",
+      event: "",
+      action: "",
+      result: "",
+      significance: "",
+    };
+
+    let currentKey = "";
+
+    lines.forEach((line) => {
+      const lowerLine = line.toLowerCase();
+      if (
+        [
+          "Headline:",
+          "event:",
+          "action:",
+          "result:",
+          "significance:",
+          "development topic:",
+        ].includes(lowerLine)
+      ) {
+        currentKey = lowerLine.replace(":", "").replace(" ", "").toLowerCase();
+      } else if (currentKey) {
+        storyMap[currentKey] += line + " ";
+      }
+    });
+
+    // const data = {
+    //   developmentTopic:
+    //     lines
+    //       .find((line) => line.toLowerCase().includes("development topic:"))
+    //       ?.replace("development topic:", "")
+    //       .trim() || "",
+    //   topic:
+    //     lines
+    //       .find((line) => line.toLowerCase().includes("topic:"))
+    //       ?.replace("topic:", "")
+    //       .trim() || "",
+    //   headline:
+    //     lines
+    //       .find((line) => line.toLowerCase().includes("headline:"))
+    //       ?.replace("headline:", "")
+    //       .trim() || "",
+    //   event:
+    //     lines
+    //       .find((line) => line.toLowerCase().includes("event:"))
+    //       ?.replace("event:", "")
+    //       .trim() || "",
+    //   action:
+    //     lines
+    //       .find((line) => line.toLowerCase().includes("action:"))
+    //       ?.replace("action:", "")
+    //       .trim() || "",
+    //   result:
+    //     lines
+    //       .find((line) => line.toLowerCase().includes("result:"))
+    //       ?.replace("result:", "")
+    //       .trim() || "",
+    //   significance:
+    //     lines
+    //       .find((line) => line.toLowerCase().includes("significance:"))
+    //       ?.replace("significance:", "")
+    //       .trim() || "",
+    // };
+    // console.log("data", data);
+
+    form.setFieldsValue({
+      developmentTopic:
+        lines
+          .find((line) => line.toLowerCase().includes("development topic:"))
+          ?.replace("development topic:", "")
+          .trim() || "",
+      topic:
+        lines
+          .find((line) => line.toLowerCase().includes("topic:"))
+          ?.replace("topic:", "")
+          .trim() || "",
+      headline:
+        lines
+          .find((line) => line.toLowerCase().includes("headline:"))
+          ?.replace("headline:", "")
+          .trim() || "",
+      event:
+        lines
+          .find((line) => line.toLowerCase().includes("event:"))
+          ?.replace("event:", "")
+          .trim() || "",
+      action:
+        lines
+          .find((line) => line.toLowerCase().includes("action:"))
+          ?.replace("action:", "")
+          .trim() || "",
+      result:
+        lines
+          .find((line) => line.toLowerCase().includes("result:"))
+          ?.replace("result:", "")
+          .trim() || "",
+      significance:
+        lines
+          .find((line) => line.toLowerCase().includes("significance:"))
+          ?.replace("significance:", "")
+          .trim() || "",
+    });
+  }, [form, specificSavedStoryData]);
 
   const onFinish = async (values) => {
     try {
@@ -139,22 +280,21 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
     setIsUploadMoaPOpen(false);
   };
 
-  const handleBack=()=>{
-    handleCloseProcessModal()    
+  const handleBack = () => {
+    handleCloseProcessModal();
   };
-const router = useRouter()
+  const router = useRouter();
   const handleGoToMyInterviewMatrix = () => {
     handleCloseUploadMoaModal();
     handleCloseProcessModal();
     router.push("/storybank/matrix");
   };
 
-  const handleYes=()=>{
+  const handleYes = () => {
     handleCloseUploadMoaModal();
     handleCloseProcessModal();
     router.push("/storybank/matrix?modal=true&step=1");
-  }
-
+  };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
@@ -182,13 +322,7 @@ const router = useRouter()
                 className="px-4 py-1 border border-black border-rounded-md my-3 mx-5 flex items-center gap-2 rounded-md"
                 onClick={() => {
                   setIsEditing(true);
-                  // setEditedExperience({
-                  //   title: data.title,
-                  //   company: data.company,
-                  //   startDate: data.dates_of_employment.split("-")[0],
-                  //   endDate: data.dates_of_employment.split("-")[1],
-                  //   description: data.responsibilities.toString(),
-                  // });
+                  // form.setFieldsValue({});
                 }}
               >
                 <FiEdit />
@@ -314,15 +448,18 @@ const router = useRouter()
       {isEditing && (
         <Form
           name="edit-story"
+          form={form}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           initialValues={{
-            title: savedItem.title,
-            company: savedItem.company,
-            startDate: savedItem.date_start,
-            endDate: savedItem.date_end,
-            description: savedItem.description,
+            developmentTopic: specificSavedStoryData?.development_topic || "",
+            topic: specificSavedStoryData?.topic_name || "",
+            headline: storyObject?.headline,
+            event: storyObject?.event,
+            action: storyObject?.action,
+            result: storyObject?.result,
+            significance: storyObject?.significance,
           }}
           className="font-mulish"
         >
@@ -338,6 +475,7 @@ const router = useRouter()
                   </Typography.Title>
                   <Form.Item
                     name="topic"
+                    initialValue={specificSavedStoryData?.development_topic}
                     // rules={[
                     //   {
                     //     required: true,
@@ -355,6 +493,7 @@ const router = useRouter()
                   </Typography.Title>
                   <Form.Item
                     name="headline"
+                    initialValue={storyObject?.headline}
                     // rules={[
                     //   {
                     //     required: true,
@@ -412,7 +551,7 @@ const router = useRouter()
                   <Typography.Title level={5} className="font-mulish">
                     Significance::
                   </Typography.Title>
-                  <Form.Item name="significance:" className="m-0">
+                  <Form.Item name="significance" className="m-0">
                     <Input.TextArea rows={4} />
                   </Form.Item>
                 </div>
@@ -474,15 +613,17 @@ const router = useRouter()
               <p className="pt-12">Do you want to proceed?</p>
             </div>
             <div className="flex gap-2 mt-10 justify-between items-center">
-              <button 
-              onClick={handleBack}
-              className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2">
+              <button
+                onClick={handleBack}
+                className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2"
+              >
                 <TbArrowBack />
                 Back
               </button>
-              <button 
-              onClick={showUploadMoaModal}
-              className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2">
+              <button
+                onClick={showUploadMoaModal}
+                className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2"
+              >
                 <IoCheckmarkDone />
                 Yes
               </button>
@@ -513,11 +654,17 @@ const router = useRouter()
               ></Image>
               <p className="pt-12">Do you want to create more stories?</p>
               <div className="flex gap-2 mt-10 justify-center items-center">
-                <button onClick={handleGoToMyInterviewMatrix} className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2">
+                <button
+                  onClick={handleGoToMyInterviewMatrix}
+                  className="border border-black py-2 px-4 rounded flex justify-center items-center gap-2"
+                >
                   <IoIosCheckboxOutline />
                   No, go to my Interview Matrix
                 </button>
-                <button onClick={handleYes} className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2">
+                <button
+                  onClick={handleYes}
+                  className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2"
+                >
                   <IoCheckmarkDone />
                   Yes
                 </button>
