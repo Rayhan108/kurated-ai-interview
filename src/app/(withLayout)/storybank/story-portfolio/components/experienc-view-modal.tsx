@@ -1,6 +1,7 @@
 import MyButton from "@/components/shared/common/my-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import {
+  useEditStoryMutation,
   useGetSpecificSavedStoryQuery,
   useSaveStoryMutation,
 } from "@/redux/feature/storybank/storybank-api";
@@ -46,10 +47,15 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const { data: specificSavedStory } = useGetSpecificSavedStoryQuery(id);
 
   const specificSavedStoryData = specificSavedStory?.data?.response?.[0];
-  console.log(
-    "specificSavedStoryData",
-    specificSavedStoryData?.story_text?.trim().split("**")
-  );
+  // console.log(
+  //   "specificSavedStoryData",
+  //   specificSavedStoryData?.story_text?.trim().split("**")
+  // );
+  // console.log("topic_id:",specificSavedStoryData?.topic_id)
+  // console.log("topic_id:",specificSavedStoryData)
+
+  const [editStory] = useEditStoryMutation();
+
   const [form] = Form.useForm();
   const rawStoryArray =
     specificSavedStoryData?.story_text?.trim().split(/\*\*|\n(?=\w+:)/) || [];
@@ -74,7 +80,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
       .split("\n")
       .map((line) => line.trim())
       .filter(Boolean);
-    console.log("lines", lines);
+    // console.log("lines", lines);
     const storyMap = {
       developmenttopic: "",
       Headline: "",
@@ -182,48 +188,109 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
     });
   }, [form, specificSavedStoryData]);
 
+  const storyTextArray =
+    specificSavedStoryData?.story_text?.split("**Headline:**");
+  const storyHeading = storyTextArray?.[1]?.split("**")?.[0]?.trim();
+
+  const storyText = specificSavedStoryData?.story_text;
+
+
+
+  // const onFinish = async (values) => {
+  //   console.log("values", values);
+  //   try {
+  //     const updatedStoryData = {
+  //       experience: {
+  //         id: data?._id,
+  //         title: values.title,
+  //         date_start: values.startDate,
+  //         date_end: values.endDate,
+  //         description: values.description,
+  //         company: values.company,
+  //         type: data?.experience_info?.type,
+  //       },
+
+  //       stories: [
+  //         {
+  //           current: [
+  //             {
+  //               storyText: data.story_text,
+  //               topic_id: data?.topic_id,
+  //             },
+  //           ],
+  //           removed: [],
+  //         },
+  //       ],
+  //       topic_relevancies: [
+  //         {
+  //           topic_id: data?.role_topic_relevancy?.[0]?.topic_id,
+  //           relevancy: data?.role_topic_relevancy?.[0]?.relevancy,
+  //         },
+  //       ],
+  //     };
+
+  //     // const response = await saveStory(updatedStoryData).unwrap();
+  //     const response = await saveStory(updatedStoryData).unwrap();
+  //     console.log("Response:", response);
+
+  //     message.success("Story updated successfully");
+  //     refetch();
+  //     setIsEditing(false);
+  //   } catch (error) {
+  //     console.error("Failed to update story:", error);
+  //     message.error(error?.data?.message || "Failed to update story");
+  //   }
+  // };
   const onFinish = async (values) => {
-    try {
-      const updatedStoryData = {
-        experience: {
-          id: data?._id,
-          title: values.title,
-          date_start: values.startDate,
-          date_end: values.endDate,
-          description: values.description,
-          company: values.company,
-          type: data?.experience_info?.type,
-        },
+    const storyTextString = `
+  ### ${values.headline}
+  
+  **Event:** ${values.event}
+  
+  **Action:** ${values.action}
+  
+  **Result:** ${values.result}
+  
+  **Significance:** ${values.significance}
+  `;
 
-        stories: [
-          {
-            current: [
-              {
-                storyText: data.story_text,
-                topic_id: data?.topic_id,
-              },
-            ],
-            removed: [],
-          },
-        ],
-        topic_relevancies: [
-          {
-            topic_id: data?.role_topic_relevancy?.[0]?.topic_id,
-            relevancy: data?.role_topic_relevancy?.[0]?.relevancy,
-          },
-        ],
-      };
+    const data = {
+      storyHeading: values.headline,
+      storyText: storyTextString.trim(), // <-- now it's a single string
+      topicId: specificSavedStoryData?.topic_id,
+      storyId: specificSavedStoryData?._id,
+    };
 
-      const response = await saveStory(updatedStoryData).unwrap();
-
-      message.success("Story updated successfully");
-      refetch();
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Failed to update story:", error);
-      message.error(error?.data?.message || "Failed to update story");
-    }
+    console.log("data:", data); // now storyText will be a string
+    await editStory(data).unwrap();
+    refetch();
+    message.success("Story Updated Successfully");
   };
+
+  // const onFinish = async (values) => {
+  //   const data = {
+  //     storyHeading: values.headline,
+  //     storyText: values,
+  //     topicId: specificSavedStoryData?.topic_id,
+  //     storyId: specificSavedStoryData?._id,
+  //   };
+  //   console.log("data:", data);
+  //   await editStory(data).unwrap();
+  //   refetch()
+  //   message.success("Story Updated Successfully");
+  // };
+
+  // const handleEditStory = async () => {
+  //   const data = {
+  //     storyHeading: storyHeading,
+  //     storyText: storyText,
+  //     topicId: specificSavedStoryData?.topic_id,
+  //     storyId: specificSavedStoryData?._id,
+  //   };
+  //   console.log("data:", data);
+  //   await editStory(data).unwrap();
+  //   message.success("Story Updated Successfully")
+  // };
 
   const hnadleDelete = async () => {
     const confirmResult = await Swal.fire({
@@ -299,6 +366,9 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const sections = data?.story_text?.split("**").filter(Boolean);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
   // console.log("ownershipPercentage from experience 120", ownershipPercentage);
+
+  // edit story:
+
   return (
     <div>
       {!isEditing && (
@@ -571,14 +641,16 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                   Discard
                 </MyButton>
                 <Form.Item label={null} className="m-0">
-                  <MyButton
-                    onClick={showProcessModal}
-                    variant="outline"
-                    className="border-black"
-                  >
-                    <PiClockClockwiseBold />
-                    Update Story
-                  </MyButton>
+                  <div>
+                    <MyButton
+                      onClick={showProcessModal}
+                      variant="outline"
+                      className="border-black"
+                    >
+                      <PiClockClockwiseBold />
+                      Update Story
+                    </MyButton>
+                  </div>
                 </Form.Item>
               </div>
             </div>
@@ -622,10 +694,15 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
               </button>
               <button
                 onClick={showUploadMoaModal}
-                className="border border-green-500 text-green-500 py-2 px-10 rounded flex justify-center items-center gap-2"
+                className="border border-green-500 text-green-500 py-2 px-10 rounded"
               >
-                <IoCheckmarkDone />
-                Yes
+                <div
+                  // onClick={handleEditStory}
+                  className=" flex justify-center items-center gap-2"
+                >
+                  <IoCheckmarkDone />
+                  Yes
+                </div>
               </button>
             </div>
           </div>
