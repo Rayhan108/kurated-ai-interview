@@ -1,5 +1,5 @@
+import { TAGS } from './../../tag';
 import { baseApi } from "@/redux/api/baseApi";
-import { TAGS } from "@/redux/tag";
 
 const storyBankApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -128,9 +128,15 @@ const storyBankApi = baseApi.injectEndpoints({
         params: { search: keywords },
       }),
     }),
-    
 
-
+    editStory: builder.mutation({
+      query: (data) => ({
+        url: "https://localhost:4062/webapis/storybank/edit-story",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: [TAGS.portfolioExperience],
+    }),
   }),
 });
 
@@ -146,7 +152,6 @@ export const {
   useGetPortfolioExperienceQuery,
   useOwnerShipMutation,
   useGetSpecificSavedStoryQuery,
-
-  useSearchSavedStoryQuery
-
+  useEditStoryMutation,
+  useSearchSavedStoryQuery,
 } = storyBankApi;
