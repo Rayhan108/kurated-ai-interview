@@ -80,7 +80,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
       .split("\n")
       .map((line) => line.trim())
       .filter(Boolean);
-    console.log("lines", lines);
+    // console.log("lines", lines);
     const storyMap = {
       developmenttopic: "",
       Headline: "",
@@ -194,7 +194,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
 
   const storyText = specificSavedStoryData?.story_text;
 
-  console.log("storyHeading", specificSavedStoryData?._id);
+
 
   // const onFinish = async (values) => {
   //   console.log("values", values);
@@ -241,18 +241,44 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   //     message.error(error?.data?.message || "Failed to update story");
   //   }
   // };
+  const onFinish = async (values) => {
+    const storyTextString = `
+  ### ${values.headline}
+  
+  **Event:** ${values.event}
+  
+  **Action:** ${values.action}
+  
+  **Result:** ${values.result}
+  
+  **Significance:** ${values.significance}
+  `;
 
-  const onFinish = async () => {
     const data = {
-      storyHeading: storyHeading,
-      storyText: storyText,
+      storyHeading: values.headline,
+      storyText: storyTextString.trim(), // <-- now it's a single string
       topicId: specificSavedStoryData?.topic_id,
       storyId: specificSavedStoryData?._id,
     };
-    console.log("data:", data);
+
+    console.log("data:", data); // now storyText will be a string
     await editStory(data).unwrap();
+    refetch();
     message.success("Story Updated Successfully");
   };
+
+  // const onFinish = async (values) => {
+  //   const data = {
+  //     storyHeading: values.headline,
+  //     storyText: values,
+  //     topicId: specificSavedStoryData?.topic_id,
+  //     storyId: specificSavedStoryData?._id,
+  //   };
+  //   console.log("data:", data);
+  //   await editStory(data).unwrap();
+  //   refetch()
+  //   message.success("Story Updated Successfully");
+  // };
 
   // const handleEditStory = async () => {
   //   const data = {

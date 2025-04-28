@@ -131,7 +131,7 @@ const storyBankApi = baseApi.injectEndpoints({
 
     editStory: builder.mutation({
       query: (data) => ({
-        url: "https://localhost:4062/webapis/storybank/edit-story",
+        url: "webapis/storybank/edit-story",
         method: "PATCH",
         body: data,
       }),
