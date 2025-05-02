@@ -484,7 +484,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
             </div>
           </div>
           <div className="border-t py-3 w-full bg-white">
-            <div className="flex justify-between gap-1">
+            <div className="flex justify-end gap-1">
               <MyButton
                 onClick={hnadleDelete}
                 // onClick={() => {
@@ -497,19 +497,19 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 <FaRegTrashAlt />
                 Delete story
               </MyButton>
-              <Form.Item label={null} className="m-0">
+                 {/* onClick={() => {
+                    setIsEditing(false);
+                 }} */}
+              {/* <Form.Item label={null} className="m-0">
                 <MyButton
                   onClick={handleSubmit}
-                  // onClick={() => {
-                  //   // setIsEditing(false);
-                  // }}
                   variant="outline"
                   startIcon={<Save />}
                   className="border-black "
                 >
                   Save Story
                 </MyButton>
-              </Form.Item>
+              </Form.Item> */}
             </div>
           </div>
         </div>
