@@ -107,7 +107,7 @@ export default function LessonDetails() {
             `}
           >
             {
-              lesson?.is_completed ? "Mark as Incomplete" : "Mark as Completed "
+              lesson?.is_completed ? "Mark as Incomplete" :  "Mark as Complete "
             }
           </MyButton>
         </div>

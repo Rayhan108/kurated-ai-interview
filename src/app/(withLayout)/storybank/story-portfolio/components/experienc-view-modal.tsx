@@ -57,6 +57,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const [editStory] = useEditStoryMutation();
 
   const [form] = Form.useForm();
+  const [isFormChanged, setIsFormChanged] = useState(false);
   const rawStoryArray =
     specificSavedStoryData?.story_text?.trim().split(/\*\*|\n(?=\w+:)/) || [];
 
@@ -264,7 +265,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
     console.log("data:", data); // now storyText will be a string
     await editStory(data).unwrap();
     refetch();
-    message.success("Story Updated Successfully");
+    // message.success("Story Updated Successfully");
   };
 
   // const onFinish = async (values) => {
@@ -360,7 +361,8 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const handleYes = () => {
     handleCloseUploadMoaModal();
     handleCloseProcessModal();
-    router.push("/storybank/matrix?modal=true&step=1");
+    // /storybank/matrix?modal=true&step=1
+    router.push("/storybank/story-portfolio?story_type=PERSONAL");
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
@@ -531,6 +533,11 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
             result: storyObject?.result,
             significance: storyObject?.significance,
           }}
+          onValuesChange={() => {
+            if (!isFormChanged) {
+              setIsFormChanged(true);
+            }
+          }}
           className="font-mulish"
         >
           <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
@@ -643,7 +650,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 <Form.Item label={null} className="m-0">
                   <div>
                     <MyButton
-                    disabled
+                   disabled={!isFormChanged}
                       onClick={showProcessModal}
                       variant="outline"
                       className="border-black"
