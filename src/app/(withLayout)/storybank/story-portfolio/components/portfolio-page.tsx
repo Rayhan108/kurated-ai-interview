@@ -19,6 +19,8 @@ const PortfolioPage = () => {
   // console.log("search params===>",searchParams);
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const query = searchParams.get("story_type");
+  const search = searchParams.get("search");
+  console.log("search param:", search);
   // console.log("query", query);
 
   const { data: portfolioExperience } =
@@ -33,8 +35,7 @@ const PortfolioPage = () => {
 
 
 // search DATA queries
-const search = useAppSelector(useCurrentSearchText)
-console.log("search query vhvhvhvh=>",search);
+
 const { data: searchSavedStory, isLoading } = useSearchSavedStoryQuery(search);
 const searchData = searchSavedStory?.data?.response
 console.log("searchSavedStory", searchData);
@@ -66,23 +67,44 @@ console.log("searchSavedStory", searchData);
 
       <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
         {/* // Find matching saved story for this experience item */}
-        {searchData?.map((item, idx) => {
-          const matchingSaved = filteredExperience?.find(
-            (savedItem: any) => item?.experience_info?._id === savedItem?._id
+        {search ? (
+  searchData?.length > 0 ? (
+    searchData.map((item, idx) => {
+      const matchingSaved = filteredExperience?.find(
+        (savedItem: any) => item?.experience_info?._id === savedItem?._id
+      );
 
-          )
-          // console.log("matchingSaved", matchingSaved);
+      return (
+        <StoryPortfolioCard
+          key={idx}
+          item={item}
+          savedItem={matchingSaved}
+          refetch={refetch}
+        />
+      );
+    })
+  ) : (
+    <p className="text-gray-500 text-center mt-4 col-span-full">
+      No matching stories found.
+    </p>
+  )
+) : (
+  savedExperience?.map((item, idx) => {
+    const matchingSaved = filteredExperience?.find(
+      (savedItem: any) => item?.experience_info?._id === savedItem?._id
+    );
 
-          return (
-            <StoryPortfolioCard
-              key={idx}
-              item={item}
-              
-              savedItem={matchingSaved}
-              refetch={refetch}
-            />
-          );
-        })}
+    return (
+      <StoryPortfolioCard
+        key={idx}
+        item={item}
+        savedItem={matchingSaved}
+        refetch={refetch}
+      />
+    );
+  })
+)}
+
       </div>
 
       {filteredExperience?.length === 0 && (

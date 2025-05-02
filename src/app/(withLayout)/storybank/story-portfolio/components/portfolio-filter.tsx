@@ -14,9 +14,9 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 function PortfolioFilter() {
-  const [search, setSearchh] = useState("");
+  const [search, setSearch] = useState("");
   console.log(search);
-const dispatch = useDispatch();
+
   const searchParams = useSearchParams();
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const router = useRouter();
@@ -25,26 +25,38 @@ const dispatch = useDispatch();
 
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const search = event.currentTarget.value;
-    setSearchh(search); // This will trigger the search query whenever the search value changes
-    dispatch(setSearch({search:search}))
+    setSearch(search)
+    const params = new URLSearchParams(searchParams);
+        // ✅ Add current search input as a param
+        if (search) {
+          params.set("search", search);
+        } else {
+          params.delete("search");
+        }
+        router.push(`/storybank/story-portfolio?${params.toString()}`);
+   
   };
 
   return (
     <div className="pt-4 pb-6">
       <div className="lg:flex items-center justify-between">
         <div className="flex gap-2 items-center">
-          <MyButton
-            onClick={() => {
-              const params = new URLSearchParams(searchParams);
-              params.set(KeyConstant.STORY_TYPE, "EXTRACTED");
-              router.push(`/storybank/story-portfolio?${params.toString()}`);
-            }}
-            variant={storyType === "EXTRACTED" ? "default" : "secondary"}
-            startIcon={<BookText />}
-            className="font-semibold w-full md:w-fit"
-          >
-            Stories from Resume
-          </MyButton>
+        <MyButton
+  onClick={() => {
+    const params = new URLSearchParams(searchParams);
+    params.set(KeyConstant.STORY_TYPE, "EXTRACTED");
+
+
+// console.log("params",params.toString());
+    router.push(`/storybank/story-portfolio?${params.toString()}`);
+  }}
+  variant={storyType === "EXTRACTED" ? "default" : "secondary"}
+  startIcon={<BookText />}
+  className="font-semibold w-full md:w-fit"
+>
+  Stories from Resume
+</MyButton>
+
           <MyButton
             onClick={() => {
               const params = new URLSearchParams(searchParams);
