@@ -5,17 +5,18 @@ import { MyLinkButton } from "@/components/shared/common/my-link-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import { KeyConstant } from "@/constants/key.constant";
 import { useSearchSavedStoryQuery } from "@/redux/feature/storybank/storybank-api";
+import { setSearch } from "@/redux/feature/storybank/storybankSlice";
 
 import { Input, Select, Spin } from "antd";
 import { BookText, FilePenLine, Plus, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 function PortfolioFilter() {
-  const [search, setSearch] = useState("");
-  const { data: searchSavedStory, isLoading } = useSearchSavedStoryQuery(search ? { query: search } : {} );
-  console.log("searchSavedStory", searchSavedStory?.data?.response);
-
+  const [search, setSearchh] = useState("");
+  console.log(search);
+const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const router = useRouter();
@@ -23,8 +24,9 @@ function PortfolioFilter() {
   const handleChange = (value: string) => {};
 
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value;
-    setSearch(value); // This will trigger the search query whenever the search value changes
+    const search = event.currentTarget.value;
+    setSearchh(search); // This will trigger the search query whenever the search value changes
+    dispatch(setSearch({search:search}))
   };
 
   return (

@@ -4,13 +4,19 @@ import { KeyConstant } from "@/constants/key.constant";
 import {
   useGetPortfolioExperienceQuery,
   useGetSavedStoryQuery,
+  useSearchSavedStoryQuery,
 } from "@/redux/feature/storybank/storybank-api";
 import { useSearchParams } from "next/navigation";
 import PortfolioFilter from "./portfolio-filter";
 import StoryPortfolioCard from "./story-portfolio-card";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentSearchText } from "@/redux/feature/storybank/storybankSlice";
 
 const PortfolioPage = () => {
+
   const searchParams = useSearchParams();
+
+  // console.log("search params===>",searchParams);
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const query = searchParams.get("story_type");
   // console.log("query", query);
@@ -26,7 +32,12 @@ const PortfolioPage = () => {
   // console.log("savedStory", savedStory?.data?.response?.length);
 
 
-
+// search DATA queries
+const search = useAppSelector(useCurrentSearchText)
+console.log("search query vhvhvhvh=>",search);
+const { data: searchSavedStory, isLoading } = useSearchSavedStoryQuery(search);
+const searchData = searchSavedStory?.data?.response
+console.log("searchSavedStory", searchData);
 
 
 
@@ -38,14 +49,14 @@ const PortfolioPage = () => {
   );
 
 
-  // console.log("filteredExperience", filteredExperience?.length);
+  console.log("filteredExperience", filteredExperience?.length);
 
   // Filter saved stories by storyType
   const savedExperience = savedStory?.data?.response?.filter(
     (item) => item.experience_info.type === query
   );
 
-  // console.log("savedExperience", savedExperience);
+  console.log("savedExperience", savedExperience);
 
 
 
@@ -55,7 +66,7 @@ const PortfolioPage = () => {
 
       <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
         {/* // Find matching saved story for this experience item */}
-        {savedExperience?.map((item, idx) => {
+        {searchData?.map((item, idx) => {
           const matchingSaved = filteredExperience?.find(
             (savedItem: any) => item?.experience_info?._id === savedItem?._id
 
