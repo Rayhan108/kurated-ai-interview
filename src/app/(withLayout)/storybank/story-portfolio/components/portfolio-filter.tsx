@@ -13,7 +13,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-function PortfolioFilter() {
+function PortfolioFilter({setModal,openModal,isEditing,setIsEditing}) {
   const [search, setSearch] = useState("");
   console.log(search);
 

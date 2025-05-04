@@ -11,11 +11,13 @@ import PortfolioFilter from "./portfolio-filter";
 import StoryPortfolioCard from "./story-portfolio-card";
 import { useAppSelector } from "@/redux/hooks";
 import { useCurrentSearchText } from "@/redux/feature/storybank/storybankSlice";
+import { useState } from "react";
 
 const PortfolioPage = () => {
 
   const searchParams = useSearchParams();
-
+  const [openModal, setModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   // console.log("search params===>",searchParams);
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const query = searchParams.get("story_type");
@@ -63,7 +65,7 @@ console.log("searchSavedStory", searchData);
 
   return (
     <div>
-      <PortfolioFilter />
+      <PortfolioFilter setModal={setModal} openModal={openModal} isEditing={isEditing} setIsEditing={setIsEditing}/>
 
       <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
         {/* // Find matching saved story for this experience item */}
@@ -80,6 +82,8 @@ console.log("searchSavedStory", searchData);
           item={item}
           savedItem={matchingSaved}
           refetch={refetch}
+          setModal={setModal} openModal={openModal}
+          isEditing={isEditing} setIsEditing={setIsEditing}
         />
       );
     })
@@ -100,6 +104,8 @@ console.log("searchSavedStory", searchData);
         item={item}
         savedItem={matchingSaved}
         refetch={refetch}
+        setModal={setModal} openModal={openModal}
+        isEditing={isEditing} setIsEditing={setIsEditing}
       />
     );
   })

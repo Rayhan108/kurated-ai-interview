@@ -26,7 +26,8 @@ import { AllImages } from "@/assets/AllImages";
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { IoCheckmarkDone } from "react-icons/io5";
 import { TbArrowBack } from "react-icons/tb";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { KeyConstant } from "@/constants/key.constant";
 
 interface IExperience {
   title: string;
@@ -35,10 +36,15 @@ interface IExperience {
   endDate: string;
   description: string;
 }
-export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
+export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditing,setIsEditing,openModal,setModal }) => {
+  const searchParams = useSearchParams();
+  const storyType = searchParams.get(KeyConstant.STORY_TYPE);
+  const query = searchParams.get("story_type");
+
+  console.log("query from ex view moda",query)
   const id = data?._id;
   // console.log("data from experience 15", savedItem);
-  const [isEditing, setIsEditing] = useState(false);
+
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
   const [isProceesModalOpen, setIsProceesModalOpen] = useState(false);
@@ -361,8 +367,15 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const handleYes = () => {
     handleCloseUploadMoaModal();
     handleCloseProcessModal();
+    setIsEditing(false)
+    setModal(false)
     // /storybank/matrix?modal=true&step=1
-    router.push("/storybank/story-portfolio?story_type=PERSONAL");
+if(query==="PERSONAL"){
+
+  router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
+}else{
+  router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
+}
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);

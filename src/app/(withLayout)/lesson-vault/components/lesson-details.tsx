@@ -15,19 +15,32 @@ import TranscriptViewer from "./transcript";
 import { MyLoading } from "@/components/shared/common/my-loading";
 
 export default function LessonDetails() {
+  // temporary
+  const [completed,setCompleted]=useState(false)
+
   const searchParams = useSearchParams();
   const lessonId = searchParams.get(KeyConstant.LESSON_ID);
+
+  // ----------------------------------------------------------------------
+  // here not any is_completed property
   const { data, isLoading } = useGetSingleLessonQuery(lessonId);
+// ----------------------------------------------------------------------
+
   const [markLessonContentAsCompleted, { isLoading: markLoading }] =
     useMarkLessonAsCompletedMutation();
 
   const lesson = data?.data?.data;
+  console.log("lesson========>",lesson);
   const [transcript, setTranscript] = useState(false);
 
   const handleMarkAsCompleted = async (id) => {
     try {
-      await markLessonContentAsCompleted(id);
-      message.success("Lesson marked as completed");
+    const res=  await markLessonContentAsCompleted(id);
+    console.log("response",res);
+    // temporery
+    setCompleted(res?.data?.success)
+    
+      message.success(res?.data?.message);
     } catch (error) {
       message.error("Failed to mark lesson as completed");
     }
@@ -100,14 +113,17 @@ export default function LessonDetails() {
           <MyButton
             variant="outline"
             onClick={() => {
+              console.log("lesson id",lessonId);
               handleMarkAsCompleted(lessonId);
             }}
             loading={markLoading}
-            className={`${lesson?.is_completed ? "bg-primaryColor text-white" : "disabled"} 
-            `}
+            className={`${completed ? "bg-green-500 text-white" : "disabled"}  `}
+            // className={`${lesson?.is_completed ? "bg-green-500 text-white" : "disabled"} 
+            // `}
           >
             {
-              lesson?.is_completed ? "Mark as Incomplete" :  "Mark as Complete "
+              completed ? "Mark as Incomplete" :  "Mark as Completed"
+              // lesson?.is_completed ? "Mark as Incomplete" :  "Mark as Completed"
             }
           </MyButton>
         </div>
@@ -115,3 +131,4 @@ export default function LessonDetails() {
     </div>
   );
 }
+{/* <CheckCircleFilled className="text-green-500" /> */}
