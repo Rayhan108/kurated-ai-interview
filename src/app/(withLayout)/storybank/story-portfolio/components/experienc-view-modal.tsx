@@ -379,6 +379,7 @@ if(query==="PERSONAL"){
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
+  // console.log("Selection===>",sections);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
   // console.log("ownershipPercentage from experience 120", ownershipPercentage);
 
@@ -577,25 +578,41 @@ if(query==="PERSONAL"){
                     <Input />
                   </Form.Item>
                 </div>
-                <div>
+                {/* <div>
                   <Typography.Title level={5} className="font-mulish">
                     Headline:
                   </Typography.Title>
                   <Form.Item
                     name="headline"
                     initialValue={storyObject?.headline}
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: "Please input your headline",
-                    //   },
-                    // ]}
+           
                     className="m-0"
                   >
                     <Input />
                   </Form.Item>
-                </div>
+                </div> */}
+
+
+
                 <div>
+    <Typography.Title level={5} className="font-mulish">
+      Headline,Action, Event, Result, and Significance:
+    </Typography.Title>
+    <Form.Item
+      name="actionEventResultSignificance"
+      initialValue={` ${storyObject?.action || ''}\n\n  ${storyObject?.action || ''}\n\n  ${storyObject?.event || ''}\n\n${storyObject?.result || ''}\n\n${storyObject?.significance || ''}`}
+      className="m-0"
+    >
+      <Input.TextArea rows={8} />
+    </Form.Item>
+  </div>
+
+
+
+
+
+
+                {/* <div>
                   <Typography.Title level={5} className="font-mulish">
                     Event:
                   </Typography.Title>
@@ -644,7 +661,7 @@ if(query==="PERSONAL"){
                   <Form.Item name="significance" className="m-0">
                     <Input.TextArea rows={4} />
                   </Form.Item>
-                </div>
+                </div> */}
               </div>
             </div>
 

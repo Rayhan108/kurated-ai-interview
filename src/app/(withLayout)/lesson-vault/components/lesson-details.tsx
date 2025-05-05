@@ -26,7 +26,7 @@ console.log(lessonId);
   const { data: userProgress } = useGetUserProgressQuery(undefined);
   // -----------------------------------------------------------------------------------------------------------------------------------------------------
   // get tools id is completed or not
-  console.log("user progresss=>>>>",userProgress?.data?.progress?.tools[DataConstant.KURATED_INTERVIEW_TOOLS_ID]?.chapters["6600292d6b266d46f3bd53f9"]?.includes(lessonId));
+  // console.log("user progresss=>>>>",userProgress?.data?.progress?.tools[DataConstant.KURATED_INTERVIEW_TOOLS_ID]?.chapters["6600292d6b266d46f3bd53f9"]?.includes(lessonId));
   const is_completed = userProgress?.data?.progress?.tools[DataConstant.KURATED_INTERVIEW_TOOLS_ID]?.chapters["6600292d6b266d46f3bd53f9"]?.includes(lessonId)
   // ----------------------------------------------------------------------
   // here not any is_completed property
@@ -34,8 +34,7 @@ console.log(lessonId);
 
 // ----------------------------------------------------------------------
 
-  const [markLessonContentAsCompleted, { isLoading: markLoading }] =
-    useMarkLessonAsCompletedMutation();
+  const [markLessonContentAsCompleted, { isLoading: markLoading }] =useMarkLessonAsCompletedMutation();
 
   const lesson = data?.data?.data;
   console.log("lesson========>",lesson);
