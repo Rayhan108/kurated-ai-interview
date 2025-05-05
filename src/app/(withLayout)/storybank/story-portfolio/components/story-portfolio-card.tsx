@@ -7,7 +7,11 @@ import { ExperienceModal } from "./experienc-view-modal";
 function StoryPortfolioCard({ item, savedItem, refetch,setModal,openModal,isEditing,setIsEditing }) {
   // console.log("item", item);
   // const [openModal, setModal] = useState(false);
-  const handleClose = () => setModal(false);
+  const handleClose = () =>{
+  console.log("clicked");
+     setModal(false)
+     setIsEditing(false)
+    };
 const handleModalShow=()=>{
   setModal(true)
   if(!setIsEditing){
@@ -51,7 +55,7 @@ const handleModalShow=()=>{
               <div className="py-2 px-2 absolute top-0 right-0 z-50">
                 <MyButton
                   onClick={() => {
-                    setModal(false);
+                    handleClose();
                     // const params = new URLSearchParams(searchParams.toString()); // Clone existing params
                     // params.delete(KeyConstant.MODAL);
                     // params.delete(KeyConstant.STEP);

@@ -53,6 +53,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditin
   const { data: specificSavedStory } = useGetSpecificSavedStoryQuery(id);
 
   const specificSavedStoryData = specificSavedStory?.data?.response?.[0];
+  console.log(specificSavedStoryData,"<<<<==========");
   // console.log(
   //   "specificSavedStoryData",
   //   specificSavedStoryData?.story_text?.trim().split("**")
@@ -79,7 +80,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditin
       storyObject[key.toLowerCase()] = value;
     }
   }
-
+console.log("story obj=-==>",storyObject);
   useEffect(() => {
     if (!specificSavedStoryData?.story_text) return;
 
@@ -338,6 +339,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditin
   };
 
   const handleSubmit = () => {
+    
     handleClose();
   };
 
@@ -345,12 +347,15 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditin
     setIsProceesModalOpen(true);
   };
   const handleCloseProcessModal = () => {
+
     setIsProceesModalOpen(false);
+ 
   };
   const showUploadMoaModal = () => {
     setIsUploadMoaPOpen(true);
   };
   const handleCloseUploadMoaModal = () => {
+
     setIsUploadMoaPOpen(false);
   };
 
@@ -594,19 +599,25 @@ if(query==="PERSONAL"){
 
 
 
-                <div>
-    <Typography.Title level={5} className="font-mulish">
-      Headline,Action, Event, Result, and Significance:
-    </Typography.Title>
-    <Form.Item
-      name="actionEventResultSignificance"
-      initialValue={` ${storyObject?.action || ''}\n\n  ${storyObject?.action || ''}\n\n  ${storyObject?.event || ''}\n\n${storyObject?.result || ''}\n\n${storyObject?.significance || ''}`}
-      className="m-0"
-    >
-      <Input.TextArea rows={8} />
-    </Form.Item>
-  </div>
-
+<div>
+      <Form.Item
+        name="actionEventResultSignificance"
+        className="m-0 border p-5"
+      >
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `
+              <b>Headline:</b> <br><br> ${storyObject?.headline || ""}<br><br>
+              <b>Action:</b> <br><br>${storyObject?.action || ""}<br><br>
+              <b>Event:</b> <br><br>${storyObject?.event || ""}<br><br>
+              <b>Result:</b> <br><br>${storyObject?.result || ""}<br><br>
+              <b>Significance:</b> <br><br>${storyObject?.significance || ""}
+            `
+          }}
+          // style={{ whiteSpace: 'pre-wrap' }}
+        />
+      </Form.Item>
+    </div>
 
 
 
@@ -662,6 +673,7 @@ if(query==="PERSONAL"){
                     <Input.TextArea rows={4} />
                   </Form.Item>
                 </div> */}
+
               </div>
             </div>
 
