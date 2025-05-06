@@ -17,7 +17,7 @@ function InterviewMatrix() {
   const [storyText, setStoryText] = useState("");
   const { data: savedStory, isLoading } = useGetSavedStoryQuery(undefined);
   const { data: savedExperience } = useGetPortfolioExperienceQuery(undefined);
-
+  console.log("get save expirence===>",savedExperience);
 // console.log("savedStory", savedStory);
 
   // const generateRandomColor = (opacity) => {
