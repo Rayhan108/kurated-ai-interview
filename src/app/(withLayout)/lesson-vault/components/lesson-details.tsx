@@ -13,21 +13,44 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import TranscriptViewer from "./transcript";
 import { MyLoading } from "@/components/shared/common/my-loading";
+import { useGetUserProgressQuery } from "@/redux/feature/tools/tools-api";
+import { DataConstant } from "@/constants/data.constant";
 
 export default function LessonDetails() {
+  // temporary
+  // const [completed,setCompleted]=useState(false)
+
   const searchParams = useSearchParams();
   const lessonId = searchParams.get(KeyConstant.LESSON_ID);
+console.log("lesson id>>>",lessonId);
+
+  // here not any is_completed property
   const { data, isLoading } = useGetSingleLessonQuery(lessonId);
-  const [markLessonContentAsCompleted, { isLoading: markLoading }] =
-    useMarkLessonAsCompletedMutation();
+
+// ----------------------------------------------------------------------
+
+  const [markLessonContentAsCompleted, { isLoading: markLoading }] =useMarkLessonAsCompletedMutation();
 
   const lesson = data?.data?.data;
+  console.log("lesson========>",lesson?.chapter_id);
+
+  const { data: userProgress } = useGetUserProgressQuery(undefined);
+  // -----------------------------------------------------------------------------------------------------------------------------------------------------
+  // get tools id is completed or not
+  console.log("user progresss=>>>>",userProgress?.data?.progress?.tools[DataConstant.KURATED_INTERVIEW_TOOLS_ID]?.chapters[lesson?.chapter_id]?.includes(lessonId));
+  const is_completed = userProgress?.data?.progress?.tools[DataConstant.KURATED_INTERVIEW_TOOLS_ID]?.chapters[lesson?.chapter_id]?.includes(lessonId)
+  // ----------------------------------------------------------------------
+
   const [transcript, setTranscript] = useState(false);
 
   const handleMarkAsCompleted = async (id) => {
     try {
-      await markLessonContentAsCompleted(id);
-      message.success("Lesson marked as completed");
+    const res=  await markLessonContentAsCompleted(id);
+    console.log("response",res);
+    
+    
+    
+      message.success(res?.data?.message);
     } catch (error) {
       message.error("Failed to mark lesson as completed");
     }
@@ -100,14 +123,17 @@ export default function LessonDetails() {
           <MyButton
             variant="outline"
             onClick={() => {
+              console.log("lesson id",lessonId);
               handleMarkAsCompleted(lessonId);
             }}
             loading={markLoading}
-            className={`${lesson?.is_completed ? "bg-primaryColor text-white" : "disabled"} 
-            `}
+            // className={`${completed ? "bg-green-500 text-white" : "disabled"}  `}
+            className={`${is_completed ? "bg-green-500 text-white" : "disabled"} 
+            // `}
           >
             {
-              lesson?.is_completed ? "Mark as Incomplete" : "Mark as Completed "
+              // completed ? "Mark as Incomplete" :  "Mark as Completed"
+              is_completed ? "Mark as Incomplete" :  "Mark as Completed"
             }
           </MyButton>
         </div>
@@ -115,3 +141,4 @@ export default function LessonDetails() {
     </div>
   );
 }
+{/* <CheckCircleFilled className="text-green-500" /> */}

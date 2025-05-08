@@ -4,15 +4,25 @@ import { KeyConstant } from "@/constants/key.constant";
 import {
   useGetPortfolioExperienceQuery,
   useGetSavedStoryQuery,
+  useSearchSavedStoryQuery,
 } from "@/redux/feature/storybank/storybank-api";
 import { useSearchParams } from "next/navigation";
 import PortfolioFilter from "./portfolio-filter";
 import StoryPortfolioCard from "./story-portfolio-card";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentSearchText } from "@/redux/feature/storybank/storybankSlice";
+import { useState } from "react";
 
 const PortfolioPage = () => {
+
   const searchParams = useSearchParams();
+  const [openModal, setModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  // console.log("search params===>",searchParams);
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const query = searchParams.get("story_type");
+  const search = searchParams.get("search");
+  console.log("search param:", search);
   // console.log("query", query);
 
   const { data: portfolioExperience } =
@@ -26,7 +36,11 @@ const PortfolioPage = () => {
   // console.log("savedStory", savedStory?.data?.response?.length);
 
 
+// search DATA queries
 
+const { data: searchSavedStory, isLoading } = useSearchSavedStoryQuery(search);
+const searchData = searchSavedStory?.data?.response
+console.log("searchSavedStory", searchData);
 
 
 
@@ -38,40 +52,65 @@ const PortfolioPage = () => {
   );
 
 
-  // console.log("filteredExperience", filteredExperience?.length);
+  console.log("filteredExperience", filteredExperience?.length);
 
   // Filter saved stories by storyType
   const savedExperience = savedStory?.data?.response?.filter(
     (item) => item.experience_info.type === query
   );
 
-  // console.log("savedExperience", savedExperience);
+  console.log("savedExperience", savedExperience);
 
 
 
   return (
     <div>
-      <PortfolioFilter />
+      <PortfolioFilter setModal={setModal} openModal={openModal} isEditing={isEditing} setIsEditing={setIsEditing}/>
 
       <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
         {/* // Find matching saved story for this experience item */}
-        {savedExperience?.map((item, idx) => {
-          const matchingSaved = filteredExperience?.find(
-            (savedItem: any) => item?.experience_info?._id === savedItem?._id
+        {search ? (
+  searchData?.length > 0 ? (
+    searchData.map((item, idx) => {
+      const matchingSaved = filteredExperience?.find(
+        (savedItem: any) => item?.experience_info?._id === savedItem?._id
+      );
 
-          )
-          // console.log("matchingSaved", matchingSaved);
+      return (
+        <StoryPortfolioCard
+          key={idx}
+          item={item}
+          savedItem={matchingSaved}
+          refetch={refetch}
+          setModal={setModal} openModal={openModal}
+          isEditing={isEditing} setIsEditing={setIsEditing}
+        />
+      );
+    })
+  ) : (
+    <p className="text-gray-500 text-center mt-4 col-span-full">
+      No matching stories found.
+    </p>
+  )
+) : (
+  savedExperience?.map((item, idx) => {
+    const matchingSaved = filteredExperience?.find(
+      (savedItem: any) => item?.experience_info?._id === savedItem?._id
+    );
 
-          return (
-            <StoryPortfolioCard
-              key={idx}
-              item={item}
-              
-              savedItem={matchingSaved}
-              refetch={refetch}
-            />
-          );
-        })}
+    return (
+      <StoryPortfolioCard
+        key={idx}
+        item={item}
+        savedItem={matchingSaved}
+        refetch={refetch}
+        setModal={setModal} openModal={openModal}
+        isEditing={isEditing} setIsEditing={setIsEditing}
+      />
+    );
+  })
+)}
+
       </div>
 
       {filteredExperience?.length === 0 && (

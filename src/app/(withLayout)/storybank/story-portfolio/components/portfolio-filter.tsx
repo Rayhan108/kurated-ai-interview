@@ -5,16 +5,17 @@ import { MyLinkButton } from "@/components/shared/common/my-link-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import { KeyConstant } from "@/constants/key.constant";
 import { useSearchSavedStoryQuery } from "@/redux/feature/storybank/storybank-api";
+import { setSearch } from "@/redux/feature/storybank/storybankSlice";
 
 import { Input, Select, Spin } from "antd";
 import { BookText, FilePenLine, Plus, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
-function PortfolioFilter() {
+function PortfolioFilter({setModal,openModal,isEditing,setIsEditing}) {
   const [search, setSearch] = useState("");
-  const { data: searchSavedStory, isLoading } = useSearchSavedStoryQuery(search ? { query: search } : {} );
-  console.log("searchSavedStory", searchSavedStory?.data?.response);
+  console.log(search);
 
   const searchParams = useSearchParams();
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
@@ -23,26 +24,39 @@ function PortfolioFilter() {
   const handleChange = (value: string) => {};
 
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value;
-    setSearch(value); // This will trigger the search query whenever the search value changes
+    const search = event.currentTarget.value;
+    setSearch(search)
+    const params = new URLSearchParams(searchParams);
+        // ✅ Add current search input as a param
+        if (search) {
+          params.set("search", search);
+        } else {
+          params.delete("search");
+        }
+        router.push(`/storybank/story-portfolio?${params.toString()}`);
+   
   };
 
   return (
     <div className="pt-4 pb-6">
       <div className="lg:flex items-center justify-between">
         <div className="flex gap-2 items-center">
-          <MyButton
-            onClick={() => {
-              const params = new URLSearchParams(searchParams);
-              params.set(KeyConstant.STORY_TYPE, "EXTRACTED");
-              router.push(`/storybank/story-portfolio?${params.toString()}`);
-            }}
-            variant={storyType === "EXTRACTED" ? "default" : "secondary"}
-            startIcon={<BookText />}
-            className="font-semibold w-full md:w-fit"
-          >
-            Stories from Resume
-          </MyButton>
+        <MyButton
+  onClick={() => {
+    const params = new URLSearchParams(searchParams);
+    params.set(KeyConstant.STORY_TYPE, "EXTRACTED");
+
+
+// console.log("params",params.toString());
+    router.push(`/storybank/story-portfolio?${params.toString()}`);
+  }}
+  variant={storyType === "EXTRACTED" ? "default" : "secondary"}
+  startIcon={<BookText />}
+  className="font-semibold w-full md:w-fit"
+>
+  Stories from Resume
+</MyButton>
+
           <MyButton
             onClick={() => {
               const params = new URLSearchParams(searchParams);

@@ -17,7 +17,7 @@ function InterviewMatrix() {
   const [storyText, setStoryText] = useState("");
   const { data: savedStory, isLoading } = useGetSavedStoryQuery(undefined);
   const { data: savedExperience } = useGetPortfolioExperienceQuery(undefined);
-
+  console.log("get save expirence===>",savedExperience);
 // console.log("savedStory", savedStory);
 
   // const generateRandomColor = (opacity) => {
@@ -58,15 +58,15 @@ function InterviewMatrix() {
     }
     return acc;
   }, []);
-
+ 
   const xAxis = savedExperience?.data?.response?.map((item) => ({
     value: item._id,
     label: item.title,
     company: item.company,
     type: item.type,
   }));
-  // console.log("yAxis", yAxis);
-
+  console.log("savedExperience", savedExperience);
+  console.log("get Xaxis cell value===>",xAxis);
   const data = savedStory?.data?.response?.map((item) => ({
     storyId: item._id,
     x: item.experience_id,
@@ -92,7 +92,7 @@ function InterviewMatrix() {
   };
 
   const sections = storyText.split("**").filter((part) => part.trim() !== "");
-
+console.log("sections===>",sections);
   return (
     <div className="">
       <div className="overflow-x-scroll">
@@ -124,73 +124,70 @@ function InterviewMatrix() {
             </tr>
           </thead>
           <tbody>
-            {xAxis?.map((x) => (
-              <tr key={x.value}>
-                <th className="border-[10px] border-white bg-white">
-                  <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
-                    <Tooltip title={x.label}>
-                      <p className="truncate cursor-pointer">{x.label}</p>
-                    </Tooltip>
-                    <Tooltip title={x.company}>
-                      <p className="truncate cursor-pointer w-full">
-                        {x.company}
-                      </p>
-                    </Tooltip>
-                  </p>
-                </th>
-                {yAxis?.map((y) => (
-                  <td
-                    key={`${x.value}-${y.value}`}
-                    className="border-[10px] border-white"
-                    onClick={() => {
-                      setClickedCell({
-                        topicId: x,
-                        experienceId: y,
-                        storyId: getCellValue(x.value, y.value).storyId,
-                      });
-                    }}
-                  >
-                    <p
-                      onClick={() =>
-                        handleViewStory(getCellValue(x.value, y.value).storyId)
-                      }
-                      className="cursor-pointer text-sm font-semibold h-16 place-content-center rounded-md p-3 w-40 md:w-52"
-                      style={
-                        getCellValue(x.value, y.value).value
-                          ? {
-                              backgroundColor: " #EDEDED",
-                              borderWidth: 1,
-                            }
-                          : {
-                              backgroundColor: "white",
-                              borderWidth: 1,
-                              borderColor: "#f3f4f6",
-                            }
-                      }
-                    >
-                      {getCellValue(x.value, y.value)?.value &&
-                        (getCellValue(x.value, y.value)?.type ===
-                        "EXTRACTED" ? (
-                          <Image
-                            src={AllImages.resumeIcon}
-                            alt="pencil"
-                            className="mx-auto h-5 w-5 cursor-pointer"
-                          ></Image>
-                        ) : getCellValue(x.value, y.value)?.type ===
-                          "PERSONAL" ? (
-                          <Image
-                            src={AllImages.personalStoryIcon}
-                            alt="pencil"
-                            className="mx-auto h-5 w-5 cursor-pointer"
-                          ></Image>
-                        ) : // <FaPen className="mx-auto text-primaryColor h-5 w-5 cursor-pointer" />
-                        null)}
-                    </p>
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
+  {/* Check if xAxis has data */}
+  {(xAxis?.length === 0 ? Array(5).fill({ value: '', label: '', company: '' }) : xAxis)?.map((x) => (
+    <tr key={x.value || Math.random()}> {/* Use random key for empty rows */}
+      <th className="border-[10px] border-white bg-white">
+        <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
+          <Tooltip title={x.label}>
+            <p className="truncate cursor-pointer">{x.label || ''}</p> {/* Show Empty Row if no data */}
+          </Tooltip>
+          <Tooltip title={x.company}>
+            <p className="truncate cursor-pointer w-full">{x.company || ''}</p> {/* Default if no company */}
+          </Tooltip>
+        </p>
+      </th>
+      {yAxis?.map((y) => (
+        <td
+          key={`${x.value || Math.random()}-${y.value}`}
+          className="border-[10px] border-white"
+          onClick={() => {
+            setClickedCell({
+              topicId: x,
+              experienceId: y,
+              storyId: getCellValue(x.value, y.value).storyId,
+            });
+          }}
+        >
+          <p
+            onClick={() =>
+              handleViewStory(getCellValue(x.value, y.value).storyId)
+            }
+            className="cursor-pointer text-sm font-semibold h-16 place-content-center rounded-md p-3 w-40 md:w-52"
+            style={
+              getCellValue(x.value, y.value).value
+                ? {
+                    backgroundColor: " #EDEDED",
+                    borderWidth: 1,
+                  }
+                : {
+                    backgroundColor: "white",
+                    borderWidth: 1,
+                    borderColor: "#f3f4f6",
+                  }
+            }
+          >
+            {getCellValue(x.value, y.value)?.value &&
+              (getCellValue(x.value, y.value)?.type === "EXTRACTED" ? (
+                <Image
+                  src={AllImages.resumeIcon}
+                  alt="pencil"
+                  className="mx-auto h-5 w-5 cursor-pointer"
+                />
+              ) : getCellValue(x.value, y.value)?.type === "PERSONAL" ? (
+                <Image
+                  src={AllImages.personalStoryIcon}
+                  alt="pencil"
+                  className="mx-auto h-5 w-5 cursor-pointer"
+                />
+              ) : null)}
+          </p>
+        </td>
+      ))}
+    </tr>
+  ))}
+</tbody>
+
         </table>
       </div>
       <Modal
@@ -200,9 +197,12 @@ function InterviewMatrix() {
         footer={null}
       >
         <div className="space-y-4">
-          {sections.map((section, index) => (
-            <p key={index}>{section}</p>
-          ))}
+          {
+          
+          sections.map((section, index) => {
+            console.log("section from interview matrix==>",section);
+           return <p key={index}>{section}</p>
+})}
         </div>
       </Modal>
     </div>

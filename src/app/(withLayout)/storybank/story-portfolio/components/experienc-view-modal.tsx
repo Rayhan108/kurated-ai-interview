@@ -26,7 +26,8 @@ import { AllImages } from "@/assets/AllImages";
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { IoCheckmarkDone } from "react-icons/io5";
 import { TbArrowBack } from "react-icons/tb";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { KeyConstant } from "@/constants/key.constant";
 
 interface IExperience {
   title: string;
@@ -35,10 +36,15 @@ interface IExperience {
   endDate: string;
   description: string;
 }
-export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
+export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditing,setIsEditing,openModal,setModal }) => {
+  const searchParams = useSearchParams();
+  const storyType = searchParams.get(KeyConstant.STORY_TYPE);
+  const query = searchParams.get("story_type");
+
+  console.log("query from ex view moda",query)
   const id = data?._id;
   // console.log("data from experience 15", savedItem);
-  const [isEditing, setIsEditing] = useState(false);
+
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
   const [isProceesModalOpen, setIsProceesModalOpen] = useState(false);
@@ -47,6 +53,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const { data: specificSavedStory } = useGetSpecificSavedStoryQuery(id);
 
   const specificSavedStoryData = specificSavedStory?.data?.response?.[0];
+  console.log(specificSavedStoryData,"<<<<==========");
   // console.log(
   //   "specificSavedStoryData",
   //   specificSavedStoryData?.story_text?.trim().split("**")
@@ -57,6 +64,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const [editStory] = useEditStoryMutation();
 
   const [form] = Form.useForm();
+  const [isFormChanged, setIsFormChanged] = useState(false);
   const rawStoryArray =
     specificSavedStoryData?.story_text?.trim().split(/\*\*|\n(?=\w+:)/) || [];
 
@@ -72,7 +80,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
       storyObject[key.toLowerCase()] = value;
     }
   }
-
+console.log("story obj=-==>",storyObject);
   useEffect(() => {
     if (!specificSavedStoryData?.story_text) return;
 
@@ -264,7 +272,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
     console.log("data:", data); // now storyText will be a string
     await editStory(data).unwrap();
     refetch();
-    message.success("Story Updated Successfully");
+    // message.success("Story Updated Successfully");
   };
 
   // const onFinish = async (values) => {
@@ -331,6 +339,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   };
 
   const handleSubmit = () => {
+    
     handleClose();
   };
 
@@ -338,12 +347,15 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
     setIsProceesModalOpen(true);
   };
   const handleCloseProcessModal = () => {
+
     setIsProceesModalOpen(false);
+ 
   };
   const showUploadMoaModal = () => {
     setIsUploadMoaPOpen(true);
   };
   const handleCloseUploadMoaModal = () => {
+
     setIsUploadMoaPOpen(false);
   };
 
@@ -360,10 +372,19 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
   const handleYes = () => {
     handleCloseUploadMoaModal();
     handleCloseProcessModal();
-    router.push("/storybank/matrix?modal=true&step=1");
+    setIsEditing(false)
+    setModal(false)
+    // /storybank/matrix?modal=true&step=1
+if(query==="PERSONAL"){
+
+  router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
+}else{
+  router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
+}
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
+  // console.log("Selection===>",sections);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
   // console.log("ownershipPercentage from experience 120", ownershipPercentage);
 
@@ -484,7 +505,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
             </div>
           </div>
           <div className="border-t py-3 w-full bg-white">
-            <div className="flex justify-between gap-1">
+            <div className="flex justify-end gap-1">
               <MyButton
                 onClick={hnadleDelete}
                 // onClick={() => {
@@ -497,19 +518,19 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 <FaRegTrashAlt />
                 Delete story
               </MyButton>
-              <Form.Item label={null} className="m-0">
+                 {/* onClick={() => {
+                    setIsEditing(false);
+                 }} */}
+              {/* <Form.Item label={null} className="m-0">
                 <MyButton
                   onClick={handleSubmit}
-                  // onClick={() => {
-                  //   // setIsEditing(false);
-                  // }}
                   variant="outline"
                   startIcon={<Save />}
                   className="border-black "
                 >
                   Save Story
                 </MyButton>
-              </Form.Item>
+              </Form.Item> */}
             </div>
           </div>
         </div>
@@ -530,6 +551,11 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
             action: storyObject?.action,
             result: storyObject?.result,
             significance: storyObject?.significance,
+          }}
+          onValuesChange={() => {
+            if (!isFormChanged) {
+              setIsFormChanged(true);
+            }
           }}
           className="font-mulish"
         >
@@ -557,25 +583,47 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                     <Input />
                   </Form.Item>
                 </div>
-                <div>
+                {/* <div>
                   <Typography.Title level={5} className="font-mulish">
                     Headline:
                   </Typography.Title>
                   <Form.Item
                     name="headline"
                     initialValue={storyObject?.headline}
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: "Please input your headline",
-                    //   },
-                    // ]}
+           
                     className="m-0"
                   >
                     <Input />
                   </Form.Item>
-                </div>
-                <div>
+                </div> */}
+
+
+
+<div>
+      <Form.Item
+        name="actionEventResultSignificance"
+        className="m-0 border p-5"
+      >
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `
+              <b>Headline:</b> <br><br> ${storyObject?.headline || ""}<br><br>
+              <b>Action:</b> <br><br>${storyObject?.action || ""}<br><br>
+              <b>Event:</b> <br><br>${storyObject?.event || ""}<br><br>
+              <b>Result:</b> <br><br>${storyObject?.result || ""}<br><br>
+              <b>Significance:</b> <br><br>${storyObject?.significance || ""}
+            `
+          }}
+          // style={{ whiteSpace: 'pre-wrap' }}
+        />
+      </Form.Item>
+    </div>
+
+
+
+
+
+                {/* <div>
                   <Typography.Title level={5} className="font-mulish">
                     Event:
                   </Typography.Title>
@@ -624,7 +672,8 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                   <Form.Item name="significance" className="m-0">
                     <Input.TextArea rows={4} />
                   </Form.Item>
-                </div>
+                </div> */}
+
               </div>
             </div>
 
@@ -643,6 +692,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose }) => {
                 <Form.Item label={null} className="m-0">
                   <div>
                     <MyButton
+                   disabled={!isFormChanged}
                       onClick={showProcessModal}
                       variant="outline"
                       className="border-black"
