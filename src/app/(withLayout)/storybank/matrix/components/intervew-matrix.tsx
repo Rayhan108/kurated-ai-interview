@@ -65,7 +65,7 @@ function InterviewMatrix() {
     company: item.company,
     type: item.type,
   }));
-  // console.log("yAxis", yAxis);
+  console.log("savedExperience", savedExperience);
   console.log("get Xaxis cell value===>",xAxis);
   const data = savedStory?.data?.response?.map((item) => ({
     storyId: item._id,
