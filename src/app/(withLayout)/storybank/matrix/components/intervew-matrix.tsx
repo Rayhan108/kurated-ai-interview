@@ -66,6 +66,7 @@ function InterviewMatrix() {
     type: item.type,
   }));
   console.log("savedExperience", savedExperience);
+  console.log("get Yaxis cell value===>",yAxis);
   console.log("get Xaxis cell value===>",xAxis);
   const data = savedStory?.data?.response?.map((item) => ({
     storyId: item._id,
@@ -125,7 +126,10 @@ console.log("sections===>",sections);
           </thead>
           <tbody>
   {/* Check if xAxis has data */}
-  {(xAxis?.length === 0 ? Array(5).fill({ value: '', label: '', company: '' }) : xAxis)?.map((x) => (
+  {(xAxis?.length === 0 ? Array(5).fill({ value: '', label: '', company: '' }) : xAxis)?.map((x) => {
+  if (typeof x.label === 'undefined') return null; // ⬅️ Skip rendering this row if x.label is undefined
+
+  return (
     <tr key={x.value || Math.random()}> {/* Use random key for empty rows */}
       <th className="border-[10px] border-white bg-white">
         <p className="text-sm font-semibold h-16 place-content-center bg-primaryColor/70 rounded-md p-3 w-40 md:w-52">
@@ -185,7 +189,9 @@ console.log("sections===>",sections);
         </td>
       ))}
     </tr>
-  ))}
+  );
+})}
+
 </tbody>
 
         </table>
