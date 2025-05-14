@@ -29,7 +29,7 @@ import { TbArrowBack } from "react-icons/tb";
 import { useRouter, useSearchParams } from "next/navigation";
 import { KeyConstant } from "@/constants/key.constant";
 
-interface IExperience {
+export interface IExperience {
   title: string;
   company: string;
   startDate: string;
@@ -53,7 +53,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditin
   const { data: specificSavedStory } = useGetSpecificSavedStoryQuery(id);
 
   const specificSavedStoryData = specificSavedStory?.data?.response?.[0];
-  console.log(specificSavedStoryData,"<<<<==========");
+  console.log("specificSavedStoryData ==========",specificSavedStoryData);
   // console.log(
   //   "specificSavedStoryData",
   //   specificSavedStoryData?.story_text?.trim().split("**")
@@ -347,16 +347,39 @@ console.log("story obj=-==>",storyObject);
     setIsProceesModalOpen(true);
   };
   const handleCloseProcessModal = () => {
+    setIsProceesModalOpen(false)
 
-    setIsProceesModalOpen(false);
+
+    setIsEditing(false)
+    setModal(false)
+    // /storybank/matrix?modal=true&step=1
+if(query==="PERSONAL"){
+
+  router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
+}else{
+  router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
+}
  
   };
   const showUploadMoaModal = () => {
     setIsUploadMoaPOpen(true);
+    setIsProceesModalOpen(false)
   };
   const handleCloseUploadMoaModal = () => {
 
     setIsUploadMoaPOpen(false);
+
+
+    setIsEditing(false)
+    setModal(false)
+    // /storybank/matrix?modal=true&step=1
+if(query==="PERSONAL"){
+
+  router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
+}else{
+  router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
+}
+
   };
 
   const handleBack = () => {
@@ -384,7 +407,7 @@ if(query==="PERSONAL"){
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
-  // console.log("Selection===>",sections);
+  console.log("Selection===>",sections);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
   // console.log("ownershipPercentage from experience 120", ownershipPercentage);
 
@@ -534,7 +557,7 @@ if(query==="PERSONAL"){
             </div>
           </div>
         </div>
-      )}
+       )}
 
       {isEditing && (
         <Form
@@ -691,15 +714,19 @@ if(query==="PERSONAL"){
                 </MyButton>
                 <Form.Item label={null} className="m-0">
                   <div>
-                    <MyButton
-                   disabled={!isFormChanged}
-                      onClick={showProcessModal}
-                      variant="outline"
-                      className="border-black"
-                    >
-                      <PiClockClockwiseBold />
-                      Update Story
-                    </MyButton>
+           <MyButton
+  disabled={!isFormChanged}
+  onClick={() => {
+    showProcessModal(); 
+   
+  }}
+  variant="outline"
+  className="border-black"
+>
+  <PiClockClockwiseBold />
+  Update Story
+</MyButton>
+
                   </div>
                 </Form.Item>
               </div>

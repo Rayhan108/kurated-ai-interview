@@ -5,15 +5,18 @@ import { useState } from "react";
 import { ExperienceModal } from "./experienc-view-modal";
 
 function StoryPortfolioCard({ item, savedItem, refetch,setModal,openModal,isEditing,setIsEditing }) {
+
   // console.log("item", item);
   // const [openModal, setModal] = useState(false);
   const handleClose = () =>{
   console.log("clicked");
      setModal(false)
      setIsEditing(false)
+ 
     };
 const handleModalShow=()=>{
   setModal(true)
+
   if(!setIsEditing){
     setModal(false)
 
@@ -80,6 +83,7 @@ const handleModalShow=()=>{
                 handleClose={handleClose}
                 isEditing={isEditing} setIsEditing={setIsEditing}
                 setModal={setModal} openModal={openModal}
+           
               />
             </div>
           </div>
