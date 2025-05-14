@@ -398,12 +398,10 @@ if(query==="PERSONAL"){
     setIsEditing(false)
     setModal(false)
     // /storybank/matrix?modal=true&step=1
-if(query==="PERSONAL"){
 
-  router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
-}else{
-  router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
-}
+
+  router.push(`/storybank/matrix?modal=true&step=1`);
+
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
