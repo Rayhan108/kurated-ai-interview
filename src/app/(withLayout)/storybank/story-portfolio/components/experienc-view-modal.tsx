@@ -458,7 +458,7 @@ if(query==="PERSONAL"){
                       <p className="font-bold">
                         Company{" "}
                         <span className="font-normal text-gray-500">
-                          {savedItem.company}
+                          {savedItem?.company}
                         </span>
                       </p>
                       <p className="font-bold">
