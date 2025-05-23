@@ -62,7 +62,7 @@ export const Finish = () => {
                     const params = new URLSearchParams(searchParam.toString()); // Clone existing params
                     localStorage.removeItem(KeyConstant.SELECTED_RELEVANCE);
 
-                    params.set(KeyConstant.STEP, "5");
+                    params.set(KeyConstant.STEP, "1");
                     params.delete(KeyConstant.SUCCESS);
 
                     router.push(`?${params.toString()}`);
