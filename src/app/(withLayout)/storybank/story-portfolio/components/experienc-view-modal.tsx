@@ -592,19 +592,20 @@ if(query==="PERSONAL"){
                   </Typography.Title>
                   <Form.Item
                     name="topic"
-                    initialValue={specificSavedStoryData?.development_topic}
+                    initialValue=""
                     // rules={[
                     //   {
                     //     required: true,
                     //     message: "Please input predictive topic",
                     //   },
                     // ]}
+                    
                     className="m-0"
                   >
-                    <Input />
+                    <Input readOnly />
                   </Form.Item>
                 </div>
-                {/* <div>
+                <div>
                   <Typography.Title level={5} className="font-mulish">
                     Headline:
                   </Typography.Title>
@@ -616,11 +617,11 @@ if(query==="PERSONAL"){
                   >
                     <Input />
                   </Form.Item>
-                </div> */}
+                </div>
 
 
 
-<div>
+{/* <div>
       <Form.Item
         name="actionEventResultSignificance"
         className="m-0 border p-5"
@@ -638,13 +639,13 @@ if(query==="PERSONAL"){
           // style={{ whiteSpace: 'pre-wrap' }}
         />
       </Form.Item>
-    </div>
+    </div> */}
 
 
 
 
 
-                {/* <div>
+                <div>
                   <Typography.Title level={5} className="font-mulish">
                     Event:
                   </Typography.Title>
@@ -693,7 +694,7 @@ if(query==="PERSONAL"){
                   <Form.Item name="significance" className="m-0">
                     <Input.TextArea rows={4} />
                   </Form.Item>
-                </div> */}
+                </div>
 
               </div>
             </div>

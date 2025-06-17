@@ -43,7 +43,6 @@ export const Finish = () => {
                     const params = new URLSearchParams(searchParam.toString());
                     //   params.set(KeyConstant.STEP, `${Number(step) - 1}`);
                     params.delete(KeyConstant.SUCCESS);
-
                     localStorage.removeItem(KeyConstant.SELECTED_ROLE_TOPICS);
                     localStorage.removeItem(KeyConstant.SELECTED_EXPERIENCE);
                     localStorage.removeItem(KeyConstant.SELECTED_RELEVANCE);
