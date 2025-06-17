@@ -52,7 +52,7 @@ export const ExperienceModal = ({
 
   console.log("query from ex view moda", query);
   const id = data?._id;
-  // console.log("data from experience 15", savedItem);
+  console.log("data from experience 15", savedItem);
 
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);

@@ -4,9 +4,9 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import { ExperienceModal } from "./experienc-view-modal";
 
-function StoryPortfolioCard({ item, savedItem, refetch,setModal,openModal,isEditing,setIsEditing }) {
+function StoryPortfolioCard({ item, savedItem, refetch,setModal,openModal,isEditing,setIsEditing,setSelectedCardData }) {
 
-  // console.log("item", item);
+  // console.log("item------------->", savedItem);
   // const [openModal, setModal] = useState(false);
   const handleClose = () =>{
   console.log("clicked");
@@ -16,7 +16,7 @@ function StoryPortfolioCard({ item, savedItem, refetch,setModal,openModal,isEdit
     };
 const handleModalShow=()=>{
   setModal(true)
-
+setSelectedCardData(savedItem)
   if(!setIsEditing){
     setModal(false)
 
