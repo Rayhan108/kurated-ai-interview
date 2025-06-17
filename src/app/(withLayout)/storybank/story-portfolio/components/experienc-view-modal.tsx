@@ -63,6 +63,7 @@ export const ExperienceModal = ({
 
   const specificSavedStoryData = specificSavedStory?.data?.response?.[0];
   console.log("specificSavedStoryData ==========", specificSavedStoryData);
+  console.log("predictive topic>",specificSavedStoryData?.role_info?.topic_name);
   // console.log(
   //   "specificSavedStoryData",
   //   specificSavedStoryData?.story_text?.trim().split("**")
@@ -562,13 +563,13 @@ export const ExperienceModal = ({
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           initialValues={{
-            developmentTopic: specificSavedStoryData?.development_topic || "",
-            topic: specificSavedStoryData?.topic_name || "",
-            headline: storyObject?.headline,
-            event: storyObject?.event,
-            action: storyObject?.action,
-            result: storyObject?.result,
-            significance: storyObject?.significance,
+            developmentTopic:specificSavedStoryData?.development_topic || "",
+            topic:specificSavedStoryData?.role_info?.topic_name || "",
+            headline:storyObject?.headline,
+            event:storyObject?.event,
+            action:storyObject?.action,
+            result:storyObject?.result,
+            significance:storyObject?.significance,
           }}
           onValuesChange={() => {
             if (!isFormChanged) {
@@ -583,28 +584,24 @@ export const ExperienceModal = ({
                 Edit Story
               </p>
               <div className="space-y-2 px-2 border border-neutral-800 rounded-md p-10 mt-5">
-                <div>
+                {/* <div>
                   <Typography.Title level={5} className="font-mulish">
                     Predictive Topic
                   </Typography.Title>
                   <Form.Item
                     name="topic"
-                    initialValue={specificSavedStoryData?.development_topic}
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: "Please input predictive topic",
-                    //   },
-                    // ]}
+                    initialValue={specificSavedStoryData?.role_info?.topic_name}
+  
 
                     className="m-0"
                   >
-                    <Input readOnly />
+                    <Input value={specificSavedStoryData?.role_info?.topic_name || ""} readOnly  />
                   </Form.Item>
-                </div>
+                </div> */}
                 <div>
                   <Typography.Title level={5} className="font-mulish">
-                    Headline:
+                      Predictive Topic
+                    {/* Headline: */}
                   </Typography.Title>
                   <Form.Item
                     name="headline"
