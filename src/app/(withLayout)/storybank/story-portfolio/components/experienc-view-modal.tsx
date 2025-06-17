@@ -36,12 +36,21 @@ export interface IExperience {
   endDate: string;
   description: string;
 }
-export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditing,setIsEditing,openModal,setModal }) => {
+export const ExperienceModal = ({
+  data,
+  savedItem,
+  refetch,
+  handleClose,
+  isEditing,
+  setIsEditing,
+  openModal,
+  setModal,
+}) => {
   const searchParams = useSearchParams();
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const query = searchParams.get("story_type");
 
-  console.log("query from ex view moda",query)
+  console.log("query from ex view moda", query);
   const id = data?._id;
   // console.log("data from experience 15", savedItem);
 
@@ -53,7 +62,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditin
   const { data: specificSavedStory } = useGetSpecificSavedStoryQuery(id);
 
   const specificSavedStoryData = specificSavedStory?.data?.response?.[0];
-  console.log("specificSavedStoryData ==========",specificSavedStoryData);
+  console.log("specificSavedStoryData ==========", specificSavedStoryData);
   // console.log(
   //   "specificSavedStoryData",
   //   specificSavedStoryData?.story_text?.trim().split("**")
@@ -80,7 +89,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditin
       storyObject[key.toLowerCase()] = value;
     }
   }
-console.log("story obj=-==>",storyObject);
+  console.log("story obj=-==>", storyObject);
   useEffect(() => {
     if (!specificSavedStoryData?.story_text) return;
 
@@ -201,8 +210,6 @@ console.log("story obj=-==>",storyObject);
   const storyHeading = storyTextArray?.[1]?.split("**")?.[0]?.trim();
 
   const storyText = specificSavedStoryData?.story_text;
-
-
 
   // const onFinish = async (values) => {
   //   console.log("values", values);
@@ -339,7 +346,6 @@ console.log("story obj=-==>",storyObject);
   };
 
   const handleSubmit = () => {
-    
     handleClose();
   };
 
@@ -347,39 +353,32 @@ console.log("story obj=-==>",storyObject);
     setIsProceesModalOpen(true);
   };
   const handleCloseProcessModal = () => {
-    setIsProceesModalOpen(false)
+    setIsProceesModalOpen(false);
 
-
-    setIsEditing(false)
-    setModal(false)
+    setIsEditing(false);
+    setModal(false);
     // /storybank/matrix?modal=true&step=1
-if(query==="PERSONAL"){
-
-  router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
-}else{
-  router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
-}
- 
+    if (query === "PERSONAL") {
+      router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
+    } else {
+      router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
+    }
   };
   const showUploadMoaModal = () => {
     setIsUploadMoaPOpen(true);
-    setIsProceesModalOpen(false)
+    setIsProceesModalOpen(false);
   };
   const handleCloseUploadMoaModal = () => {
-
     setIsUploadMoaPOpen(false);
 
-
-    setIsEditing(false)
-    setModal(false)
+    setIsEditing(false);
+    setModal(false);
     // /storybank/matrix?modal=true&step=1
-if(query==="PERSONAL"){
-
-  router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
-}else{
-  router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
-}
-
+    if (query === "PERSONAL") {
+      router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
+    } else {
+      router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
+    }
   };
 
   const handleBack = () => {
@@ -395,17 +394,15 @@ if(query==="PERSONAL"){
   const handleYes = () => {
     handleCloseUploadMoaModal();
     handleCloseProcessModal();
-    setIsEditing(false)
-    setModal(false)
+    setIsEditing(false);
+    setModal(false);
     // /storybank/matrix?modal=true&step=1
 
-
-  router.push(`/storybank/matrix?modal=true&step=1`);
-
+    router.push(`/storybank/matrix?modal=true&step=1`);
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
-  console.log("Selection===>",sections);
+  console.log("Selection===>", sections);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
   // console.log("ownershipPercentage from experience 120", ownershipPercentage);
 
@@ -539,7 +536,7 @@ if(query==="PERSONAL"){
                 <FaRegTrashAlt />
                 Delete story
               </MyButton>
-                 {/* onClick={() => {
+              {/* onClick={() => {
                     setIsEditing(false);
                  }} */}
               {/* <Form.Item label={null} className="m-0">
@@ -555,7 +552,7 @@ if(query==="PERSONAL"){
             </div>
           </div>
         </div>
-       )}
+      )}
 
       {isEditing && (
         <Form
@@ -592,14 +589,14 @@ if(query==="PERSONAL"){
                   </Typography.Title>
                   <Form.Item
                     name="topic"
-                    initialValue=""
+                    initialValue={specificSavedStoryData?.development_topic}
                     // rules={[
                     //   {
                     //     required: true,
                     //     message: "Please input predictive topic",
                     //   },
                     // ]}
-                    
+
                     className="m-0"
                   >
                     <Input readOnly />
@@ -612,16 +609,13 @@ if(query==="PERSONAL"){
                   <Form.Item
                     name="headline"
                     initialValue={storyObject?.headline}
-           
                     className="m-0"
                   >
-                    <Input />
+                    <Input readOnly />
                   </Form.Item>
                 </div>
 
-
-
-{/* <div>
+                {/* <div>
       <Form.Item
         name="actionEventResultSignificance"
         className="m-0 border p-5"
@@ -640,10 +634,6 @@ if(query==="PERSONAL"){
         />
       </Form.Item>
     </div> */}
-
-
-
-
 
                 <div>
                   <Typography.Title level={5} className="font-mulish">
@@ -695,7 +685,6 @@ if(query==="PERSONAL"){
                     <Input.TextArea rows={4} />
                   </Form.Item>
                 </div>
-
               </div>
             </div>
 
@@ -713,19 +702,17 @@ if(query==="PERSONAL"){
                 </MyButton>
                 <Form.Item label={null} className="m-0">
                   <div>
-           <MyButton
-  disabled={!isFormChanged}
-  onClick={() => {
-    showProcessModal(); 
-   
-  }}
-  variant="outline"
-  className="border-black"
->
-  <PiClockClockwiseBold />
-  Update Story
-</MyButton>
-
+                    <MyButton
+                      disabled={!isFormChanged}
+                      onClick={() => {
+                        showProcessModal();
+                      }}
+                      variant="outline"
+                      className="border-black"
+                    >
+                      <PiClockClockwiseBold />
+                      Update Story
+                    </MyButton>
                   </div>
                 </Form.Item>
               </div>
