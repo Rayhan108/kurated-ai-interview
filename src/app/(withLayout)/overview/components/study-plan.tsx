@@ -120,15 +120,13 @@ const StudyPlan = () => {
             </Link>
           </div>
           <div className="">
-        
-              <video
-                src="https://uat.kurated.ai/assets/Curriculum-1c030253.mp4"
-                controls
-                className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
-                autoPlay
-                onLoadedMetadata={() => setIsLoaded(true)}
-                style={{ minWidth: "300px", minHeight: "200px" }}
-              ></video>
+<video
+  src="https://uat.kurated.ai/assets/Curriculum-1c030253.mp4"
+  controls  // Ensures the play button is shown
+  className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
+  onLoadedMetadata={() => setIsLoaded(true)}
+  style={{ minWidth: "300px", minHeight: "200px" }}
+></video>
        
           </div>
         </div>
@@ -149,7 +147,7 @@ const StudyPlan = () => {
               src="https://uat.kurated.ai/assets/1-week-f1550b78.mp4"
               controls
               className={`rounded-lg w-full lg:w-[50%] bg-black transition-all duration-300 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
-              autoPlay
+              // autoPlay
               onLoadedMetadata={() => setIsLoaded(true)}
               style={{ minWidth: "300px", minHeight: "200px" }}
             ></video>
