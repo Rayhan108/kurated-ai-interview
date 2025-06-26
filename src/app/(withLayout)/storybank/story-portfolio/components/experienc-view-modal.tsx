@@ -45,11 +45,12 @@ export const ExperienceModal = ({
   setIsEditing,
   openModal,
   setModal,
+  selectedCardData
 }) => {
   const searchParams = useSearchParams();
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const query = searchParams.get("story_type");
-
+console.log("selected Card Data==================>",selectedCardData);
   console.log("query from ex view moda", query);
   const id = data?._id;
   console.log("data from experience 15", savedItem);

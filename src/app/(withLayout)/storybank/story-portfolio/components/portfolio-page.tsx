@@ -41,7 +41,7 @@ const [selectedCardData, setSelectedCardData] = useState(null); // To store sele
 
 const { data: searchSavedStory, isLoading } = useSearchSavedStoryQuery(search);
 const searchData = searchSavedStory?.data?.response
-// console.log("searchSavedStory", searchData);
+console.log("searchSavedStory ======>>>>>>>", searchData);
 
 
 
@@ -85,8 +85,7 @@ const searchData = searchSavedStory?.data?.response
           refetch={refetch}
           setModal={setModal} openModal={openModal}
           isEditing={isEditing} setIsEditing={setIsEditing}
-              setSelectedCardData={setSelectedCardData}
-        />
+          setSelectedCardData={setSelectedCardData} selectedCardData={undefined}        />
       );
     })
   ) : (
@@ -96,21 +95,22 @@ const searchData = searchSavedStory?.data?.response
   )
 ) : (
   savedExperience?.map((item, idx) => {
-    const matchingSaved = filteredExperience?.find(
+    const matchingSave = filteredExperience?.find(
       (savedItem: any) => item?.experience_info?._id === savedItem?._id
     );
  // Log to ensure the matching logic works
-  console.log('Matching item:', matchingSaved);
+  console.log('Matching item:', matchingSave);
     return (
       <StoryPortfolioCard
       
         key={idx}
         item={item}
-        savedItem={matchingSaved}
+        savedItem={matchingSave}
         refetch={refetch}
         setModal={setModal} openModal={openModal}
         isEditing={isEditing} setIsEditing={setIsEditing}
       setSelectedCardData={setSelectedCardData}
+      selectedCardData={selectedCardData}
       />
     );
   })
