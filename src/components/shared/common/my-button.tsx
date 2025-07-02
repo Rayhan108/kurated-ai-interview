@@ -21,6 +21,7 @@ const MyButton = React.forwardRef<HTMLButtonElement, IMyButton>(
       loading = false,
       variant,
       className,
+      disabled,
       size,
       asChild,
       withCheck,
@@ -40,7 +41,7 @@ const MyButton = React.forwardRef<HTMLButtonElement, IMyButton>(
           onClick();
         }}
         variant={variant}
-        disabled={loading}
+        disabled={loading || disabled}
         {...props}
       >
         {loading ? (
