@@ -14,6 +14,7 @@ import { useCurrentSearchText } from "@/redux/feature/storybank/storybankSlice";
 import { useState } from "react";
 
 const PortfolioPage = () => {
+const [selectedCardData, setSelectedCardData] = useState(null); // To store selected card data
 
   const searchParams = useSearchParams();
   const [openModal, setModal] = useState(false);
@@ -40,7 +41,7 @@ const PortfolioPage = () => {
 
 const { data: searchSavedStory, isLoading } = useSearchSavedStoryQuery(search);
 const searchData = searchSavedStory?.data?.response
-console.log("searchSavedStory", searchData);
+console.log("searchSavedStory ======>>>>>>>", searchData);
 
 
 
@@ -52,7 +53,7 @@ console.log("searchSavedStory", searchData);
   );
 
 
-  console.log("filteredExperience", filteredExperience?.length);
+  console.log("filteredExperience", filteredExperience);
 
   // Filter saved stories by storyType
   const savedExperience = savedStory?.data?.response?.filter(
@@ -84,7 +85,7 @@ console.log("searchSavedStory", searchData);
           refetch={refetch}
           setModal={setModal} openModal={openModal}
           isEditing={isEditing} setIsEditing={setIsEditing}
-        />
+          setSelectedCardData={setSelectedCardData} selectedCardData={undefined}        />
       );
     })
   ) : (
@@ -94,18 +95,22 @@ console.log("searchSavedStory", searchData);
   )
 ) : (
   savedExperience?.map((item, idx) => {
-    const matchingSaved = filteredExperience?.find(
+    const matchingSave = filteredExperience?.find(
       (savedItem: any) => item?.experience_info?._id === savedItem?._id
     );
-
+ // Log to ensure the matching logic works
+  console.log('Matching item:', matchingSave);
     return (
       <StoryPortfolioCard
+      
         key={idx}
         item={item}
-        savedItem={matchingSaved}
+        savedItem={matchingSave}
         refetch={refetch}
         setModal={setModal} openModal={openModal}
         isEditing={isEditing} setIsEditing={setIsEditing}
+      setSelectedCardData={setSelectedCardData}
+      selectedCardData={selectedCardData}
       />
     );
   })

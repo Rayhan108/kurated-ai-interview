@@ -29,21 +29,31 @@ import { TbArrowBack } from "react-icons/tb";
 import { useRouter, useSearchParams } from "next/navigation";
 import { KeyConstant } from "@/constants/key.constant";
 
-interface IExperience {
+export interface IExperience {
   title: string;
   company: string;
   startDate: string;
   endDate: string;
   description: string;
 }
-export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditing,setIsEditing,openModal,setModal }) => {
+export const ExperienceModal = ({
+  data,
+  savedItem,
+  refetch,
+  handleClose,
+  isEditing,
+  setIsEditing,
+  openModal,
+  setModal,
+  selectedCardData
+}) => {
   const searchParams = useSearchParams();
   const storyType = searchParams.get(KeyConstant.STORY_TYPE);
   const query = searchParams.get("story_type");
-
-  console.log("query from ex view moda",query)
+console.log("selected Card Data==================>",selectedCardData);
+  console.log("query from ex view moda", query);
   const id = data?._id;
-  // console.log("data from experience 15", savedItem);
+  console.log("data from experience 15", savedItem);
 
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
@@ -53,7 +63,8 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditin
   const { data: specificSavedStory } = useGetSpecificSavedStoryQuery(id);
 
   const specificSavedStoryData = specificSavedStory?.data?.response?.[0];
-  console.log(specificSavedStoryData,"<<<<==========");
+  console.log("specificSavedStoryData ==========", specificSavedStoryData);
+  console.log("predictive topic>",specificSavedStoryData?.role_info?.topic_name);
   // console.log(
   //   "specificSavedStoryData",
   //   specificSavedStoryData?.story_text?.trim().split("**")
@@ -80,7 +91,7 @@ export const ExperienceModal = ({ data, savedItem, refetch, handleClose,isEditin
       storyObject[key.toLowerCase()] = value;
     }
   }
-console.log("story obj=-==>",storyObject);
+  console.log("story obj=-==>", storyObject);
   useEffect(() => {
     if (!specificSavedStoryData?.story_text) return;
 
@@ -201,8 +212,6 @@ console.log("story obj=-==>",storyObject);
   const storyHeading = storyTextArray?.[1]?.split("**")?.[0]?.trim();
 
   const storyText = specificSavedStoryData?.story_text;
-
-
 
   // const onFinish = async (values) => {
   //   console.log("values", values);
@@ -339,7 +348,6 @@ console.log("story obj=-==>",storyObject);
   };
 
   const handleSubmit = () => {
-    
     handleClose();
   };
 
@@ -347,16 +355,32 @@ console.log("story obj=-==>",storyObject);
     setIsProceesModalOpen(true);
   };
   const handleCloseProcessModal = () => {
-
     setIsProceesModalOpen(false);
- 
+
+    setIsEditing(false);
+    setModal(false);
+    // /storybank/matrix?modal=true&step=1
+    if (query === "PERSONAL") {
+      router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
+    } else {
+      router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
+    }
   };
   const showUploadMoaModal = () => {
     setIsUploadMoaPOpen(true);
+    setIsProceesModalOpen(false);
   };
   const handleCloseUploadMoaModal = () => {
-
     setIsUploadMoaPOpen(false);
+
+    setIsEditing(false);
+    setModal(false);
+    // /storybank/matrix?modal=true&step=1
+    if (query === "PERSONAL") {
+      router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
+    } else {
+      router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
+    }
   };
 
   const handleBack = () => {
@@ -372,19 +396,15 @@ console.log("story obj=-==>",storyObject);
   const handleYes = () => {
     handleCloseUploadMoaModal();
     handleCloseProcessModal();
-    setIsEditing(false)
-    setModal(false)
+    setIsEditing(false);
+    setModal(false);
     // /storybank/matrix?modal=true&step=1
-if(query==="PERSONAL"){
 
-  router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
-}else{
-  router.push(`/storybank/story-portfolio?story_type=EXTRACTED`);
-}
+    router.push(`/storybank/matrix?modal=true&step=1`);
   };
 
   const sections = data?.story_text?.split("**").filter(Boolean);
-  // console.log("Selection===>",sections);
+  console.log("Selection===>", sections);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
   // console.log("ownershipPercentage from experience 120", ownershipPercentage);
 
@@ -437,7 +457,7 @@ if(query==="PERSONAL"){
                       <p className="font-bold">
                         Company{" "}
                         <span className="font-normal text-gray-500">
-                          {savedItem.company}
+                          {savedItem?.company}
                         </span>
                       </p>
                       <p className="font-bold">
@@ -518,7 +538,7 @@ if(query==="PERSONAL"){
                 <FaRegTrashAlt />
                 Delete story
               </MyButton>
-                 {/* onClick={() => {
+              {/* onClick={() => {
                     setIsEditing(false);
                  }} */}
               {/* <Form.Item label={null} className="m-0">
@@ -544,13 +564,13 @@ if(query==="PERSONAL"){
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           initialValues={{
-            developmentTopic: specificSavedStoryData?.development_topic || "",
-            topic: specificSavedStoryData?.topic_name || "",
-            headline: storyObject?.headline,
-            event: storyObject?.event,
-            action: storyObject?.action,
-            result: storyObject?.result,
-            significance: storyObject?.significance,
+            developmentTopic:specificSavedStoryData?.development_topic || "",
+            topic:specificSavedStoryData?.role_info?.topic_name || "",
+            headline:storyObject?.headline,
+            event:storyObject?.event,
+            action:storyObject?.action,
+            result:storyObject?.result,
+            significance:storyObject?.significance,
           }}
           onValuesChange={() => {
             if (!isFormChanged) {
@@ -565,41 +585,35 @@ if(query==="PERSONAL"){
                 Edit Story
               </p>
               <div className="space-y-2 px-2 border border-neutral-800 rounded-md p-10 mt-5">
-                <div>
+                {/* <div>
                   <Typography.Title level={5} className="font-mulish">
                     Predictive Topic
                   </Typography.Title>
                   <Form.Item
                     name="topic"
-                    initialValue={specificSavedStoryData?.development_topic}
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: "Please input predictive topic",
-                    //   },
-                    // ]}
+                    initialValue={specificSavedStoryData?.role_info?.topic_name}
+  
+
                     className="m-0"
                   >
-                    <Input />
+                    <Input value={specificSavedStoryData?.role_info?.topic_name || ""} readOnly  />
                   </Form.Item>
-                </div>
-                {/* <div>
+                </div> */}
+                <div>
                   <Typography.Title level={5} className="font-mulish">
-                    Headline:
+                      Predictive Topic
+                    {/* Headline: */}
                   </Typography.Title>
                   <Form.Item
                     name="headline"
                     initialValue={storyObject?.headline}
-           
                     className="m-0"
                   >
-                    <Input />
+                    <Input readOnly />
                   </Form.Item>
-                </div> */}
+                </div>
 
-
-
-<div>
+                {/* <div>
       <Form.Item
         name="actionEventResultSignificance"
         className="m-0 border p-5"
@@ -617,13 +631,9 @@ if(query==="PERSONAL"){
           // style={{ whiteSpace: 'pre-wrap' }}
         />
       </Form.Item>
-    </div>
+    </div> */}
 
-
-
-
-
-                {/* <div>
+                <div>
                   <Typography.Title level={5} className="font-mulish">
                     Event:
                   </Typography.Title>
@@ -672,8 +682,7 @@ if(query==="PERSONAL"){
                   <Form.Item name="significance" className="m-0">
                     <Input.TextArea rows={4} />
                   </Form.Item>
-                </div> */}
-
+                </div>
               </div>
             </div>
 
@@ -692,8 +701,10 @@ if(query==="PERSONAL"){
                 <Form.Item label={null} className="m-0">
                   <div>
                     <MyButton
-                   disabled={!isFormChanged}
-                      onClick={showProcessModal}
+                      disabled={!isFormChanged}
+                      onClick={() => {
+                        showProcessModal();
+                      }}
                       variant="outline"
                       className="border-black"
                     >
