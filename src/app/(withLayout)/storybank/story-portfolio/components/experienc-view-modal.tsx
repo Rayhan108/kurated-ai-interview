@@ -54,7 +54,7 @@ console.log("selected Card Data==================>",selectedCardData);
   console.log("query from ex view moda", query);
   const id = data?._id;
   console.log("data from experience 15", savedItem);
-
+  console.log("item from modal------------->", data);
   const [editedExperience, setEditedExperience] = useState<IExperience>();
   const [currentEmployee, setCurrentEmployee] = useState(false);
   const [isProceesModalOpen, setIsProceesModalOpen] = useState(false);

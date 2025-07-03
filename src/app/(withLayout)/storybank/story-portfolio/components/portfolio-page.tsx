@@ -12,10 +12,14 @@ import StoryPortfolioCard from "./story-portfolio-card";
 import { useAppSelector } from "@/redux/hooks";
 import { useCurrentSearchText } from "@/redux/feature/storybank/storybankSlice";
 import { useState } from "react";
+import MyButton from "@/components/shared/common/my-button";
+import { X } from "lucide-react";
+import { ExperienceModal } from "./experienc-view-modal";
 
 const PortfolioPage = () => {
 const [selectedCardData, setSelectedCardData] = useState(null); // To store selected card data
-
+const [matchingSaved,setMatcingSaved]=useState(null)
+const [matchingSavedItem,setMatcingSavedItem]=useState(null)
   const searchParams = useSearchParams();
   const [openModal, setModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -44,7 +48,12 @@ const searchData = searchSavedStory?.data?.response
 console.log("searchSavedStory ======>>>>>>>", searchData);
 
 
-
+  const handleClose = () =>{
+  console.log("clicked");
+     setModal(false)
+     setIsEditing(false)
+ 
+    };
 
 
   // Filter portfolio experience by storyType
@@ -85,7 +94,8 @@ console.log("searchSavedStory ======>>>>>>>", searchData);
           refetch={refetch}
           setModal={setModal} openModal={openModal}
           isEditing={isEditing} setIsEditing={setIsEditing}
-          setSelectedCardData={setSelectedCardData} selectedCardData={undefined}        />
+          setSelectedCardData={setSelectedCardData} selectedCardData={undefined}      setMatcingSaved={setMatcingSaved}
+  setMatcingSavedItem={setMatcingSavedItem}    />
       );
     })
   ) : (
@@ -100,6 +110,8 @@ console.log("searchSavedStory ======>>>>>>>", searchData);
     );
  // Log to ensure the matching logic works
   console.log('Matching item:', matchingSave);
+
+  console.log('item from source - :=============>', item);
     return (
       <StoryPortfolioCard
       
@@ -111,8 +123,15 @@ console.log("searchSavedStory ======>>>>>>>", searchData);
         isEditing={isEditing} setIsEditing={setIsEditing}
       setSelectedCardData={setSelectedCardData}
       selectedCardData={selectedCardData}
+  setMatcingSaved={setMatcingSaved}
+  setMatcingSavedItem={setMatcingSavedItem}
+      
       />
     );
+
+
+
+    
   })
 )}
 
@@ -126,6 +145,46 @@ console.log("searchSavedStory ======>>>>>>>", searchData);
           </p>
         </div>
       )}
+
+
+
+
+   {openModal && (
+        <div className=" fixed top-0 left-0 flex flex-1 w-full bg-gray-500/50 p-2 md:p-5 lg:p-10 h-screen z-50">
+          <div className="bg-white h-full w-full lg:w-8/12 mx-auto rounded-lg pb-0 relative p-4">
+         
+            <div className="">
+              <div className="py-2 px-2 absolute top-0 right-0 z-50">
+                <MyButton
+                  onClick={() => {
+                    handleClose();
+         
+                  }}
+                  variant="ghost"
+                  className=""
+                >
+                  <X />
+                </MyButton>
+              </div>
+
+              <ExperienceModal
+                data={matchingSavedItem}
+                savedItem={matchingSaved}
+                refetch={refetch}
+                handleClose={handleClose}
+                isEditing={isEditing} setIsEditing={setIsEditing}
+                setModal={setModal} openModal={openModal}
+           selectedCardData={selectedCardData}
+              />
+            </div>
+          </div>
+        </div>
+      )} 
+
+
+
+
+
     </div>
   );
 };
