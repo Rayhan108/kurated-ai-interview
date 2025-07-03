@@ -37,7 +37,7 @@ export const LessonsList = () => {
     return <MyLoading />;
   }
 
-  const chaptersArray = Object.entries(chapters?.data?.data?.data)?.map(
+  const chaptersArray = Object?.entries(chapters?.data?.data?.data)?.map(
     ([key, value]: [string, any]) => ({
       _id: key,
       chapterTitle: value.chapterTitle,

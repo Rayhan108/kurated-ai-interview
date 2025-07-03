@@ -40,7 +40,7 @@ console.log("lesson id>>>",lessonId);
   console.log("user progresss=>>>>",userProgress?.data?.progress?.tools[DataConstant.KURATED_INTERVIEW_TOOLS_ID]?.chapters[lesson?.chapter_id]?.includes(lessonId));
   const is_completed = userProgress?.data?.progress?.tools[DataConstant.KURATED_INTERVIEW_TOOLS_ID]?.chapters[lesson?.chapter_id]?.includes(lessonId)
   // ----------------------------------------------------------------------
-
+console.log("is completed========>",is_completed);
   const [transcript, setTranscript] = useState(false);
 
   const handleMarkAsCompleted = async (id) => {
@@ -65,7 +65,7 @@ console.log("lesson id>>>",lessonId);
           src={lesson.video_url}
           controls
           className="rounded-lg w-full bg-black"
-          autoPlay
+          // autoPlay
         ></video>
       )}
 
@@ -122,14 +122,14 @@ console.log("lesson id>>>",lessonId);
 
           <MyButton
             variant="outline"
+            disabled={is_completed?true:false}
             onClick={() => {
               console.log("lesson id",lessonId);
               handleMarkAsCompleted(lessonId);
             }}
             loading={markLoading}
             // className={`${completed ? "bg-green-500 text-white" : "disabled"}  `}
-            className={`${is_completed ? "bg-green-500 text-white" : "disabled"} 
-            // `}
+            className={`${is_completed ? "bg-green-500 text-white" : "bg-gray-300 text-gray-700"}`}
           >
             {
               // completed ? "Mark as Incomplete" :  "Mark as Completed"

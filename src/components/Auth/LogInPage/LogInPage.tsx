@@ -16,7 +16,7 @@ import GoogleLinkedInLogin from "./GoogleLinkedInLogin";
 const LogInPage = () => {
   const router = useRouter();
   const [logIn, { isLoading }] = useLogInMutation();
-  const { data, isLoading: isLoadingUser } = useLoggedInUserQuery();
+  const { data, isLoading: isLoadingUser } = useLoggedInUserQuery(undefined);
   // console.log('data in login', data);
   const onFinish = (values) => {
     const finalData = {
