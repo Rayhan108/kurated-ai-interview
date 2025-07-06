@@ -213,51 +213,6 @@ console.log("selected Card Data==================>",selectedCardData);
 
   const storyText = specificSavedStoryData?.story_text;
 
-  // const onFinish = async (values) => {
-  //   console.log("values", values);
-  //   try {
-  //     const updatedStoryData = {
-  //       experience: {
-  //         id: data?._id,
-  //         title: values.title,
-  //         date_start: values.startDate,
-  //         date_end: values.endDate,
-  //         description: values.description,
-  //         company: values.company,
-  //         type: data?.experience_info?.type,
-  //       },
-
-  //       stories: [
-  //         {
-  //           current: [
-  //             {
-  //               storyText: data.story_text,
-  //               topic_id: data?.topic_id,
-  //             },
-  //           ],
-  //           removed: [],
-  //         },
-  //       ],
-  //       topic_relevancies: [
-  //         {
-  //           topic_id: data?.role_topic_relevancy?.[0]?.topic_id,
-  //           relevancy: data?.role_topic_relevancy?.[0]?.relevancy,
-  //         },
-  //       ],
-  //     };
-
-  //     // const response = await saveStory(updatedStoryData).unwrap();
-  //     const response = await saveStory(updatedStoryData).unwrap();
-  //     console.log("Response:", response);
-
-  //     message.success("Story updated successfully");
-  //     refetch();
-  //     setIsEditing(false);
-  //   } catch (error) {
-  //     console.error("Failed to update story:", error);
-  //     message.error(error?.data?.message || "Failed to update story");
-  //   }
-  // };
   const onFinish = async (values) => {
     const storyTextString = `
   ### ${values.headline}
@@ -403,11 +358,23 @@ console.log("selected Card Data==================>",selectedCardData);
     router.push(`/storybank/matrix?modal=true&step=1`);
   };
 
-  const sections = data?.story_text?.split("**").filter(Boolean);
+  // const sections = data?.story_text?.split("**").filter(Boolean);
+  const sections = data?.story_text
+  ?.split("**")
+  .map(s => s.trim())
+  .filter(Boolean);
   console.log("Selection===>", sections);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
   // console.log("ownershipPercentage from experience 120", ownershipPercentage);
+// Remove duplicates by keeping only the first occurrence of each section type
 
+const seen = new Set();
+const uniqueSections = sections.filter(section => {
+  const heading = section.split(":")[0]?.trim(); // Get the section name before ':'
+  if (seen.has(heading)) return false;
+  seen.add(heading);
+  return true;
+});
   // edit story:
 
   return (
@@ -422,7 +389,7 @@ console.log("selected Card Data==================>",selectedCardData);
             </p>
 
             <div className="px-0 md:px-5 mb-5">
-              {sections?.map((section, index) => (
+              {uniqueSections?.map((section, index) => (
                 <p key={index} className="mb-4">
                   {section?.trim()}
                 </p>
