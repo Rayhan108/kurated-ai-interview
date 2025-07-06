@@ -92,120 +92,136 @@ console.log("selected Card Data==================>",selectedCardData);
     }
   }
   console.log("story obj=-==>", storyObject);
-  useEffect(() => {
-    if (!specificSavedStoryData?.story_text) return;
 
-    const lines = specificSavedStoryData.story_text
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean);
-    // console.log("lines", lines);
-    const storyMap = {
-      developmenttopic: "",
-      Headline: "",
-      event: "",
-      action: "",
-      result: "",
-      significance: "",
-    };
 
-    let currentKey = "";
 
-    lines.forEach((line) => {
-      const lowerLine = line.toLowerCase();
-      if (
-        [
-          "Headline:",
-          "event:",
-          "action:",
-          "result:",
-          "significance:",
-          "development topic:",
-        ].includes(lowerLine)
-      ) {
-        currentKey = lowerLine.replace(":", "").replace(" ", "").toLowerCase();
-      } else if (currentKey) {
-        storyMap[currentKey] += line + " ";
-      }
-    });
+//   useEffect(() => {
+//     if (!specificSavedStoryData?.story_text) return;
 
-    // const data = {
-    //   developmentTopic:
-    //     lines
-    //       .find((line) => line.toLowerCase().includes("development topic:"))
-    //       ?.replace("development topic:", "")
-    //       .trim() || "",
-    //   topic:
-    //     lines
-    //       .find((line) => line.toLowerCase().includes("topic:"))
-    //       ?.replace("topic:", "")
-    //       .trim() || "",
-    //   headline:
-    //     lines
-    //       .find((line) => line.toLowerCase().includes("headline:"))
-    //       ?.replace("headline:", "")
-    //       .trim() || "",
-    //   event:
-    //     lines
-    //       .find((line) => line.toLowerCase().includes("event:"))
-    //       ?.replace("event:", "")
-    //       .trim() || "",
-    //   action:
-    //     lines
-    //       .find((line) => line.toLowerCase().includes("action:"))
-    //       ?.replace("action:", "")
-    //       .trim() || "",
-    //   result:
-    //     lines
-    //       .find((line) => line.toLowerCase().includes("result:"))
-    //       ?.replace("result:", "")
-    //       .trim() || "",
-    //   significance:
-    //     lines
-    //       .find((line) => line.toLowerCase().includes("significance:"))
-    //       ?.replace("significance:", "")
-    //       .trim() || "",
-    // };
-    // console.log("data", data);
+//     const lines = specificSavedStoryData.story_text
+//       .split("\n")
+//       .map((line) => line.trim())
+//       .filter(Boolean);
+// console.log("lines-------------------->",lines);
+//     const storyMap = {
+//       developmenttopic: "",
+//       Headline: "",
+//       event: "",
+//       action: "",
+//       result: "",
+//       significance: "",
+//     };
 
-    form.setFieldsValue({
-      developmentTopic:
-        lines
-          .find((line) => line.toLowerCase().includes("development topic:"))
-          ?.replace("development topic:", "")
-          .trim() || "",
-      topic:
-        lines
-          .find((line) => line.toLowerCase().includes("topic:"))
-          ?.replace("topic:", "")
-          .trim() || "",
-      headline:
-        lines
-          .find((line) => line.toLowerCase().includes("headline:"))
-          ?.replace("headline:", "")
-          .trim() || "",
-      event:
-        lines
-          .find((line) => line.toLowerCase().includes("event:"))
-          ?.replace("event:", "")
-          .trim() || "",
-      action:
-        lines
-          .find((line) => line.toLowerCase().includes("action:"))
-          ?.replace("action:", "")
-          .trim() || "",
-      result:
-        lines
-          .find((line) => line.toLowerCase().includes("result:"))
-          ?.replace("result:", "")
-          .trim() || "",
-      significance:
-        lines
-          .find((line) => line.toLowerCase().includes("significance:"))
-          ?.replace("significance:", "")
-          .trim() || "",
-    });
-  }, [form, specificSavedStoryData]);
+//     let currentKey = "";
+
+//     lines.forEach((line) => {
+//       const lowerLine = line.toLowerCase();
+//       console.log("Lower lines-------------------->",lowerLine);
+//       if (
+//         [
+//           "Headline:",
+//           "event:",
+//           "action:",
+//           "result:",
+//           "significance:",
+//           "development topic:",
+//         ].includes(lowerLine)
+//       ) {
+//         currentKey = lowerLine.replace(":", "").replace(" ", "").toLowerCase();
+//       } else if (currentKey) {
+//         storyMap[currentKey] += line + " ";
+//       }
+//     });
+
+
+//     form.setFieldsValue({
+//       developmentTopic:
+//         lines
+//           .find((line) => line.toLowerCase().includes("development topic:"))
+//           ?.replace("development topic:", "")
+//           .trim() || "",
+//       topic:
+//         lines
+//           .find((line) => line.toLowerCase().includes("topic:"))
+//           ?.replace("topic:", "")
+//           .trim() || "",
+//       headline:
+//         lines
+//           .find((line) => line.toLowerCase().includes("headline:"))
+//           ?.replace("headline:", "")
+//           .trim() || "",
+//       event:
+//         lines
+//           .find((line) => line.toLowerCase().includes("event:"))
+//           ?.replace("event:", "")
+//           .trim() || "",
+//       action:
+//         lines
+//           .find((line) => line.toLowerCase().includes("action:"))
+//           ?.replace("action:", "")
+//           .trim() || "",
+//       result:
+//         lines
+//           .find((line) => line.toLowerCase().includes("result:"))
+//           ?.replace("result:", "")
+//           .trim() || "",
+//       significance:
+//         lines
+//           .find((line) => line.toLowerCase().includes("significance:"))
+//           ?.replace("significance:", "")
+//           .trim() || "",
+//     });
+
+
+
+
+//   }, [form, specificSavedStoryData]);
+
+
+useEffect(() => {
+  if (!specificSavedStoryData?.story_text) return;
+
+  const lines = specificSavedStoryData.story_text
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  console.log("lines-------------------->", lines);
+
+  const storyMap = {
+    developmenttopic: "",
+    headline: "",
+    event: "",
+    action: "",
+    result: "",
+    significance: "",
+  };
+
+  let currentKey = "";
+
+  lines.forEach((line) => {
+    // Match something like **Headline:** Transforming Raw Data...
+    const match = line.match(/\*\*(\w+):\*\*\s*(.*)/i);
+    if (match) {
+      const key = match[1].toLowerCase();
+      const value = match[2];
+      currentKey = key;
+      storyMap[currentKey] = (storyMap[currentKey] + " " + value).trim();
+    } else if (currentKey) {
+      storyMap[currentKey] = (storyMap[currentKey] + " " + line).trim();
+    }
+  });
+
+  form.setFieldsValue({
+    developmentTopic: storyMap.developmenttopic,
+    headline: storyMap.headline,
+    event: storyMap.event,
+    action: storyMap.action,
+    result: storyMap.result,
+    significance: storyMap.significance,
+  });
+}, [form, specificSavedStoryData]);
+
 
   const storyTextArray =
     specificSavedStoryData?.story_text?.split("**Headline:**");
@@ -239,30 +255,8 @@ console.log("selected Card Data==================>",selectedCardData);
     // message.success("Story Updated Successfully");
   };
 
-  // const onFinish = async (values) => {
-  //   const data = {
-  //     storyHeading: values.headline,
-  //     storyText: values,
-  //     topicId: specificSavedStoryData?.topic_id,
-  //     storyId: specificSavedStoryData?._id,
-  //   };
-  //   console.log("data:", data);
-  //   await editStory(data).unwrap();
-  //   refetch()
-  //   message.success("Story Updated Successfully");
-  // };
 
-  // const handleEditStory = async () => {
-  //   const data = {
-  //     storyHeading: storyHeading,
-  //     storyText: storyText,
-  //     topicId: specificSavedStoryData?.topic_id,
-  //     storyId: specificSavedStoryData?._id,
-  //   };
-  //   console.log("data:", data);
-  //   await editStory(data).unwrap();
-  //   message.success("Story Updated Successfully")
-  // };
+
 
   const hnadleDelete = async () => {
     const confirmResult = await Swal.fire({
@@ -367,7 +361,7 @@ console.log("selected Card Data==================>",selectedCardData);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
   // console.log("ownershipPercentage from experience 120", ownershipPercentage);
 
-  
+
 // Remove duplicates by keeping only the first occurrence of each section type
 
 const seen = new Set();
@@ -532,15 +526,15 @@ const uniqueSections = sections.filter(section => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          initialValues={{
-            developmentTopic:specificSavedStoryData?.development_topic || "",
-            topic:specificSavedStoryData?.role_info?.topic_name || "",
-            headline:storyObject?.headline,
-            event:storyObject?.event,
-            action:storyObject?.action,
-            result:storyObject?.result,
-            significance:storyObject?.significance,
-          }}
+          // initialValues={{
+          //   developmentTopic:specificSavedStoryData?.development_topic || "",
+          //   topic:specificSavedStoryData?.role_info?.topic_name || "",
+          //   headline:storyObject?.headline,
+          //   event:storyObject?.event,
+          //   action:storyObject?.action,
+          //   result:storyObject?.result,
+          //   significance:storyObject?.significance,
+          // }}
           onValuesChange={() => {
             if (!isFormChanged) {
               setIsFormChanged(true);
