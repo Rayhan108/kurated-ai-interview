@@ -9,6 +9,24 @@ function StoryPortfolioCard({ item, savedItem, refetch,setModal,openModal,isEdit
   console.log("item------------->", savedItem);
   console.log("item from card------------->", item);
   // const [openModal, setModal] = useState(false);
+
+  const sections = item?.story_text
+  ?.split("**")
+  .map(s => s.trim())
+  .filter(Boolean);
+  console.log("Selection===>", sections);
+
+  // Remove duplicates by keeping only the first occurrence of each section type
+
+const seen = new Set();
+const uniqueSections = sections.filter(section => {
+  const heading = section.split(":")[0]?.trim(); 
+  if (seen.has(heading)) return false;
+  seen.add(heading);
+  return true;
+});
+  console.log("unique Selection===>", uniqueSections);
+
   const handleClose = () =>{
   console.log("clicked");
      setModal(false)
@@ -34,10 +52,19 @@ setSelectedCardData(item)
         onClick={() => handleModalShow()}
       >
 
-        <h1 className="text-lg font-semibold">{savedItem?.title}</h1>
+    <h1 className="text-lg font-semibold">
+  {savedItem?.title ||
+    item?.story_heading
+      ?.replace(/.*?Headline:\s*/, "") 
+      ?.replace(/.*?Tackling Complexity:\s*/, "") 
+      ?.slice(0, 100)
+      .trim()
+      .split(/###|\*\*/)}
+</h1>
         {/* Story headline */}
         <h1 className=" text-base">
-          {item?.story_heading ||
+          {
+          // item?.story_heading ||
             item?.story_text
               ?.slice(0, 100)
               .trim()
