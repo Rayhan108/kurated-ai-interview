@@ -34,12 +34,21 @@ setSelectedCardData(item)
         onClick={() => handleModalShow()}
       >
 
-        <h1 className="text-lg font-semibold">{savedItem?.title}</h1>
+    <h1 className="text-lg font-semibold">
+  {savedItem?.title ||
+    item?.story_heading
+      ?.replace(/.*?Headline:\s*/, "") 
+      ?.replace(/.*?Tackling Complexity:\s*/, "") 
+      ?.slice(0, 100)
+      .trim()
+      .split(/###|\*\*/)}
+</h1>
         {/* Story headline */}
         <h1 className=" text-base">
-          {item?.story_heading ||
+          {
+          // item?.story_heading ||
             item?.story_text
-              ?.slice(0, 100)
+              ?.slice(0, 200)
               .trim()
               .split(/###|\*\*/)}
         </h1>
