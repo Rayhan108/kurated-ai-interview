@@ -92,8 +92,21 @@ function InterviewMatrix() {
     setIsModalVisible(true);
   };
 
-  const sections = storyText.split("**").filter((part) => part.trim() !== "");
-console.log("sections===>",sections);
+//   const sections = storyText.split("**").filter((part) => part.trim() !== "");
+// console.log("sections===>",sections);
+  const sections =storyText?.split("**")
+  .map(s => s.trim())
+  .filter(Boolean);
+  console.log("Selection===>", sections);
+  // Remove duplicates by keeping only the first occurrence of each section type
+
+const seen = new Set();
+const uniqueSections = sections?.filter(section => {
+  const heading = section.split(":")[0]?.trim(); // Get the section name before ':'
+  if (seen.has(heading)) return false;
+  seen.add(heading);
+  return true;
+});
   return (
     <div className="">
       <div className="overflow-x-scroll">
@@ -209,7 +222,7 @@ console.log("sections===>",sections);
         <div className="space-y-4">
           {
           
-          sections.map((section, index) => {
+          uniqueSections?.map((section, index) => {
             console.log("section from interview matrix==>",section);
            return <p key={index}>{section}</p>
 })}

@@ -366,6 +366,8 @@ console.log("selected Card Data==================>",selectedCardData);
   console.log("Selection===>", sections);
   const ownershipPercentage = data?.role_topic_relevancy?.[0]?.relevancy;
   // console.log("ownershipPercentage from experience 120", ownershipPercentage);
+
+  
 // Remove duplicates by keeping only the first occurrence of each section type
 
 const seen = new Set();
