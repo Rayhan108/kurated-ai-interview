@@ -53,7 +53,8 @@ setSelectedCardData(item)
       >
 
     <h1 className="text-lg font-semibold">
-  {savedItem?.title ||
+  {
+  // savedItem?.title ||
     item?.story_heading
       ?.replace(/.*?Headline:\s*/, "") 
       ?.replace(/.*?Tackling Complexity:\s*/, "") 
