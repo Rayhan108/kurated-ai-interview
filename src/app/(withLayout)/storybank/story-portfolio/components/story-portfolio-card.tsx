@@ -45,6 +45,15 @@ setSelectedCardData(item)
     setMatcingSavedItem(item);      
           
 }
+function extractHeadline(sections) {
+  const headlineIndex = sections.findIndex(item => item.trim() === 'Headline:');
+  if (headlineIndex !== -1 && headlineIndex + 1 < sections.length) {
+    return sections[headlineIndex + 1].trim();
+  }
+  return '';
+}
+
+const headline = extractHeadline(sections);
   return (
     <>
       <div
@@ -54,7 +63,7 @@ setSelectedCardData(item)
 
     <h1 className="text-lg font-semibold">
   {
-  // savedItem?.title ||
+ headline||
     item?.story_heading
       ?.replace(/.*?Headline:\s*/, "") 
       ?.replace(/.*?Tackling Complexity:\s*/, "") 
