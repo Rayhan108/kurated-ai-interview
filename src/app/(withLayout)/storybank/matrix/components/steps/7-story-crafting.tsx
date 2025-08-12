@@ -22,6 +22,16 @@ export const StoryCrafting = () => {
   const [editedAnswer, setEditedAnswer] = useState("");
   const [stories, setStories] = useState([]);
 
+// Regular expression to capture the headline
+const headlineRegex = /\*\*Headline:\*\* (.*?)\n/;
+
+// Assuming `stories` is an array of objects or strings, loop through each to extract the headline
+const extractHeadlines = stories.map(story => {
+  const match = story?.storyText?.match(headlineRegex); // Adjust based on your object structure
+  return match ? match[1] : null;
+});
+
+console.log("extract headline----------->",extractHeadlines[0]);
   const [selectedRelevanceTopics] = useLocalStorage(
     KeyConstant.SELECTED_RELEVANCE,
     []
@@ -165,7 +175,7 @@ export const StoryCrafting = () => {
       return item;
     }
   });
-
+console.log("save expirence----------->",stories);
   const [saveStoryOnsubmit, { isLoading }] = useSaveStoryMutation();
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -312,6 +322,7 @@ export const StoryCrafting = () => {
                           {
                             current: stories?.map((item) => ({
                               storyText: item.storyText,
+                              // headLine:extractHeadlines[0],
                               topic_id: item.topicId,
                             })),
                             removed: [],

@@ -54,6 +54,7 @@ function extractHeadline(sections) {
 }
 
 const headline = extractHeadline(sections);
+console.log("heading------->",headline);
   return (
     <>
       <div
@@ -63,8 +64,9 @@ const headline = extractHeadline(sections);
 
     <h1 className="text-lg font-semibold">
   {
- headline||
-    item?.story_heading
+ headline
+//  ||
+    // item?.story_heading
       ?.replace(/.*?Headline:\s*/, "") 
       ?.replace(/.*?Tackling Complexity:\s*/, "") 
       ?.slice(0, 100)
@@ -74,7 +76,7 @@ const headline = extractHeadline(sections);
         {/* Story headline */}
         <h1 className=" text-base">
           {
-          // item?.story_heading ||
+          // item?.story_heading
             item?.story_text
               ?.slice(0, 100)
               .trim()
