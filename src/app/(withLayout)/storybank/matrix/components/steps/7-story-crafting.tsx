@@ -80,7 +80,8 @@ console.log("extract headline----------->",extractHeadlines[0]);
     roleTopic: steps[current]?.content,
     experience: currentExperience.responsibilities,
   });
-
+console.log("story in hears--->",data?.data?.heading);
+const story_heading = data?.data?.heading
   const [reGenerateStoryInHears, { isLoading: regenLoading }] =
     useReGenerateStoryInHearsMutation();
 
@@ -175,7 +176,7 @@ console.log("extract headline----------->",extractHeadlines[0]);
       return item;
     }
   });
-console.log("save expirence----------->",stories);
+console.log("save expirence------------------->",stories);
   const [saveStoryOnsubmit, { isLoading }] = useSaveStoryMutation();
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -322,7 +323,8 @@ console.log("save expirence----------->",stories);
                           {
                             current: stories?.map((item) => ({
                               storyText: item.storyText,
-                              // headLine:extractHeadlines[0],
+                              // story_heading:extractHeadlines[0],
+                              story_heading:story_heading,
                               topic_id: item.topicId,
                             })),
                             removed: [],
