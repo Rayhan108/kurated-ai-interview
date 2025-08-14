@@ -76,16 +76,28 @@ const storyBankApi = baseApi.injectEndpoints({
       },
     }),
 
+    // saveStory: builder.mutation({
+    //   query: (data) => {
+    //     return {
+    //       url: `/webapis/storybank/save-story`,
+    //       method: "POST",
+    //       body: [data],
+    //     };
+    //   },
+    //   invalidatesTags: [TAGS.interviewMatrix, TAGS.portfolioExperience],
+    // }),
     saveStory: builder.mutation({
-      query: (data) => {
-        return {
-          url: `/webapis/storybank/save-story`,
-          method: "POST",
-          body: [data],
-        };
-      },
-      invalidatesTags: [TAGS.interviewMatrix, TAGS.portfolioExperience],
-    }),
+  query: (data) => {
+    console.log("saveStory data from redux story-bank-api----->>>:", data); 
+    return {
+      url: `/webapis/storybank/save-story`,
+      method: "POST",
+      body: [data],
+    };
+  },
+  invalidatesTags: [TAGS.interviewMatrix, TAGS.portfolioExperience],
+}),
+
     // get saved story:
     getSavedStory: builder.query({
       query: () => {
