@@ -64,9 +64,9 @@ console.log("heading------->",headline);
 
     <h1 className="text-lg font-semibold">
   {
- headline
+//  headline
 //  ||
-    // item?.story_heading
+    item?.story_heading
       ?.replace(/.*?Headline:\s*/, "") 
       ?.replace(/.*?Tackling Complexity:\s*/, "") 
       ?.slice(0, 100)

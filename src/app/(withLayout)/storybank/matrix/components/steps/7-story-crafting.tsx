@@ -178,6 +178,7 @@ const story_heading = data?.data?.heading
   });
 console.log("save expirence------------------->",stories);
   const [saveStoryOnsubmit, { isLoading }] = useSaveStoryMutation();
+  
   const onFinish = (values) => {
     console.log("Success:", values);
     setEditedAnswer(values.answer);
@@ -323,8 +324,8 @@ console.log("save expirence------------------->",stories);
                           {
                             current: stories?.map((item) => ({
                               storyText: item.storyText,
-                              // story_heading:extractHeadlines[0],
-                              story_heading:story_heading,
+                 
+                              storyHeading:story_heading,
                               topic_id: item.topicId,
                             })),
                             removed: [],
