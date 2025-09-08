@@ -34,7 +34,7 @@ export const Onboarding = () => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)]">
+    <div className="flex flex-col h-[calc(100vh-40px)] md:h-[calc(100vh-100px)] ">
       <div className="flex-1 overflow-y-auto place-content-center py-10">
         <p className="font-semibold text-base absolute top-0 bg-white w-full left-0 py-4 px-6 rounded-lg">
           Let's Get Started!

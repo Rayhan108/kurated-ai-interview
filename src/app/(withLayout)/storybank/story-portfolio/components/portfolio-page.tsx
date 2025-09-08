@@ -40,7 +40,7 @@ const [matchingSavedItem,setMatcingSavedItem]=useState(null)
   const storyTypeDataHeadline= storyTypeData?.map((item) => item?.map((item2) => item2?.trim())[4]);
   // console.log("savedStory", savedStory?.data?.response?.length);
 
-
+console.log("story type from portfoliuo page--->",storyType);
 // search DATA queries
 
 const { data: searchSavedStory, isLoading } = useSearchSavedStoryQuery(search);
@@ -71,6 +71,11 @@ console.log("searchSavedStory ======>>>>>>>", searchData);
 
   console.log("savedExperience", savedExperience);
 
+const filteredData = searchData?.filter((item) => {
+  // Check if the item's experience_info.type matches the query
+  return item?.experience_info?.type === query;
+});
+
 
 
   return (
@@ -80,8 +85,8 @@ console.log("searchSavedStory ======>>>>>>>", searchData);
       <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
         {/* // Find matching saved story for this experience item */}
         {search ? (
-  searchData?.length > 0 ? (
-    searchData.map((item, idx) => {
+  filteredData?.length > 0 ? (
+    filteredData?.map((item, idx) => {
       const matchingSaved = filteredExperience?.find(
         (savedItem: any) => item?.experience_info?._id === savedItem?._id
       );

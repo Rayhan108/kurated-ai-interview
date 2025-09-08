@@ -4,8 +4,7 @@ import MyButton from "@/components/shared/common/my-button";
 import { MyLinkButton } from "@/components/shared/common/my-link-button";
 import MySpacer from "@/components/shared/common/my-spacer";
 import { KeyConstant } from "@/constants/key.constant";
-import { useSearchSavedStoryQuery } from "@/redux/feature/storybank/storybank-api";
-import { setSearch } from "@/redux/feature/storybank/storybankSlice";
+
 
 import { Input, Select, Spin } from "antd";
 import { BookText, FilePenLine, Plus, Search } from "lucide-react";
