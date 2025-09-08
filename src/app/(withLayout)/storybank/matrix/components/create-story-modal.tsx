@@ -78,7 +78,7 @@ export const CreateStroyModal = () => {
                     localStorage.removeItem(KeyConstant.SELECTED_RELEVANCE);
                     localStorage.removeItem(KeyConstant.PARSED_EXPERIENCE);
                     localStorage.removeItem(KeyConstant.CRAFTING_TYPE);
-                    router.push(`?${params.toString()}`);
+                    router.push(`/storybank/story-portfolio?story_type=PERSONAL`);
                   }}
                   variant="ghost"
                   className=""

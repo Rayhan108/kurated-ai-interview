@@ -63,24 +63,27 @@ console.log("heading------->",headline);
       >
 
     <h1 className="text-lg font-semibold">
-  {
-//  headline
-//  ||
-    item?.story_heading
-      ?.replace(/.*?Headline:\s*/, "") 
-      ?.replace(/.*?Tackling Complexity:\s*/, "") 
-      ?.slice(0, 100)
-      .trim()
-      .split(/###|\*\*/)}
-</h1>
+{
+  item?.story_heading
+    ?.replace(/.*?Headline:\s*/, "")
+    ?.replace(/.*?Tackling Complexity:\s*/, "")
+     ?.replace(/\*\*/g, "")
+    ?.slice(0, 90) 
+    .trim()
+    + (item?.story_heading?.length > 90 ? '...' : '') 
+
+}
+</h1>  
         {/* Story headline */}
         <h1 className=" text-base">
-          {
-          // item?.story_heading
-            item?.story_text
-              ?.slice(0, 100)
-              .trim()
-              .split(/###|\*\*/)}
+ {
+  item?.story_text
+    ?.replace(/###|\*\*/g) 
+    .slice(0, 100) 
+    .trim() + (item?.story_text?.length > 90 ? '...' : '')
+   
+}
+
         </h1>
 
     
