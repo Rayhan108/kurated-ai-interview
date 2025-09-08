@@ -8,6 +8,7 @@ import { useLocalStorage } from "usehooks-ts";
 
 export const CraftingAdditionStory = () => {
   const searchParam = useSearchParams();
+    const [endDate, setEndDate] = useState(null);
   const router = useRouter();
   const [currentEmployee, setCurrentEmployee] = useState(false);
 
@@ -15,13 +16,12 @@ export const CraftingAdditionStory = () => {
     KeyConstant.PARSED_EXPERIENCE,
     null
   );
-
   const onFinish = (values) => {
+    const finalEndDate = values.endDate || endDate;
+      const datesOfEmployment = `${values.startDate} ${finalEndDate ? `- ${finalEndDate}` : ""}`;
     setParsedExperience([
       {
-        dates_of_employment: `${values.startDate} ${
-          values.endDate ? `- ${values.endDate}` : ""
-        }`,
+        dates_of_employment:datesOfEmployment,
         employer: values.company,
         job_title: values.title,
         location: "",
@@ -36,6 +36,22 @@ export const CraftingAdditionStory = () => {
   };
   const onFinishFailed = (errorInfo) => {
     // console.log("Failed:", errorInfo);
+  };
+
+
+
+
+
+    const handleCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    setCurrentEmployee(isChecked);
+
+    // If checked, set the endDate to current date
+    if (isChecked) {
+      setEndDate(new Date().toISOString().split('T')[0]); // ISO format (YYYY-MM-DD)
+    } else {
+      setEndDate(null); // If unchecked, reset the endDate
+    }
   };
   return (
     <div>
@@ -109,23 +125,23 @@ export const CraftingAdditionStory = () => {
                     </Form.Item>
                   </div>
                   <div>
-                    <div className="flex justify-between items-center">
-                      {currentEmployee ? (
-                        <div></div>
-                      ) : (
-                        <Typography.Title level={5} className="font-mulish">
-                          End Date
-                        </Typography.Title>
-                      )}
+              <div className="flex justify-between items-center">
+      {currentEmployee ? (
+        <div></div>
+      ) : (
+        <Typography.Title level={5} className="font-mulish">
+          End Date: {endDate ? endDate : 'Not set'}
+        </Typography.Title>
+      )}
 
-                      <Checkbox
-                        value={currentEmployee}
-                        onChange={(e) => setCurrentEmployee(e.target.checked)}
-                        className="font-mulish"
-                      >
-                        Current Employee
-                      </Checkbox>
-                    </div>
+      <Checkbox
+        checked={currentEmployee}
+        onChange={handleCheckboxChange}
+        className="font-mulish"
+      >
+        Current Employee
+      </Checkbox>
+    </div>
                     {!currentEmployee && (
                       <Form.Item
                         name="endDate"
