@@ -20,7 +20,8 @@ function StroyBankLayout({ children }) {
           Your Interview Matrix
         </Link>
         <Link
-          href="/storybank/story-portfolio"
+          href="/storybank/story-portfolio?story_type=EXTRACTED"
+          // href="/storybank/story-portfolio"
           className={`${
             params === "story-portfolio"
               ? "text-red-500 font-bold after:h-[1px] after:bg-red-500 after:block after:w-full"
