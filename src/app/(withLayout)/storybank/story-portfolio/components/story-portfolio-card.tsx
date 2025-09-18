@@ -78,7 +78,7 @@ console.log("heading------->",headline);
         <h1 className=" text-base">
  {
   item?.story_text
-    ?.replace(/###|\*\*/g) 
+    // ?.replace(/###|\*\*/g) 
     .slice(0, 100) 
     .trim() + (item?.story_text?.length > 90 ? '...' : '')
    
