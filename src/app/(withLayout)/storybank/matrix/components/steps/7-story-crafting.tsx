@@ -80,8 +80,33 @@ console.log("extract headline----------->",extractHeadlines[0]);
     roleTopic: steps[current]?.content,
     experience: currentExperience.responsibilities,
   });
+  const [allData, setAllData] = useState([]);
+
+  useEffect(() => {
+    // Check if data?.data is an object before adding it to the array
+    if (data?.data && typeof data?.data === 'object') {
+      setAllData(prevData => {
+        // Add the new data object to the previous data array
+        const mergedData = [...prevData, data.data];
+
+        // Optional: if you want to remove duplicates based on the 'heading' property:
+        const uniqueData = mergedData.filter((value, index, self) =>
+          index === self.findIndex((t) => t.heading === value?.heading)
+        );
+        
+        return uniqueData;
+      });
+    } else {
+      console.error("Expected data?.data to be an object but got", data?.data);
+    }
+  }, [data]);
+console.log("story in hears data array unique--->",allData);
+console.log("story in hears data array--->",data);
 console.log("story in hears--->",data?.data?.heading);
-const story_heading = data?.data?.heading
+
+// const story_heading = data?.data?.heading
+const story_heading = allData.map(item => item?.heading);
+console.log("story heading new test----->",story_heading);
   const [reGenerateStoryInHears, { isLoading: regenLoading }] =
     useReGenerateStoryInHearsMutation();
 
@@ -176,7 +201,30 @@ const story_heading = data?.data?.heading
       return item;
     }
   });
+
+
+
 console.log("save expirence------------------->",stories);
+  // Structure to save stories
+  const storiesToSave = [
+    {
+      current: stories.map((item) => ({
+        storyText: item.storyText,
+        storyHeading: item.storyHeading,
+        topic_id: item.topic_id,
+      })),
+      removed: [],
+    },
+  ];
+
+
+
+
+
+
+
+
+
   const [saveStoryOnsubmit, { isLoading }] = useSaveStoryMutation();
   
   const onFinish = (values) => {
@@ -322,10 +370,10 @@ console.log("save expirence------------------->",stories);
                         },
                         stories: [
                           {
-                            current: stories?.map((item) => ({
+                            current: stories?.map((item,index) => ({
                               storyText: item.storyText,
                  
-                              storyHeading:story_heading,
+                              storyHeading:story_heading[index],
                               topic_id: item.topicId,
                             })),
                             removed: [],
