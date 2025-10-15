@@ -11,7 +11,23 @@ const ToolsApi = baseApi.injectEndpoints({
       }),
       providesTags: [TAGS.userProgress],
     }),
+    getActiveSubscribe: builder.query({
+      query: () => ({
+        // get user progress under the Kurated Storylining
+        url: `/webapis/user/activeSubscriptions?courseId=${DataConstant.KURATED_COURSE_ID}`,
+      }),
+
+    }),
+    makePaymentForCourse: builder.mutation({
+      query: (data) => ({
+        // get user progress under the Kurated Storylining
+        url: `/webapis/payments/createPaymentLinkForCourse`,
+        method: "PUT",
+        body:data
+      }),
+
+    }),
   }),
 });
 
-export const { useGetUserProgressQuery } = ToolsApi;
+export const { useGetUserProgressQuery,useGetActiveSubscribeQuery,useMakePaymentForCourseMutation } = ToolsApi;

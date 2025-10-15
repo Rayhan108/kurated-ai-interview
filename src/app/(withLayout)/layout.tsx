@@ -1,7 +1,10 @@
 "use client";
 import { AllImages } from "@/assets/AllImages";
+import PricingModal from "@/components/ui/PricingModal";
 import { AuthGuard } from "@/Layout/auth-guard";
 import { useLogoutMutation } from "@/redux/feature/auth/authApi";
+import { useGetActiveSubscribeQuery } from "@/redux/feature/tools/tools-api";
+import { LockOutlined } from "@ant-design/icons";
 import {
   Button,
   ConfigProvider,
@@ -9,6 +12,7 @@ import {
   Dropdown,
   Layout,
   Menu,
+  Modal,
   theme,
 } from "antd";
 import Sider from "antd/es/layout/Sider";
@@ -25,6 +29,20 @@ const LayoutComponent = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false); // For Sider on larger screens
   const [isMobile, setIsMobile] = useState(false); // To track if the screen is mobile
   const [drawerVisible, setDrawerVisible] = useState(false); // For controlling Drawer visibility
+  const [isLockedModalVisible, setIsLockedModalVisible] = useState(false);
+
+  const handleLockedClick = () => {
+    setIsLockedModalVisible(true);
+  };
+
+  const closeLockedModal = () => {
+    setIsLockedModalVisible(false);
+  };
+
+  const { data: activeSubscription } = useGetActiveSubscribeQuery(undefined);
+  console.log("active subscription ----------->", activeSubscription);
+  const isActive = activeSubscription?.data?.result;
+  console.log("is subscription active----------->", isActive?.length);
 
   const [logout, { isLoading }] = useLogoutMutation(undefined);
   const {
@@ -107,39 +125,107 @@ const LayoutComponent = ({ children }) => {
         gap: "10px",
       },
     },
+    // {
+    //   key: "lesson-vault",
+    //   icon: <Image src={AllImages.lessonIcon} alt="home" />,
+    //   label: (
+    //     <p className="text-base">
+    //       <Link href={"/lesson-vault"}>Lesson Vault</Link>
+    //     </p>
+    //   ),
+    //   style: {
+    //     display: "flex",
+    //     gap: "10px",
+    //   },
+    // },
+    // {
+    //   key: "storybank",
+    //   icon: (
+    //     <Image
+    //       src={AllImages.storyBankIcon}
+    //       alt="storybank"
+    //       className={collapsed ? "h-10 w-10" : "h-8 w-5"}
+    //     />
+    //   ),
+    //   label: (
+    //     <p className="text-base">
+    //       <Link href={"/storybank/story-portfolio?story_type=EXTRACTED"}>
+    //         Storybank
+    //       </Link>
+    //     </p>
+    //   ),
+    //   style: {
+    //     display: "flex",
+    //     gap: "10px",
+    //   },
+    // },
     {
-      key: "lesson-vault",
-      icon: <Image src={AllImages.lessonIcon} alt="home" />,
+      key: "overview",
+      icon: <Image src={AllImages.homeIcon} alt="home" />,
       label: (
         <p className="text-base">
-          <Link href={"/lesson-vault"}>Lesson Vault</Link>
+          <Link href={"/overview"}>Overview</Link>
         </p>
       ),
-      style: {
-        display: "flex",
-        gap: "10px",
-      },
+      style: { display: "flex", gap: "10px" },
+    },
+    {
+      key: "lesson-vault",
+      icon: (
+        <>
+          <Image src={AllImages.lessonIcon} alt="home" />
+          {isActive?.length === 0 && (
+            <LockOutlined
+              style={{ marginLeft: 8, color: "#999", cursor: "pointer" }}
+              onClick={handleLockedClick}
+            />
+          )}
+        </>
+      ),
+      label: (
+        <p className="text-base">
+          {isActive?.length === 0 ? (
+            <span className="text-gray-400 cursor-not-allowed">
+              Lesson Vault
+            </span>
+          ) : (
+            <Link href={"/lesson-vault"}>Lesson Vault</Link>
+          )}
+        </p>
+      ),
+      disabled: isActive?.length === 0,
+      style: { display: "flex", gap: "10px" },
     },
     {
       key: "storybank",
       icon: (
-        <Image
-          src={AllImages.storyBankIcon}
-          alt="storybank"
-          className={collapsed ? "h-10 w-10" : "h-8 w-5"}
-        />
+        <>
+          <Image
+            src={AllImages.storyBankIcon}
+            alt="storybank"
+            className={collapsed ? "h-10 w-10" : "h-8 w-5"}
+          />
+          {isActive?.length === 0 && (
+            <LockOutlined
+              style={{ marginLeft: 8, color: "#999", cursor: "pointer" }}
+              onClick={handleLockedClick}
+            />
+          )}
+        </>
       ),
       label: (
         <p className="text-base">
-          <Link href={"/storybank/story-portfolio?story_type=EXTRACTED"}>
-            Storybank
-          </Link>
+          {isActive?.length === 0 ? (
+            <span className="text-gray-400 cursor-not-allowed">Storybank</span>
+          ) : (
+            <Link href={"/storybank/story-portfolio?story_type=EXTRACTED"}>
+              Storybank
+            </Link>
+          )}
         </p>
       ),
-      style: {
-        display: "flex",
-        gap: "10px",
-      },
+      disabled: isActive?.length === 0,
+      style: { display: "flex", gap: "10px" },
     },
   ];
 
@@ -201,6 +287,11 @@ const LayoutComponent = ({ children }) => {
                     />
                   </div>
                 </Dropdown>
+
+                {/* modal */}
+                {isLockedModalVisible && (
+                  <PricingModal closeLockedModal={closeLockedModal} />
+                )}
               </div>
             </div>
           </Header>
