@@ -1,9 +1,47 @@
 "use client";
-import { useMakePaymentForCourseMutation } from "@/redux/feature/tools/tools-api";
-import { useRouter } from "next/navigation";
 import React from "react";
-import { message } from "antd"; 
+import { useRouter } from "next/navigation";
+import { message } from "antd";
+import { useMakePaymentForCourseMutation } from "@/redux/feature/tools/tools-api";
+
 export default function PricingModal({ closeLockedModal }) {
+  const [makePayment, { isLoading }] = useMakePaymentForCourseMutation();
+  const router = useRouter();
+
+  // Tailwind-safe color map
+  const colorMap = {
+    red: {
+      border: "border-red-500",
+      text: "text-red-500",
+      bg: "bg-red-500",
+      bgLight: "bg-red-50",
+      bgBadge: "bg-red-100",
+      textBadge: "text-red-700",
+      borderBadge: "border-red-300",
+      hoverBg: "hover:bg-red-600",
+    },
+    green: {
+      border: "border-green-600",
+      text: "text-green-600",
+      bg: "bg-green-600",
+      bgLight: "bg-green-50",
+      bgBadge: "bg-green-100",
+      textBadge: "text-green-700",
+      borderBadge: "border-green-300",
+      hoverBg: "hover:bg-green-700",
+    },
+    yellow: {
+      border: "border-yellow-500",
+      text: "text-yellow-600",
+      bg: "bg-yellow-500",
+      bgLight: "bg-yellow-50",
+      bgBadge: "bg-yellow-100",
+      textBadge: "text-yellow-700",
+      borderBadge: "border-yellow-300",
+      hoverBg: "hover:bg-yellow-600",
+    },
+  };
+
   const pricingPlans = [
     {
       planId: "64aaede67bfd9cf2d9db7d32",
@@ -41,16 +79,14 @@ export default function PricingModal({ closeLockedModal }) {
       stripePriceId: "price_1PaK20AE6m5scJSkUYyyu685",
       currency: "usd",
       discount: 17,
-      highlight: "Perfect for your Long-Term Plans",
+      highlight: "Perfect for your Long Term Plans",
       color: "yellow",
       isPopular: false,
       originalPrice: 11994,
       saveText: "Save 17%",
     },
   ];
-const [makePayment]=useMakePaymentForCourseMutation()
-const router = useRouter();
-  // Format price helper
+
   const formatPrice = (price, currency) =>
     new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -58,28 +94,26 @@ const router = useRouter();
       minimumFractionDigits: 2,
     }).format(price / 100);
 
-  // ✅ Log only required fields
-  const handlePlanClick = async(plan) => {
-    const { planId,stripePriceId, currency } = plan;
-    const data ={
+  const handlePlanClick = async (plan) => {
+    const { planId, stripePriceId, currency } = plan;
+    const data = {
       planId,
-      screenPrice:96953,
+      screenPrice: 96953,
       stripePriceId,
       currency,
     };
-    console.log("payment data------->",data);
+    console.log("payment data------->", data);
     try {
-      const res = await makePayment(data).unwrap()
-  
+      const res = await makePayment(data).unwrap();
       console.log("payment response------->", res);
-      // Example: redirect to Stripe or show success modal
-      if (res?.success){
-        message.success(res?.message)
+      if (res?.success) {
+        message.success(res?.message || "Redirecting to payment...");
+        closeLockedModal();
         router.push(res?.data?.link);
-      } 
+      }
     } catch (error) {
-            console.log("payment responsed------->", error);
-             message.success(error?.data?.message)
+      console.error("payment error------->", error);
+      message.error(error?.data?.message || "Payment failed. Please try again.");
     }
   };
 
@@ -122,7 +156,12 @@ const router = useRouter();
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.5}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   <span className="text-gray-700 text-base">{item}</span>
                 </li>
@@ -132,74 +171,75 @@ const router = useRouter();
 
           {/* Right Section - Pricing Cards */}
           <div className="grid md:grid-cols-3 gap-5">
-            {pricingPlans.map((plan) => (
-              <div
-                key={plan.planId}
-                className={`relative border rounded-xl p-6 flex flex-col bg-white ${
-                  plan.isPopular
-                    ? `border-2 border-${plan.color}-600 shadow-md`
-                    : "border-gray-300"
-                }`}
-              >
-                {plan.isPopular && (
-                  <div
-                    className={`absolute -top-3 left-1/2 -translate-x-1/2 bg-${plan.color}-600 text-white px-5 py-1 rounded text-xs font-bold whitespace-nowrap`}
-                  >
-                    POPULAR CHOICE
-                  </div>
-                )}
-
-                <h3 className="text-lg font-semibold text-gray-800 text-center mb-2 mt-2">
-                  {plan.title}
-                </h3>
-
-                <div className="text-center mb-2">
-                  {plan.originalPrice && (
-                    <div className="text-gray-400 line-through text-xs mb-1">
-                      {formatPrice(plan.originalPrice, plan.currency)}
+            {pricingPlans.map((plan) => {
+              const color = colorMap[plan.color];
+              return (
+                <div
+                  key={plan.planId}
+                  className={`relative border rounded-xl p-6 flex flex-col bg-white text-center transition-all duration-300 ${
+                    plan.isPopular ? `${color.border} border-2 shadow-md` : "border-gray-300"
+                  }`}
+                >
+                  {/* Popular Badge */}
+                  {plan.isPopular && (
+                    <div
+                      className={`absolute -top-3 left-1/2 -translate-x-1/2 ${color.bg} text-white px-5 py-1 rounded-t-lg text-xs font-bold whitespace-nowrap`}
+                    >
+                      POPULAR CHOICE
                     </div>
                   )}
 
-                  <div className="flex items-start justify-center">
-                    <span className={`text-${plan.color}-600 text-xl font-bold mr-0.5 mt-1`}>
-                      $
-                    </span>
-                    <span className={`text-${plan.color}-600 text-5xl font-bold leading-none`}>
-                      {(plan.screenPrice / 100).toFixed(2).split(".")[0]}
-                    </span>
-                    <span className={`text-${plan.color}-600 text-base font-bold mt-1`}>
-                      .
-                      {(plan.screenPrice / 100).toFixed(2).split(".")[1]}
-                    </span>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2 mt-4">{plan.title}</h3>
+
+                  {/* Price */}
+                  <div className="text-center mb-2">
+                    {plan.originalPrice && (
+                      <div className="text-gray-400 line-through text-xs mb-1">
+                        {formatPrice(plan.originalPrice, plan.currency)}
+                      </div>
+                    )}
+                    <div className="flex items-start justify-center">
+                      <span className={`${color.text} text-xl font-bold mr-0.5 mt-1`}>$</span>
+                      <span className={`${color.text} text-5xl font-bold leading-none`}>
+                        {(plan.screenPrice / 100).toFixed(2).split(".")[0]}
+                      </span>
+                      <span className={`${color.text} text-base font-bold mt-1`}>
+                        .
+                        {(plan.screenPrice / 100).toFixed(2).split(".")[1]}
+                      </span>
+                    </div>
                   </div>
+
+                  {/* Save Badge */}
+                  {plan.saveText && (
+                    <div className="flex justify-center mb-3">
+                      <span
+                        className={`${color.bgBadge} ${color.textBadge} px-2.5 py-0.5 rounded text-xs font-semibold border ${color.borderBadge}`}
+                      >
+                        {plan.saveText}
+                      </span>
+                    </div>
+                  )}
+
+                  <p className="text-gray-600 text-sm mb-6 flex-grow">
+                    <span className={`${color.text} font-semibold`}>{plan.highlight}</span>
+                  </p>
+
+                  {/* CTA */}
+                  <button
+                    disabled={isLoading}
+                    onClick={() => handlePlanClick(plan)}
+                    className={`w-full py-2.5 px-4 rounded-md font-medium transition-colors text-sm ${
+                      plan.isPopular
+                        ? `${color.bg} text-white ${color.hoverBg}`
+                        : `border ${color.border} ${color.text} hover:${color.bgLight}`
+                    }`}
+                  >
+                    {isLoading ? "Processing..." : "Begin your Journey"}
+                  </button>
                 </div>
-
-                {plan.saveText && (
-                  <div className="flex justify-center mb-3">
-                    <span
-                      className={`bg-${plan.color}-100 text-${plan.color}-700 px-2.5 py-0.5 rounded text-xs font-semibold border border-${plan.color}-300`}
-                    >
-                      {plan.saveText}
-                    </span>
-                  </div>
-                )}
-
-                <p className="text-center text-gray-600 text-sm mb-6 flex-grow">
-                  <span className={`text-${plan.color}-600 font-semibold`}>{plan.highlight}</span>
-                </p>
-
-                <button
-                  className={`w-full py-2.5 px-4 rounded-md font-medium transition-colors text-sm ${
-                    plan.isPopular
-                      ? `bg-${plan.color}-600 text-white hover:bg-${plan.color}-700`
-                      : `border border-${plan.color}-500 text-${plan.color}-600 hover:bg-${plan.color}-50`
-                  }`}
-                  onClick={() => handlePlanClick(plan)} // ✅ just this
-                >
-                  Begin your Journey
-                </button>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
