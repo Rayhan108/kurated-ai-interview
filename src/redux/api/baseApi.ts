@@ -3,6 +3,7 @@ import { TAGS } from "../tag";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://betatest.kurated.ai/userAppApis",
+  // baseUrl: "https://app.kurated.ai/userAppApis",
   credentials: "include",
 });
 

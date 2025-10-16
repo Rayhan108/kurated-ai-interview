@@ -1,7 +1,12 @@
 "use client";
+import { useGetActiveSubscribeQuery } from "@/redux/feature/tools/tools-api";
 import { Button } from "antd";
 import Link from "next/link";
 export const Subscription = () => {
+    const { data: activeSubscription } = useGetActiveSubscribeQuery(undefined);
+    console.log("active subscription from subscription ----------->", activeSubscription);
+    const isActive = activeSubscription?.data?.result;
+    console.log("is subscription active from subscription----------->", isActive?.length);
   return (
     <div>
       <div className="grid md:grid-cols-2 gap-5">

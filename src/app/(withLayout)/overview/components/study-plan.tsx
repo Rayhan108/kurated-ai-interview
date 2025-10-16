@@ -7,6 +7,7 @@ import MySpacer from "@/components/shared/common/my-spacer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { KeyConstant } from "@/constants/key.constant";
 import { useLoggedInUserQuery } from "@/redux/feature/auth/authApi";
+import { useGetActiveSubscribeQuery } from "@/redux/feature/tools/tools-api";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -30,7 +31,10 @@ const StudyPlan = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { data, isLoading } = useLoggedInUserQuery(undefined);
-
+  const { data: activeSubscription } = useGetActiveSubscribeQuery(undefined);
+  console.log("active subscription ----------->", activeSubscription);
+  const isActive = activeSubscription?.data?.result;
+  console.log("is subscription active----------->", isActive?.length);
   const [selectedTab, setSelectedTab] = useState<ILessonType>(
     (searchParams.get(KeyConstant.TAB) as ILessonType) || "curriculum"
   );
@@ -74,9 +78,22 @@ const StudyPlan = () => {
             Let's Make Your Next Interview a Success!!
           </h1>
         </div>
-        <MyLinkButton href={`/lesson-vault`} className="bg-red-400 hidden md:block w-fit">
+        {/* <MyLinkButton href={`/lesson-vault`} className="bg-red-400 hidden md:block w-fit">
           Start Learning
-        </MyLinkButton>
+        </MyLinkButton> */}
+<button
+  // disabled={!isActive || isActive.length === 0}
+  className={`px-4 py-2 rounded-md font-medium transition-colors 
+
+    ${!isActive || isActive.length === 0 
+      ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
+      : 'bg-red-400  text-white'}
+
+      `}
+>
+  Start Learning
+</button>
+
       </div>
 
       <MySpacer className="h-5" />

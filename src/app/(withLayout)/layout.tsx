@@ -125,108 +125,114 @@ const LayoutComponent = ({ children }) => {
         gap: "10px",
       },
     },
+
     // {
     //   key: "lesson-vault",
-    //   icon: <Image src={AllImages.lessonIcon} alt="home" />,
+    //   icon: (
+    //     <>
+    //       <Image src={AllImages.lessonIcon} alt="home" />
+    //       {isActive?.length === 0 && (
+    //         <LockOutlined
+    //           style={{ marginLeft: 8, color: "#999", cursor: "pointer" }}
+    //           onClick={handleLockedClick}
+    //         />
+    //       )}
+    //     </>
+    //   ),
     //   label: (
     //     <p className="text-base">
-    //       <Link href={"/lesson-vault"}>Lesson Vault</Link>
+    //       {isActive?.length === 0 ? (
+    //         <span className="text-gray-400 cursor-not-allowed">
+    //           Lesson Vault
+    //         </span>
+    //       ) : (
+    //         <Link href={"/lesson-vault"}   onClick={handleLockedClick}>Lesson Vault</Link>
+    //       )}
     //     </p>
     //   ),
-    //   style: {
-    //     display: "flex",
-    //     gap: "10px",
-    //   },
+    //   disabled: isActive?.length === 0,
+    //   style: { display: "flex", gap: "10px" },
     // },
     // {
     //   key: "storybank",
     //   icon: (
-    //     <Image
-    //       src={AllImages.storyBankIcon}
-    //       alt="storybank"
-    //       className={collapsed ? "h-10 w-10" : "h-8 w-5"}
-    //     />
+    //     <>
+    //       <Image
+    //         src={AllImages.storyBankIcon}
+    //         alt="storybank"
+    //         className={collapsed ? "h-10 w-10" : "h-8 w-5"}
+    //       />
+    //       {isActive?.length === 0 && (
+    //         <LockOutlined
+    //           style={{ marginLeft: 8, color: "#999", cursor: "pointer" }}
+    //           onClick={handleLockedClick}
+    //         />
+    //       )}
+    //     </>
     //   ),
     //   label: (
     //     <p className="text-base">
-    //       <Link href={"/storybank/story-portfolio?story_type=EXTRACTED"}>
-    //         Storybank
-    //       </Link>
+    //       {isActive?.length === 0 ? (
+    //         <span className="text-gray-400 cursor-not-allowed">Storybank</span>
+    //       ) : (
+    //         <Link href={"/storybank/story-portfolio?story_type=EXTRACTED"}   onClick={handleLockedClick}>
+    //           Storybank
+    //         </Link>
+    //       )}
     //     </p>
     //   ),
-    //   style: {
-    //     display: "flex",
-    //     gap: "10px",
-    //   },
-    // },
-    // {
-    //   key: "overview",
-    //   icon: <Image src={AllImages.homeIcon} alt="home" />,
-    //   label: (
-    //     <p className="text-base">
-    //       <Link href={"/overview"}>Overview</Link>
-    //     </p>
-    //   ),
+    //   disabled: isActive?.length === 0,
     //   style: { display: "flex", gap: "10px" },
     // },
-    {
+{
       key: "lesson-vault",
-      icon: (
-        <>
-          <Image src={AllImages.lessonIcon} alt="home" />
-          {isActive?.length === 0 && (
-            <LockOutlined
-              style={{ marginLeft: 8, color: "#999", cursor: "pointer" }}
-              onClick={handleLockedClick}
-            />
-          )}
-        </>
-      ),
       label: (
-        <p className="text-base">
-          {isActive?.length === 0 ? (
-            <span className="text-gray-400 cursor-not-allowed">
-              Lesson Vault
-            </span>
-          ) : (
-            <Link href={"/lesson-vault"}>Lesson Vault</Link>
+        <div
+          onClick={() => {
+            if (isActive?.length === 0) handleLockedClick();
+            else router.push("/lesson-vault");
+          }}
+          className={`flex items-center gap-2 ${
+            isActive?.length === 0
+              ? "opacity-50 cursor-not-allowed"
+              : "cursor-pointer hover:text-orange-500"
+          }`}
+        >
+          <Image src={AllImages.lessonIcon} alt="Lesson Vault" />
+          <span className="text-base">Lesson Vault</span>
+          {isActive?.length === 0 && (
+            <LockOutlined style={{ marginLeft: 8, color: "#999" }} />
           )}
-        </p>
+        </div>
       ),
-      disabled: isActive?.length === 0,
-      style: { display: "flex", gap: "10px" },
     },
     {
       key: "storybank",
-      icon: (
-        <>
+      label: (
+        <div
+          onClick={() => {
+            if (isActive?.length === 0) handleLockedClick();
+            else router.push("/storybank/story-portfolio?story_type=EXTRACTED");
+          }}
+          className={`flex items-center gap-2 ${
+            isActive?.length === 0
+              ? "opacity-50 cursor-not-allowed"
+              : "cursor-pointer hover:text-orange-500"
+          }`}
+        >
           <Image
             src={AllImages.storyBankIcon}
-            alt="storybank"
+            alt="Storybank"
             className={collapsed ? "h-10 w-10" : "h-8 w-5"}
           />
+          <span className="text-base">Storybank</span>
           {isActive?.length === 0 && (
-            <LockOutlined
-              style={{ marginLeft: 8, color: "#999", cursor: "pointer" }}
-              onClick={handleLockedClick}
-            />
+            <LockOutlined style={{ marginLeft: 8, color: "#999" }} />
           )}
-        </>
+        </div>
       ),
-      label: (
-        <p className="text-base">
-          {isActive?.length === 0 ? (
-            <span className="text-gray-400 cursor-not-allowed">Storybank</span>
-          ) : (
-            <Link href={"/storybank/story-portfolio?story_type=EXTRACTED"}>
-              Storybank
-            </Link>
-          )}
-        </p>
-      ),
-      disabled: isActive?.length === 0,
-      style: { display: "flex", gap: "10px" },
     },
+
   ];
 
   // Toggle the Drawer visibility
