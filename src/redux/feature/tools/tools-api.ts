@@ -27,7 +27,16 @@ const ToolsApi = baseApi.injectEndpoints({
       }),
 
     }),
+    getPaymentHistory: builder.query({
+      query: () => ({
+        // get user progress under the Kurated Storylining
+        url: `/webapis/payments/paymentHistory`,
+        method: "GET",
+        // body:data
+      }),
+
+    }),
   }),
 });
 
-export const { useGetUserProgressQuery,useGetActiveSubscribeQuery,useMakePaymentForCourseMutation } = ToolsApi;
+export const { useGetUserProgressQuery,useGetActiveSubscribeQuery,useMakePaymentForCourseMutation,useGetPaymentHistoryQuery } = ToolsApi;

@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { TAGS } from "../tag";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://betatest.kurated.ai/userAppApis",
+  baseUrl:process.env.NEXT_PUBLIC_SERVER_URL,
+  //  "https://betatest.kurated.ai/userAppApis",
+  // baseUrl: "https://app.kurated.ai/userAppApis",
   credentials: "include",
 });
 
