@@ -159,16 +159,16 @@ const LayoutComponent = ({ children }) => {
     //     gap: "10px",
     //   },
     // },
-    {
-      key: "overview",
-      icon: <Image src={AllImages.homeIcon} alt="home" />,
-      label: (
-        <p className="text-base">
-          <Link href={"/overview"}>Overview</Link>
-        </p>
-      ),
-      style: { display: "flex", gap: "10px" },
-    },
+    // {
+    //   key: "overview",
+    //   icon: <Image src={AllImages.homeIcon} alt="home" />,
+    //   label: (
+    //     <p className="text-base">
+    //       <Link href={"/overview"}>Overview</Link>
+    //     </p>
+    //   ),
+    //   style: { display: "flex", gap: "10px" },
+    // },
     {
       key: "lesson-vault",
       icon: (
